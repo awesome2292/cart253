@@ -1,9 +1,9 @@
-final int CIRCLE_SPEED = 7;//value of the veloctiy of the circle
-final color NO_CLICK_FILL_COLOR = color(250, 100, 100);//color of the object when the mouse is not clicked
-final color CLICK_FILL_COLOR = color(100, 100, 250);//color of the object when the mouse is clicked
-final color BACKGROUND_COLOR = color(250, 150, 150);//color of the background, slightly pink
-final color STROKE_COLOR = color(250, 150, 150);//color of the border
-final int CIRCLE_SIZE = 50;//size of the circle's diameter
+final int CIRCLE_SPEED = 7; //value of the veloctiy of the circle
+final color NO_CLICK_FILL_COLOR = color(250, 100, 100); // color of the object when the mouse is not clicked
+final color CLICK_FILL_COLOR = color(100, 100, 250); //color of the object when the mouse is clicked
+final color BACKGROUND_COLOR_1 = color(250, 150, 150); //CHANGE: variable name; color of the background, slightly pink
+final color STROKE_COLOR = color(250, 150, 150); //color of the border
+final int CIRCLE_SIZE = 50; // size of the circle's diameter
 final color BACKGROUND_COLOR_2 = color(150, 250, 150); //CHANGE: new background color (green)
 
 color backgroundColor = BACKGROUND_COLOR_1; //CHANGE: added new variable to identify the current color of the background
@@ -23,24 +23,23 @@ void setup() {
   circleVY = CIRCLE_SPEED;
   stroke(STROKE_COLOR);
   fill(NO_CLICK_FILL_COLOR);
-  background(BACKGROUND_COLOR);
+  background(BACKGROUND_COLOR_1);
 }
 
 //begin animation
 void draw() {
-//if the distance between the coordinates of the circle and the coordinates of the mouse are less than the size of the circle divided by 2, then the color of the circle will be blue
-    if (dist(mouseX, mouseY, circleX, circleY) < CIRCLE_SIZE/2) {
+  //if the distance between the coordinates of the circle and the coordinates of the mouse are less than the size of the circle divided by 2, then the color of the circle will be blue
+  if (dist(mouseX, mouseY, circleX, circleY) < CIRCLE_SIZE/2) {
     fill(CLICK_FILL_COLOR);
   }
   //if not, then the color of the circle will be red
   else {
     fill(NO_CLICK_FILL_COLOR);
   }
-  
+  //draw the circle with the variables and add the velocity
   ellipse(circleX, circleY, CIRCLE_SIZE, CIRCLE_SIZE);
   circleX += circleVX;
   circleY += circleVY;
-  
   //if the circle is past the right wall or the left wall, it'll change direction
   if (circleX + CIRCLE_SIZE/2 > width || circleX - CIRCLE_SIZE/2 < 0) {
     circleVX = -circleVX;
@@ -53,5 +52,14 @@ void draw() {
 
 //if the mouse is clicked, then the background color will change to pink
 void mousePressed() {
-  background(BACKGROUND_COLOR);
+  //CHANGE: if the background color is pink, change to green when the mouse is clicked
+  if (backgroundColor == BACKGROUND_COLOR_1) {
+    backgroundColor = BACKGROUND_COLOR_2;
+    background(backgroundColor);
+  }
+  //CHANGE: if the background color is green, change to pink when the mouse is clicked
+  else {
+  backgroundColor = BACKGROUND_COLOR_1;
+    background(backgroundColor);
+  }
 }
