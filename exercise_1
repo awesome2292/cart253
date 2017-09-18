@@ -4,6 +4,9 @@ final color CLICK_FILL_COLOR = color(100, 100, 250);//color of the object when t
 final color BACKGROUND_COLOR = color(250, 150, 150);//color of the background, slightly pink
 final color STROKE_COLOR = color(250, 150, 150);//color of the border
 final int CIRCLE_SIZE = 50;//size of the circle's diameter
+final color BACKGROUND_COLOR_2 = color(150, 250, 150); //CHANGE: new background color (green)
+
+color backgroundColor = BACKGROUND_COLOR_1; //CHANGE: added new variable to identify the current color of the background
 
 //undeclared coordinates and velocity of the circle
 int circleX;
