@@ -9,21 +9,21 @@ final color BACKGROUND_COLOR_2 = color(150, 250, 150); //CHANGE: new background 
 color backgroundColor = BACKGROUND_COLOR_1; //CHANGE: added new variable to identify the current color of the background
 
 //undeclared coordinates and velocity of the circle
-int circleX;
-int circleY;
-int circleVX;
-int circleVY;
+int circleX; //x coordinate of the center of the circle
+int circleY; //y coordinate of the center of the circle
+int circleVX;//x velocity of the center of the circle
+int circleVY;//y velocoty of the center of the circle
 
-//setting up a 640x480 canvas, the values for the coordinates and the velocity of the circle, and the color of the border, fill of the circle as well as the background
+//the values for the coordinates and the velocity of the circle, and the color of the border, fill of the circle as well as the background
 void setup() {
-  size(640, 480);
-  circleX = width/2;
-  circleY = height/2;
-  circleVX = CIRCLE_SPEED;
-  circleVY = CIRCLE_SPEED;
-  stroke(STROKE_COLOR);
-  fill(NO_CLICK_FILL_COLOR);
-  background(BACKGROUND_COLOR_1);
+  size(640, 480);//setting up a 640x480 canvas
+  circleX = width/2; //the value of the x coordinate of the center of the circle
+  circleY = height/2;// the value of the y coordinate of the center of the circle
+  circleVX = CIRCLE_SPEED; //the value of the x velocity of the center of the circle
+  circleVY = CIRCLE_SPEED; // the value of the y velocity of the center of the circle
+  stroke(STROKE_COLOR);//color of the border around all shapes on the canvas
+  fill(NO_CLICK_FILL_COLOR); //color of the inside of all shapes on the canvas
+  background(BACKGROUND_COLOR_1); //background color of the canvas
 }
 
 //begin animation
