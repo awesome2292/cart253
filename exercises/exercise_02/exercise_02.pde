@@ -50,7 +50,6 @@ void setupBall() {
 //the program runs with all these functions each defined later on in the code
 //each function refers to how the ball and paddle evolve and move throughout the use of the program
 void draw() {
-  background(backgroundColor);
 
   drawStatic();
 
@@ -109,7 +108,7 @@ void drawBall() {
 void handleBallHitPaddle() {
   if (ballOverlapsPaddle()) {
     ballY = paddleY - paddleHeight/2 - ballSize/2;
-    ballVY = -ballVY;
+    ballVY = random(-1.5,-0.5)*ballVY; //CHANGED: ball will change direction drastically at random speeds
   }
 }
 
@@ -143,7 +142,7 @@ void handleBallHitWall() {
     ballVX = -ballVX;
   } else if (ballX + ballSize/2 > width) {
     ballX = width - ballSize/2;
-    ballVX = -0.25*ballVX; //CHANGED: ball will change direction
+    ballVX = -ballVX;
   }
   
   if (ballY - ballSize/2 < 0) {
