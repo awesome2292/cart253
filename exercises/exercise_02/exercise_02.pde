@@ -1,26 +1,30 @@
 color backgroundColor = color(0);
 
+//variables addressing parameters of the static in the background
 int numStatic = 1000;
 int staticSizeMin = 1;
 int staticSizeMax = 3;
 color staticColor = color(200);
 
-int paddleX;
-int paddleY;
-int paddleVX;
-int paddleSpeed = 10;
-int paddleWidth = 128;
-int paddleHeight = 16;
+//variables of the parameters of the paddle (location, speed of movement, color, and dimmensions) CHANGE: all integers are now float numbers
+float paddleX;
+float paddleY;
+float paddleVX;
+float paddleSpeed = 10;
+float paddleWidth = 128;
+float paddleHeight = 16;
 color paddleColor = color(255);
 
-int ballX;
-int ballY;
-int ballVX;
-int ballVY;
-int ballSpeed = 5;
-int ballSize = 16;
+//variables of the parameters of the ball (location, speed of movement, color, and dimmensions) CHANGE: all integers are now float numbers
+float ballX;
+float ballY;
+float ballVX;
+float ballVY;
+float ballSpeed = 5;
+float ballSize = 16;
 color ballColor = color(255);
 
+//setting up the canvas and the ball and paddle
 void setup() {
   size(640, 480);
   
@@ -28,12 +32,14 @@ void setup() {
   setupBall();
 }
 
+//this function sets up the paddle location when called
 void setupPaddle() {
   paddleX = width/2;
   paddleY = height - paddleHeight;
   paddleVX = 0;
 }
 
+//this function sets up the ball location when called
 void setupBall() {
   ballX = width/2;
   ballY = height/2;
@@ -41,6 +47,8 @@ void setupBall() {
   ballVY = ballSpeed;
 }
 
+//the program runs with all these functions each defined later on in the code
+//each function refers to how the ball and paddle evolve and move throughout the use of the program
 void draw() {
   background(backgroundColor);
 
@@ -53,6 +61,7 @@ void draw() {
   drawBall();
 }
 
+//function that draws the static-like background when called
 void drawStatic() {
   for (int i = 0; i < numStatic; i++) {
    float x = random(0,width);
@@ -63,11 +72,14 @@ void drawStatic() {
   }
 }
 
+//function that allows the paddle to move at a certain speed
 void updatePaddle() {
   paddleX += paddleVX;  
   paddleX = constrain(paddleX,0+paddleWidth/2,width-paddleWidth/2);
 }
 
+//function that allows the ball to move at a certain speed
+//three more functions are called here, referring to how to ball behaves around the paddle
 void updateBall() {
   ballX += ballVX;
   ballY += ballVY;
@@ -77,6 +89,7 @@ void updateBall() {
   handleBallOffBottom();
 }
 
+//the paddle is drawn
 void drawPaddle() {
   rectMode(CENTER);
   noStroke();
@@ -84,6 +97,7 @@ void drawPaddle() {
   rect(paddleX, paddleY, paddleWidth, paddleHeight);
 }
 
+//the ball is drawn
 void drawBall() {
   rectMode(CENTER);
   noStroke();
@@ -91,6 +105,7 @@ void drawBall() {
   rect(ballX, ballY, ballSize, ballSize);
 }
 
+//this function refers to how the ball changes directions when it encounters the paddle
 void handleBallHitPaddle() {
   if (ballOverlapsPaddle()) {
     ballY = paddleY - paddleHeight/2 - ballSize/2;
@@ -98,6 +113,7 @@ void handleBallHitPaddle() {
   }
 }
 
+//if the ball ever overlaps with the paddle, this boolean variable becomes true, if not, then it will be false
 boolean ballOverlapsPaddle() {
   if (ballX - ballSize/2 > paddleX - paddleWidth/2 && ballX + ballSize/2 < paddleX + paddleWidth/2) {
     if (ballY > paddleY - paddleHeight/2) {
@@ -107,6 +123,7 @@ boolean ballOverlapsPaddle() {
   return false;
 }
 
+//if the ball hits the bottom of the screen, then it respawns at the center of the canvas
 void handleBallOffBottom() {
   if (ballOffBottom()) {
     ballX = width/2;
@@ -114,17 +131,19 @@ void handleBallOffBottom() {
   }
 }
 
+//if the ball hits the floor, the function will be true, which will allow the handleBallOffBottom function to run and reset the game
 boolean ballOffBottom() {
   return (ballY - ballSize/2 > height);
 }
 
+//if the ball hits any wall except the bottom one, then it will change direction
 void handleBallHitWall() {
   if (ballX - ballSize/2 < 0) {
     ballX = 0 + ballSize/2;
     ballVX = -ballVX;
   } else if (ballX + ballSize/2 > width) {
     ballX = width - ballSize/2;
-    ballVX = -ballVX;
+    ballVX = -0.25*ballVX; //CHANGED: ball will change direction
   }
   
   if (ballY - ballSize/2 < 0) {
@@ -133,6 +152,7 @@ void handleBallHitWall() {
   }
 }
 
+//if either the left or right arrow keys are hit, then the paddle will change directions accordingly across the x axis, but remain fixed on the y axis
 void keyPressed() {
   if (keyCode == LEFT) {
     paddleVX = -paddleSpeed;
@@ -141,6 +161,7 @@ void keyPressed() {
   }
 }
 
+//the paddle will stop moving when the arrow keys are released
 void keyReleased() {
   if (keyCode == LEFT && paddleVX < 0) {
     paddleVX = 0;
