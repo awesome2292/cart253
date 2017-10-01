@@ -1,4 +1,5 @@
-color backgroundColor = color(0);
+int backgroundNum = 0;
+//CHANGE: removed background color variable and added background color variable
 
 //variables addressing parameters of the static in the background
 int numStatic = 1000;
@@ -27,7 +28,6 @@ color ballColor = color(255);
 //setting up the canvas and the ball and paddle
 void setup() {
   size(640, 480);
-  
   setupPaddle();
   setupBall();
 }
@@ -50,6 +50,9 @@ void setupBall() {
 //the program runs with all these functions each defined later on in the code
 //each function refers to how the ball and paddle evolve and move throughout the use of the program
 void draw() {
+  //CHANGE: removed background color
+  //CHANGE: added background color function
+  flash();
 
   drawStatic();
 
@@ -58,6 +61,16 @@ void draw() {
 
   drawPaddle();
   drawBall();
+}
+
+//CHANGE: added function that shifts the color of the background repeatedly
+void flash(){
+  int i = 0;
+  background(backgroundNum);
+  while(i<5){
+    backgroundNum = backgroundNum + 1;
+    i++;
+  }
 }
 
 //function that draws the static-like background when called
