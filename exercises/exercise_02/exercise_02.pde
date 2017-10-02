@@ -98,7 +98,7 @@ void updateBall() {
   
   handleBallHitPaddle();
   handleBallHitWall();
-  handleBallOffBottom();
+  gameOver(); //CHANGE: added gameOver function
 }
 
 //the paddle is drawn
@@ -135,11 +135,14 @@ boolean ballOverlapsPaddle() {
   return false;
 }
 
-//if the ball hits the bottom of the screen, then it respawns at the center of the canvas
-void handleBallOffBottom() {
+//CHANGE: added a game over function where the game ends if the ball goes off the screen; the screen will become white and the words "GAME OVER" will be displayed
+void gameOver() {
   if (ballOffBottom()) {
-    ballX = width/2;
-    ballY = height/2;
+    ballVX = 0;
+    ballVY = 0;
+    background(255);
+    fill(0);
+    text("GAME OVER <3", width/2 - 45, height/2);
   }
 }
 
@@ -163,6 +166,7 @@ void handleBallHitWall() {
     ballVY = -ballVY;
   }
 }
+
 
 //if either the left or right arrow keys are hit, then the paddle will change directions accordingly across the x axis, but remain fixed on the y axis
 void keyPressed() {
