@@ -1,4 +1,6 @@
-//CHANGE: removed background color variable
+int backgroundNum = 0;
+//CHANGE: removed background color variable and added background color variable
+
 //variables addressing parameters of the static in the background
 int numStatic = 1000;
 int staticSizeMin = 1;
@@ -23,11 +25,16 @@ float ballSpeed = 5;
 float ballSize = 16;
 color ballColor = color(255);
 
+//set up the brick onto the canvas
+Brick brick1;
+boolean brickExists = false;
+
 //setting up the canvas and the ball and paddle
 void setup() {
   size(640, 480);
   setupPaddle();
   setupBall();
+  brick1 = new Brick(random(0,640), random(0,480), 100, 20);
 }
 
 //this function sets up the paddle location when called
@@ -50,7 +57,7 @@ void setupBall() {
 void draw() {
   //CHANGE: removed background color
   //CHANGE: added background color function
-  gradient();
+  flash();
 
   drawStatic();
 
@@ -59,41 +66,38 @@ void draw() {
 
   drawPaddle();
   drawBall();
+  
+  if(brickExists == true){
+  brick1.update();
+  brick1.display();
+  }
 }
 
-//CHANGE: added loop that creates a gradient on the game
-void gradient() {
-  int redGradient = 48;
-  int greenGradient = 151;
-  int blueGradient = 199;
-  int gradientWidth = 640;
-  int gradientHeight = 480;
-
-  while (gradientHeight>0) {
-    fill(redGradient, greenGradient, blueGradient);
-    rect(width/2,height/2,gradientWidth, gradientHeight);
-    gradientHeight -= 0.5;
-    redGradient -= 0.5;
-    greenGradient -= 0.5;
-    blueGradient -= 0.5;
+//CHANGE: added function that shifts the color of the background repeatedly
+void flash(){
+  int i = 0;
+  background(backgroundNum);
+  while(i<5){
+    backgroundNum = backgroundNum + 1;
+    i++;
   }
 }
 
 //function that draws the static-like background when called
 void drawStatic() {
   for (int i = 0; i < numStatic; i++) {
-    float x = random(0, width);
-    float y = random(0, height);
-    float staticSize = random(staticSizeMin, staticSizeMax);
-    fill(staticColor);
-    rect(x, y, staticSize, staticSize);
+   float x = random(0,width);
+   float y = random(0,height);
+   float staticSize = random(staticSizeMin,staticSizeMax);
+   fill(staticColor);
+   rect(x,y,staticSize,staticSize);
   }
 }
 
 //function that allows the paddle to move at a certain speed
 void updatePaddle() {
   paddleX += paddleVX;  
-  paddleX = constrain(paddleX, 0+paddleWidth/2, width-paddleWidth/2);
+  paddleX = constrain(paddleX,0+paddleWidth/2,width-paddleWidth/2);
 }
 
 //function that allows the ball to move at a certain speed
@@ -101,7 +105,7 @@ void updatePaddle() {
 void updateBall() {
   ballX += ballVX;
   ballY += ballVY;
-
+  
   handleBallHitPaddle();
   handleBallHitWall();
   gameOver(); //CHANGE: added gameOver function
@@ -127,7 +131,7 @@ void drawBall() {
 void handleBallHitPaddle() {
   if (ballOverlapsPaddle()) {
     ballY = paddleY - paddleHeight/2 - ballSize/2;
-    ballVY = random(-1.5, -0.5)*ballVY; //CHANGED: ball will change direction drastically at random speeds
+    ballVY = random(-1.5,-0.5)*ballVY; //CHANGED: ball will change direction drastically at random speeds
   }
 }
 
@@ -162,11 +166,12 @@ void handleBallHitWall() {
   if (ballX - ballSize/2 < 0) {
     ballX = 0 + ballSize/2;
     ballVX = -ballVX;
+    brickExists = true;
   } else if (ballX + ballSize/2 > width) {
     ballX = width - ballSize/2;
     ballVX = -ballVX;
   }
-
+  
   if (ballY - ballSize/2 < 0) {
     ballY = 0 + ballSize/2;
     ballVY = -ballVY;
