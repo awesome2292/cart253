@@ -1,3 +1,5 @@
+
+//this is a class defined in the main code that gives the bouncers their characteristics in the aninmation
 class Bouncer {
 //called the various parameters of the bouncer class, including location, size, and the gradient colors
  int x;

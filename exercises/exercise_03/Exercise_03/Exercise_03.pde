@@ -1,3 +1,5 @@
+
+//main code that runs the program
 color backgroundColor = color(200,150,150); //set the background color a soft red
 Bouncer bouncer;
 Bouncer bouncer2;
