@@ -2,17 +2,18 @@
 //this is a class defined in the main code that gives the bouncers their characteristics in the aninmation
 class Bouncer {
 //called the various parameters of the bouncer class, including location, size, and the gradient colors
- int x;
- int y;
- int vx;
- int vy;
- int size;
+ float x;//CHANGE: all the variables are float numbers instead of integers
+ float y;
+ float vx;
+ float vy;
+ float size;
  color fillColor;
  color defaultColor;
  color hoverColor;
  
  //defining constructor with the variables previously mentioned: these parameters need to be defined in the program
- Bouncer(int tempX, int tempY, int tempVX, int tempVY, int tempSize, color tempDefaultColor, color tempHoverColor) {
+ //CHANGE: the parameters are now float numbers
+ Bouncer(float tempX, float tempY, float tempVX, float tempVY, float tempSize, color tempDefaultColor, color tempHoverColor) {
    x = tempX;
    y = tempY;
    vx = tempVX;
@@ -33,9 +34,11 @@ class Bouncer {
  }
  
  //if the ball hits a wall then it changes direction
+ //CHANGE: the balls change direction in various angles when they collide with the walls
  void handleBounce() {
    if (x - size/2 < 0 || x + size/2 > width) {
-    vx = -vx; 
+    vx = random(-1.5, -0.5)*vx;
+    
    }
    
    if (y - size/2 < 0 || y + size/2 > height) {

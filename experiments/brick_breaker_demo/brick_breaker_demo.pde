@@ -1,4 +1,6 @@
-//CHANGE: removed background color variable
+int backgroundNum = 0;
+//CHANGE: removed background color variable and added background color variable
+
 //variables addressing parameters of the static in the background
 int numStatic = 1000;
 int staticSizeMin = 1;
@@ -21,14 +23,26 @@ float ballVX;
 float ballVY;
 float ballSpeed = 5;
 float ballSize = 16;
-int colorShift = 255;
 color ballColor = color(255);
+
+
+Brick[] bricks;
+
+
+
+boolean brickExists = false;
 
 //setting up the canvas and the ball and paddle
 void setup() {
   size(640, 480);
   setupPaddle();
   setupBall();
+  
+  bricks = new Brick[10];
+  //set up the brick onto the canvas
+  for (int i = 0; i < 10; i++) {
+    bricks[i] = new Brick(random(0, 640), random(0, 480), 100, 20);
+  }
 }
 
 //this function sets up the paddle location when called
@@ -51,7 +65,7 @@ void setupBall() {
 void draw() {
   //CHANGE: removed background color
   //CHANGE: added background color function
-  gradient();
+  flash();
 
   drawStatic();
 
@@ -60,36 +74,46 @@ void draw() {
 
   drawPaddle();
   drawBall();
+
+  //when the brickExists boolean becomes true, the brick will be drawn into the canvas
+  if (brickExists == true) {
+    brick1.update();
+    brick1.display();
+
+    brick2.update();
+    brick2.display();
+
+    brick3.update();
+    brick3.display();
+
+    brick4.update();
+    brick4.display();
+
+    brick5.update();
+    brick5.display();
+  }
 }
 
-//CHANGE: added loop that creates a gradient on the game
-void gradient() {
-  int redGradient = 48;
-  int greenGradient = 151;
-  int blueGradient = 199;
-  int gradientWidth = 640;
-  int gradientHeight = 480;
-
-  while (gradientHeight>0) {
-    fill(redGradient, greenGradient, blueGradient);
-    rect(width/2,height/2,gradientWidth, gradientHeight);
-    gradientHeight -= 0.5;
-    redGradient -= 0.5;
-    greenGradient -= 0.5;
-    blueGradient -= 0.5;
+//CHANGE: added function that shifts the color of the background repeatedly
+void flash() {
+  int i = 0;
+  background(backgroundNum);
+  while (i<5) {
+    backgroundNum = backgroundNum + 1;
+    i++;
   }
 }
 
 //function that draws the static-like background when called
-void drawStatic() {
-  for (int i = 0; i < numStatic; i++) {
-    float x = random(0, width);
-    float y = random(0, height);
-    float staticSize = random(staticSizeMin, staticSizeMax);
-    fill(staticColor);
-    rect(x, y, staticSize, staticSize);
-  }
-}
+//void drawStatic() {
+//  for (int i = 0; i < numStatic; i++) {
+//   float x = random(0,width);
+//   float y = random(0,height);
+//   float staticSize = random(staticSizeMin,staticSizeMax);
+//   fill(staticColor);
+//   rect(x,y,staticSize,staticSize);
+//  }
+//}
 
 //function that allows the paddle to move at a certain speed
 void updatePaddle() {
@@ -105,12 +129,7 @@ void updateBall() {
 
   handleBallHitPaddle();
   handleBallHitWall();
-<<<<<<< HEAD
-  handleBallOffBottom();
-  handleBallHitCenter();
-=======
   gameOver(); //CHANGE: added gameOver function
->>>>>>> c43bb74905b64546c2c70900842222cb2152d178
 }
 
 //the paddle is drawn
@@ -147,14 +166,8 @@ boolean ballOverlapsPaddle() {
   return false;
 }
 
-<<<<<<< HEAD
-
-//if the ball hits the bottom of the screen, then it respawns at the center of the canvas
-void handleBallOffBottom() {
-=======
 //CHANGE: added a game over function where the game ends if the ball goes off the screen; the screen will become white and the words "GAME OVER" will be displayed
 void gameOver() {
->>>>>>> c43bb74905b64546c2c70900842222cb2152d178
   if (ballOffBottom()) {
     ballVX = 0;
     ballVY = 0;
@@ -169,12 +182,13 @@ boolean ballOffBottom() {
   return (ballY - ballSize/2 > height);
 }
 
-
 //if the ball hits any wall except the bottom one, then it will change direction
 void handleBallHitWall() {
   if (ballX - ballSize/2 < 0) {
     ballX = 0 + ballSize/2;
     ballVX = -ballVX;
+    //whenever the ball hits the left wall, the bricks will come into the canvas
+    brickExists = true;
   } else if (ballX + ballSize/2 > width) {
     ballX = width - ballSize/2;
     ballVX = -ballVX;
