@@ -1,5 +1,5 @@
 class Bouncer {
-  
+//called the various parameters of the bouncer class, including location, size, and the gradient colors
  int x;
  int y;
  int vx;
@@ -9,6 +9,7 @@ class Bouncer {
  color defaultColor;
  color hoverColor;
  
+ //defining constructor with the variables previously mentioned: these parameters need to be defined in the program
  Bouncer(int tempX, int tempY, int tempVX, int tempVY, int tempSize, color tempDefaultColor, color tempHoverColor) {
    x = tempX;
    y = tempY;
@@ -20,6 +21,7 @@ class Bouncer {
    fillColor = defaultColor;
  }
  
+ //this function allows the balls to move across the screen thanks to the velocity parameters
  void update() {
    x += vx;
    y += vy;
@@ -28,6 +30,7 @@ class Bouncer {
    handleMouse();
  }
  
+ //if the ball hits a wall then it changes direction
  void handleBounce() {
    if (x - size/2 < 0 || x + size/2 > width) {
     vx = -vx; 
@@ -41,6 +44,8 @@ class Bouncer {
    y = constrain(y,size/2,height-size/2);
  }
  
+ //if the mouse passes over either ball, then the color of the ball changes
+ //else, the color remains the same
  void handleMouse() {
    if (dist(mouseX,mouseY,x,y) < size/2) {
     fillColor = hoverColor; 
@@ -50,6 +55,7 @@ class Bouncer {
    }
  }
  
+ //this funcion puts the two balls in the canvas with their respective colors
  void draw() {
    noStroke();
    fill(fillColor);

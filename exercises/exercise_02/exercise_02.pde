@@ -23,6 +23,7 @@ float ballVX;
 float ballVY;
 float ballSpeed = 5;
 float ballSize = 16;
+int colorShift = 255;
 color ballColor = color(255);
 
 //setting up the canvas and the ball and paddle
@@ -99,6 +100,7 @@ void updateBall() {
   handleBallHitPaddle();
   handleBallHitWall();
   handleBallOffBottom();
+  handleBallHitCenter();
 }
 
 //the paddle is drawn
@@ -135,6 +137,7 @@ boolean ballOverlapsPaddle() {
   return false;
 }
 
+
 //if the ball hits the bottom of the screen, then it respawns at the center of the canvas
 void handleBallOffBottom() {
   if (ballOffBottom()) {
@@ -147,6 +150,7 @@ void handleBallOffBottom() {
 boolean ballOffBottom() {
   return (ballY - ballSize/2 > height);
 }
+
 
 //if the ball hits any wall except the bottom one, then it will change direction
 void handleBallHitWall() {
