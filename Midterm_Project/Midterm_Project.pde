@@ -13,20 +13,23 @@
 Paddle leftPaddle;
 Paddle rightPaddle;
 Ball ball;
+Brick[] bricks;
 
 // The distance from the edge of the window a paddle should be
 int PADDLE_INSET = 8;
 
-// The background colour during play (black)
-color backgroundColor = color(0);
+//variable determining whether the bricks exist or not
+boolean brickExists = false;
+//CHANGE: Go away
 
 
 // setup()
 //
-// Sets the size and creates the paddles and ball
+// Sets the size, creates the paddles, ball, and bricks
 
 void setup() {
   // Set the size
+  gradient();
   size(640, 480);
 
   // Create the paddles on either side of the screen. 
@@ -39,6 +42,12 @@ void setup() {
 
   // Create the ball at the centre of the screen
   ball = new Ball(width/2, height/2);
+  
+  bricks = new Brick[10];
+  //set up the brick onto the canvas
+  for (int i = 0; i < 10; i++) {
+    bricks[i] = new Brick(random(0, 640), random(0, 480), 20, 100);
+  }
 }
 
 // draw()
@@ -48,8 +57,7 @@ void setup() {
 
 void draw() {
   // Fill the background each frame so we have animation
-  background(backgroundColor);
-
+gradient();
   // Update the paddles and ball by calling their update methods
   leftPaddle.update();
   rightPaddle.update();
@@ -69,6 +77,32 @@ void draw() {
   leftPaddle.display();
   rightPaddle.display();
   ball.display();
+  
+  // Display the bricks when event occurs
+  if(brickExists == true){
+    for (int i = 0; i < 10; i++) {
+    bricks[i].update();
+    bricks[i].display();
+  }
+  }
+}
+
+//loop that creates the gradient in the background
+void gradient() {
+  int redGradient = 200;
+  int greenGradient = 151;
+  int blueGradient = 199;
+  int gradientWidth = 640;
+  int gradientHeight = 480;
+
+  while (gradientHeight>0) {
+    fill(redGradient, greenGradient, blueGradient);
+    rect(width/2, height/2, gradientWidth, gradientHeight);
+    gradientHeight -= 0.5;
+    redGradient -= 0.5;
+    greenGradient -= 0.5;
+    blueGradient -= 0.5;
+  }
 }
 
 // keyPressed()
