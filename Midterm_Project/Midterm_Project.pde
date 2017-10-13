@@ -13,15 +13,19 @@
 Paddle leftPaddle;
 Paddle rightPaddle;
 Ball ball;
+Ball ball2;
 Brick[] bricks;
 
 // The distance from the edge of the window a paddle should be
 int PADDLE_INSET = 8;
 
 //variable determining whether the bricks exist or not
-boolean brickExists = false;
+boolean brickExists = true;
 //CHANGE: Go away
 
+//variables for the brick dimmensions
+int brickX = 500; //for some reason width/2 doesn't work???
+int brickY = height;
 
 // setup()
 //
@@ -29,8 +33,7 @@ boolean brickExists = false;
 
 void setup() {
   // Set the size
-  gradient();
-  size(640, 480);
+  size(1000, 1000);
 
   // Create the paddles on either side of the screen. 
   // Use PADDLE_INSET to to position them on x, position them both at centre on y
@@ -41,12 +44,14 @@ void setup() {
   rightPaddle = new Paddle(width - PADDLE_INSET, height/2, 'o', 'k');
 
   // Create the ball at the centre of the screen
-  ball = new Ball(width/2, height/2);
-  
+  ball = new Ball(width, height, 5, 5);
+  ball2 = new Ball(width/2, height/2, -5, 5);
+
   bricks = new Brick[10];
   //set up the brick onto the canvas
   for (int i = 0; i < 10; i++) {
-    bricks[i] = new Brick(random(0, 640), random(0, 480), 20, 100);
+    bricks[i] = new Brick(brickX, brickY, 20, 100);
+    brickY += 100;
   }
 }
 
@@ -56,54 +61,64 @@ void setup() {
 // if the ball has hit a paddle, and displaying everything.
 
 void draw() {
-  // Fill the background each frame so we have animation
-gradient();
+  // Fill the background with gradient each frame so we have animation
+  //gradient();
+  background(0);
   // Update the paddles and ball by calling their update methods
   leftPaddle.update();
   rightPaddle.update();
   ball.update();
+  ball2.update();
 
   // Check if the ball has collided with either paddle
   ball.collide(leftPaddle);
   ball.collide(rightPaddle);
+  ball2.collide(rightPaddle);
+  ball2.collide(leftPaddle);
+  //ball2.collideBrick();
 
-  // Check if the ball has gone off the screen
+  //Check if the ball has gone off the screen
   if (ball.isOffScreen()) {
     // If it has, reset the ball
     ball.reset();
+  }
+  if (ball2.isOffScreen()) {
+    // If it has, reset the ball
+    ball2.reset();
   }
 
   // Display the paddles and the ball
   leftPaddle.display();
   rightPaddle.display();
   ball.display();
-  
-  // Display the bricks when event occurs
-  if(brickExists == true){
+  ball2.display();
+
+  // Display the bricks when round starts
+  if (brickExists == true) {
     for (int i = 0; i < 10; i++) {
-    bricks[i].update();
-    bricks[i].display();
-  }
+      bricks[i].update();
+      bricks[i].display();
+    }
   }
 }
 
 //loop that creates the gradient in the background
-void gradient() {
-  int redGradient = 200;
-  int greenGradient = 151;
-  int blueGradient = 199;
-  int gradientWidth = 640;
-  int gradientHeight = 480;
+//void gradient() {
+//  int redGradient = 200;
+//  int greenGradient = 151;
+//  int blueGradient = 199;
+//  int gradientWidth = width;
+//  int gradientHeight = height;
 
-  while (gradientHeight>0) {
-    fill(redGradient, greenGradient, blueGradient);
-    rect(width/2, height/2, gradientWidth, gradientHeight);
-    gradientHeight -= 0.5;
-    redGradient -= 0.5;
-    greenGradient -= 0.5;
-    blueGradient -= 0.5;
-  }
-}
+//  while (gradientHeight>0) {
+//    fill(redGradient, greenGradient, blueGradient);
+//    rect(width/2, height/2, gradientWidth, gradientHeight);
+//    gradientHeight -= 0.5;
+//    redGradient -= 0.5;
+//    greenGradient -= 0.5;
+//    blueGradient -= 0.5;
+//  }
+
 
 // keyPressed()
 //

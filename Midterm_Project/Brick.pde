@@ -1,12 +1,12 @@
 class Brick {
-  float x;
-  float y;
+  float brickX;
+  float brickY;
   float brickWidth;
   float brickHeight;
 
 Brick(float tempX, float tempY, float tempBrickWidth, float tempBrickHeight) {
-    x = tempX;
-    y = tempY;
+    brickX = tempX;
+    brickY = tempY;
     brickWidth = tempBrickWidth;
     brickHeight = tempBrickHeight;
   }
@@ -18,7 +18,7 @@ Brick(float tempX, float tempY, float tempBrickWidth, float tempBrickHeight) {
   void display() {
     fill(255);
     rectMode(CENTER);
-    rect(x, y, brickWidth, brickHeight);
+    rect(brickX, brickY, brickWidth, brickHeight);
   }
   
 }

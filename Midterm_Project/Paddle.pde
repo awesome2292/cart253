@@ -8,15 +8,15 @@ class Paddle {
   /////////////// Properties ///////////////
 
   // Default values for speed and size
-  int SPEED = 5;
-  int HEIGHT = 70;
-  int WIDTH = 16;
+  float SPEED = 5;
+  float HEIGHT = 70;
+  float WIDTH = 16;
 
   // The position and velocity of the paddle (note that vx isn't really used right now)
-  int x;
-  int y;
-  int vx;
-  int vy;
+  float x;
+  float y;
+  float vx;
+  float vy;
   
   // The fill color of the paddle
   color paddleColor = color(255,255,255,50);
@@ -33,7 +33,7 @@ class Paddle {
   // Sets the position and controls based on arguments,
   // starts the velocity at 0
 
-  Paddle(int _x, int _y, char _upKey, char _downKey) {
+  Paddle(float _x, float _y, char _upKey, char _downKey) {
     x = _x;
     y = _y;
     vx = 0;

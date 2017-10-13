@@ -65,9 +65,7 @@ void setupBall() {
 void draw() {
   //CHANGE: removed background color
   //CHANGE: added background color function
-  flash();
-
-  drawStatic();
+  gradient();
 
   updatePaddle();
   updateBall();
@@ -77,30 +75,27 @@ void draw() {
 
   //when the brickExists boolean becomes true, the brick will be drawn into the canvas
   if (brickExists == true) {
-    brick1.update();
-    brick1.display();
-
-    brick2.update();
-    brick2.display();
-
-    brick3.update();
-    brick3.display();
-
-    brick4.update();
-    brick4.display();
-
-    brick5.update();
-    brick5.display();
+   for (int i = 0; i < 10; i++) {
+     bricks[i].display();
+   }
   }
 }
 
-//CHANGE: added function that shifts the color of the background repeatedly
-void flash() {
-  int i = 0;
-  background(backgroundNum);
-  while (i<5) {
-    backgroundNum = backgroundNum + 1;
-    i++;
+//CHANGE: added loop that creates a gradient on the game
+void gradient() {
+  int redGradient = 48;
+  int greenGradient = 151;
+  int blueGradient = 199;
+  int gradientWidth = 640;
+  int gradientHeight = 480;
+
+  while (gradientHeight>0) {
+    fill(redGradient, greenGradient, blueGradient);
+    rect(width/2,height/2,gradientWidth, gradientHeight);
+    gradientHeight -= 0.5;
+    redGradient -= 0.5;
+    greenGradient -= 0.5;
+    blueGradient -= 0.5;
   }
 }
 

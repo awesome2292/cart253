@@ -7,17 +7,16 @@ class Ball {
 
   /////////////// Properties ///////////////
 
-  // Default values for speed and size
-  int SPEED = 5;
-  int SIZE = 16;
+  // Default values for size
+  float SIZE = 16;
 
   // The location of the ball
-  int x;
-  int y;
+  float x;
+  float y;
 
   // The velocity of the ball
-  int vx;
-  int vy;
+  float vx;
+  float vy;
 
   // The colour of the ball
   color ballColor = color(255);
@@ -34,11 +33,11 @@ class Ball {
   // NOTE that I'm using an underscore in front of the arguments to distinguish
   // them from the class's properties
 
-  Ball(int _x, int _y) {
+  Ball(float _x, float _y, float tempVX, float tempVY) {
     x = _x;
     y = _y;
-    vx = SPEED;
-    vy = SPEED;
+    vx = tempVX;
+    vy = tempVY;
   }
 
 
@@ -112,6 +111,28 @@ class Ball {
     }
   }
 
+void collideBrick(Brick bricks) {
+    // Calculate possible overlaps with the bricks side by side
+    boolean insideLeft = (x + SIZE/2 > bricks.brickX - bricks.brickX/2);
+    boolean insideRight = (x - SIZE/2 < bricks.brickX + bricks.brickX/2);
+    boolean insideTop = (y + SIZE/2 > bricks.brickY - bricks.brickY/2);
+    boolean insideBottom = (y - SIZE/2 < bricks.brickY + bricks.brickY/2);
+    
+    // Check if the ball overlaps with the paddle
+    if (insideLeft && insideRight && insideTop && insideBottom) {
+      // If it was moving to the left
+      if (vx < 0) {
+        // Reset its position to align with the right side of the paddle
+        x = bricks.brickX + bricks.brickX/2 + SIZE/2;
+      } else if (vx > 0) {
+        // Reset its position to align with the left side of the paddle
+        x = bricks.brickX - bricks.brickX/2 - SIZE/2;
+      }
+      // And make it bounce
+      vx = -vx;
+    }
+  }
+  
   // display()
   //
   // Draw the ball at its position
