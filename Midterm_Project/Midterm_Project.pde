@@ -24,7 +24,7 @@ boolean brickExists = true;
 //CHANGE: Go away
 
 //variables for the brick dimmensions
-int brickX = 500; //for some reason width/2 doesn't work???
+int brickX = width/2; //for some reason width/2 doesn't work???
 int brickY = height;
 
 // setup()
@@ -51,7 +51,7 @@ void setup() {
   //set up the brick onto the canvas
   for (int i = 0; i < 10; i++) {
     bricks[i] = new Brick(brickX, brickY, 20, 100);
-    brickY += 100;
+    brickY -= 100;
   }
 }
 
@@ -69,14 +69,18 @@ void draw() {
   rightPaddle.update();
   ball.update();
   ball2.update();
+  
 
   // Check if the ball has collided with either paddle
   ball.collide(leftPaddle);
   ball.collide(rightPaddle);
   ball2.collide(rightPaddle);
   ball2.collide(leftPaddle);
-  //ball2.collideBrick();
-
+  
+  for(int i =0 ; i<10 ; i++){
+  ball.collideBrick(bricks[i]);
+  ball2.collideBrick(bricks[i]);
+  }
   //Check if the ball has gone off the screen
   if (ball.isOffScreen()) {
     // If it has, reset the ball
