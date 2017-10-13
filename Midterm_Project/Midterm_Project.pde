@@ -16,6 +16,7 @@ Ball ball;
 Ball ball2;
 Brick[] bricks;
 
+
 PImage backgroundImage;
 
 // The distance from the edge of the window a paddle should be
@@ -58,8 +59,8 @@ void setup() {
   // Also pass through the two keys used to control 'up' and 'down' respectively
   // NOTE: On a mac you can run into trouble if you use keys that create that popup of
   // different accented characters in text editors (so avoid those if you're changing this)
-  leftPaddle = new Paddle(leftPaddleX, leftPaddleY, 'w', 's');
-  rightPaddle = new Paddle(rightPaddleX, rightPaddleY, 'o', 'k');
+  leftPaddle = new Paddle(leftPaddleX, leftPaddleY, 87, 83);
+  rightPaddle = new Paddle(rightPaddleX, rightPaddleY, 38, 40);
 
   // Create the ball at the centre of the screen
   ball = new Ball(leftPaddleX + leftPaddle.WIDTH/2 +8 , leftPaddleY, 0, 0);

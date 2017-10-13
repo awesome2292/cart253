@@ -79,11 +79,11 @@ class Paddle {
   
   void keyPressed() {
     // Check if the key is our up key
-    if (key == upKey) {
+    if (keyCode == upKey) {
       // If so we want a negative y velocity
       vy = -SPEED;
     } // Otherwise check if the key is our down key 
-    else if (key == downKey) {
+    else if (keyCode == downKey) {
       // If so we want a positive y velocity
       vy = SPEED;
     }
@@ -95,11 +95,11 @@ class Paddle {
 
   void keyReleased() {
     // Check if the key is our up key and the paddle is moving up
-    if (key == upKey && vy < 0) {
+    if (keyCode == upKey && vy < 0) {
       // If so it should stop
       vy = 0;
     } // Otherwise check if the key is our down key and paddle is moving down 
-    else if (key == downKey && vy > 0) {
+    else if (keyCode == downKey && vy > 0) {
       // If so it should stop
       vy = 0;
     }
