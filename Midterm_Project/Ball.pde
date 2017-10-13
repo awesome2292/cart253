@@ -113,23 +113,24 @@ class Ball {
 
 void collideBrick(Brick bricks) {
     // Calculate possible overlaps with the bricks side by side
-    boolean insideLeft = (x + SIZE/2 > bricks.brickX - bricks.brickX/2);
-    boolean insideRight = (x - SIZE/2 < bricks.brickX + bricks.brickX/2);
-    boolean insideTop = (y + SIZE/2 > bricks.brickY - bricks.brickY/2);
-    boolean insideBottom = (y - SIZE/2 < bricks.brickY + bricks.brickY/2);
+    boolean insideLeft = (x + SIZE/2 > bricks.brickX - bricks.brickWidth/2);
+    boolean insideRight = (x - SIZE/2 < bricks.brickX + bricks.brickWidth/2);
+    boolean insideTop = (y + SIZE/2 > bricks.brickY - bricks.brickHeight/2);
+    boolean insideBottom = (y - SIZE/2 < bricks.brickY + bricks.brickHeight/2);
     
     // Check if the ball overlaps with the paddle
     if (insideLeft && insideRight && insideTop && insideBottom) {
       // If it was moving to the left
       if (vx < 0) {
         // Reset its position to align with the right side of the paddle
-        x = bricks.brickX + bricks.brickX/2 + SIZE/2;
+        x = bricks.brickX + bricks.brickWidth/2 + SIZE/2;
       } else if (vx > 0) {
         // Reset its position to align with the left side of the paddle
-        x = bricks.brickX - bricks.brickX/2 - SIZE/2;
+        x = bricks.brickX - bricks.brickWidth/2 - SIZE/2;
       }
       // And make it bounce
       vx = -vx;
+      brickCollision = true;
     }
   }
   

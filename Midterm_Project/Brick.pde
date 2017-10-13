@@ -3,12 +3,14 @@ class Brick {
   float brickY;
   float brickWidth;
   float brickHeight;
+  PImage brickImage;
 
 Brick(float tempX, float tempY, float tempBrickWidth, float tempBrickHeight) {
     brickX = tempX;
     brickY = tempY;
     brickWidth = tempBrickWidth;
     brickHeight = tempBrickHeight;
+    brickImage = loadImage("images/brickImage.png");
   }
 
   void update() {
@@ -16,9 +18,9 @@ Brick(float tempX, float tempY, float tempBrickWidth, float tempBrickHeight) {
   }
 
   void display() {
-    fill(255);
+    if (brickExists ==true){
     rectMode(CENTER);
-    rect(brickX, brickY, brickWidth, brickHeight);
+    image(brickImage, brickX, brickY, brickWidth, brickHeight);
   }
-  
+  }
 }

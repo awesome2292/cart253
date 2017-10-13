@@ -16,25 +16,28 @@ Ball ball;
 Ball ball2;
 Brick[] bricks;
 
+PImage backgroundImage;
+
 // The distance from the edge of the window a paddle should be
 int PADDLE_INSET = 8;
 
 //variable determining whether the bricks exist or not
 boolean brickExists = true;
+boolean brickCollision;
 //CHANGE: Go away
 
 //variables for the brick dimmensions
-int brickX = 500; //for some reason width/2 doesn't work???
+int brickX = width/2; //for some reason width/2 doesn't work???
 int brickY = height;
-
+int brickNum = 10;
 // setup()
 //
 // Sets the size, creates the paddles, ball, and bricks
 
 void setup() {
   // Set the size
-  size(320, 320);
-
+  size(600, 600);
+  backgroundImage = loadImage("images/desertmockup.png");
   // Create the paddles on either side of the screen. 
   // Use PADDLE_INSET to to position them on x, position them both at centre on y
   // Also pass through the two keys used to control 'up' and 'down' respectively
@@ -49,9 +52,8 @@ void setup() {
 
   bricks = new Brick[10];
   //set up the brick onto the canvas
-  for (int i = 0; i < 10; i++) {
-    bricks[i] = new Brick(brickX, brickY, 20, 100);
-    brickY += 100;
+  for (int i = 0; i < brickNum; i++) {
+    bricks[i] = new Brick(width/2, i*(height/brickNum), 20, height/brickNum);
   }
 }
 
@@ -62,8 +64,8 @@ void setup() {
 
 void draw() {
   // Fill the background with gradient each frame so we have animation
-  //gradient();
-  background(loadImage("http://pixeljoint.com/files/icons/full/desertmockup.png"));
+background(backgroundImage);
+
   // Update the paddles and ball by calling their update methods
   leftPaddle.update();
   rightPaddle.update();
@@ -75,7 +77,14 @@ void draw() {
   ball.collide(rightPaddle);
   ball2.collide(rightPaddle);
   ball2.collide(leftPaddle);
-  //ball2.collideBrick();
+
+  for ( int i=0; i < brickNum; i++) {
+    ball.collideBrick(bricks[i]);
+    ball2.collideBrick(bricks[i]);
+      if(brickCollision == true){
+        brickExists = false;
+      }
+  }
 
   //Check if the ball has gone off the screen
   if (ball.isOffScreen()) {
@@ -101,24 +110,6 @@ void draw() {
     }
   }
 }
-
-//loop that creates the gradient in the background
-//void gradient() {
-//  int redGradient = 200;
-//  int greenGradient = 151;
-//  int blueGradient = 199;
-//  int gradientWidth = width;
-//  int gradientHeight = height;
-
-//  while (gradientHeight>0) {
-//    fill(redGradient, greenGradient, blueGradient);
-//    rect(width/2, height/2, gradientWidth, gradientHeight);
-//    gradientHeight -= 0.5;
-//    redGradient -= 0.5;
-//    greenGradient -= 0.5;
-//    blueGradient -= 0.5;
-//  }
-
 
 // keyPressed()
 //
