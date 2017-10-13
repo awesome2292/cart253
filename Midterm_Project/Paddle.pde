@@ -22,8 +22,8 @@ class Paddle {
   color paddleColor = color(255);
 
   // The characters used to make the paddle move up and down, defined in constructor
-  char upKey;
-  char downKey;
+  int upKey;
+  int downKey;
 
 
   /////////////// Constructor ///////////////
@@ -33,7 +33,7 @@ class Paddle {
   // Sets the position and controls based on arguments,
   // starts the velocity at 0
 
-  Paddle(float _x, float _y, char _upKey, char _downKey) {
+  Paddle(float _x, float _y, int _upKey, int _downKey) {
     x = _x;
     y = _y;
     vx = 0;

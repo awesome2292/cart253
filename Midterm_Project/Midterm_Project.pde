@@ -34,12 +34,12 @@ int brickNum = 10;
 int leftPaddleX = PADDLE_INSET;
 int leftPaddleY = height/2;
 int leftStartingX = leftPaddleX;
-int leftStartingY = leftPaddleY;
-int rightPaddleX = width - PADDLE_INSET;
-int rightPaddleY = height/2;
-int rightStartingX = rightPaddleX;
-int rightStartingY = rightPaddleY;
-
+int leftStartingY;
+int rightPaddleX;
+int rightPaddleY;
+int rightStartingX;
+int rightStartingY;
+boolean ballMoving = false;
 // setup()
 //
 // Sets the size, creates the paddles, ball, and bricks
@@ -47,6 +47,11 @@ int rightStartingY = rightPaddleY;
 void setup() {
   // Set the size
   size(600, 600);
+  int rightPaddleX = width - PADDLE_INSET;
+  int rightPaddleY = height/2;
+  int rightStartingX = rightPaddleX;
+  int rightStartingY = rightPaddleY;
+  int leftStartingY = leftPaddleY;
   backgroundImage = loadImage("images/desertmockup.png");
   // Create the paddles on either side of the screen. 
   // Use PADDLE_INSET to to position them on x, position them both at centre on y
@@ -57,8 +62,8 @@ void setup() {
   rightPaddle = new Paddle(rightPaddleX, rightPaddleY, 'o', 'k');
 
   // Create the ball at the centre of the screen
-  ball = new Ball(leftPaddleX , height, 5, 5);
-  ball2 = new Ball(width/2, height/2, -5, 5);
+  ball = new Ball(leftPaddleX + leftPaddle.WIDTH/2 +8 , leftPaddleY, 0, 0);
+  ball2 = new Ball(rightPaddleX - rightPaddle.WIDTH/2 - 8, rightPaddleY, 0, 0);
 
   bricks = new Brick[10];
   //set up the brick onto the canvas
@@ -131,6 +136,19 @@ void keyPressed() {
   // Just call both paddles' own keyPressed methods
   leftPaddle.keyPressed();
   rightPaddle.keyPressed();
+  
+  if (!ballMoving){
+   ball.vy = leftPaddle.vy;
+   ball2.vy = rightPaddle.vy;
+  
+  if( key == ' '){
+    ballMoving = true;
+   ball.vy = 5;
+   ball2.vy = -5;
+   ball.vx = 5;
+   ball2.vx = -5;
+  }
+}
 }
 
 // keyReleased()
@@ -141,4 +159,9 @@ void keyReleased() {
   // Call both paddles' keyReleased methods
   leftPaddle.keyReleased();
   rightPaddle.keyReleased();
+  
+    if (!ballMoving){
+   ball.vy = leftPaddle.vy;
+   ball2.vy = rightPaddle.vy;
+  }
 }
