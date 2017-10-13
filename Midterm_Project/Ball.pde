@@ -113,6 +113,10 @@ class Ball {
 
 void collideBrick(Brick bricks) {
     // Calculate possible overlaps with the bricks side by side
+    if(!bricks.brickExists){
+     return; 
+    }
+    
     boolean insideLeft = (x + SIZE/2 > bricks.brickX - bricks.brickWidth/2);
     boolean insideRight = (x - SIZE/2 < bricks.brickX + bricks.brickWidth/2);
     boolean insideTop = (y + SIZE/2 > bricks.brickY - bricks.brickHeight/2);
@@ -129,8 +133,9 @@ void collideBrick(Brick bricks) {
         x = bricks.brickX - bricks.brickWidth/2 - SIZE/2;
       }
       // And make it bounce
-      vx = -vx;
+      vx = random(0.5,1.5)*vx;
       brickCollision = true;
+      bricks.brickExists = false;
     }
   }
   

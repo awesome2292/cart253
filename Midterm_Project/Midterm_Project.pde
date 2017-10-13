@@ -23,7 +23,6 @@ PImage backgroundImage;
 int PADDLE_INSET = 8;
 
 //variable determining whether the bricks exist or not
-boolean brickExists = true;
 boolean brickCollision;
 //CHANGE: Go away
 
@@ -119,13 +118,11 @@ background(backgroundImage);
   ball2.display();
 
   // Display the bricks when round starts
-  if (brickExists == true) {
     for (int i = 0; i < 10; i++) {
       bricks[i].update();
       bricks[i].display();
     }
   }
-}
 
 // keyPressed()
 //

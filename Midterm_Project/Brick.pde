@@ -4,6 +4,7 @@ class Brick {
   float brickWidth;
   float brickHeight;
   PImage brickImage;
+  boolean brickExists = true;
 
 Brick(float tempX, float tempY, float tempBrickWidth, float tempBrickHeight) {
     brickX = tempX;
@@ -18,9 +19,10 @@ Brick(float tempX, float tempY, float tempBrickWidth, float tempBrickHeight) {
   }
 
   void display() {
-    if (brickExists ==true){
+    if (brickExists == true){
     rectMode(CENTER);
     image(brickImage, brickX, brickY, brickWidth, brickHeight);
   }
+  
   }
 }
