@@ -9,7 +9,7 @@
 // Pretty ugly. (Now!)
 // Only two paddles. (So far!)
 
-// Global variables for the paddles and the ball
+// Global variables for the paddles, the ball, and the bricks
 Paddle leftPaddle;
 Paddle rightPaddle;
 Ball ball;
@@ -33,7 +33,7 @@ int brickY = height;
 
 void setup() {
   // Set the size
-  size(1000, 1000);
+  size(320, 320);
 
   // Create the paddles on either side of the screen. 
   // Use PADDLE_INSET to to position them on x, position them both at centre on y
@@ -63,7 +63,7 @@ void setup() {
 void draw() {
   // Fill the background with gradient each frame so we have animation
   //gradient();
-  background(0);
+  background(loadImage("http://pixeljoint.com/files/icons/full/desertmockup.png"));
   // Update the paddles and ball by calling their update methods
   leftPaddle.update();
   rightPaddle.update();
