@@ -30,6 +30,16 @@ boolean brickCollision;
 int brickX = width/2; //for some reason width/2 doesn't work???
 int brickY = height;
 int brickNum = 10;
+
+int leftPaddleX = PADDLE_INSET;
+int leftPaddleY = height/2;
+int leftStartingX = leftPaddleX;
+int leftStartingY = leftPaddleY;
+int rightPaddleX = width - PADDLE_INSET;
+int rightPaddleY = height/2;
+int rightStartingX = rightPaddleX;
+int rightStartingY = rightPaddleY;
+
 // setup()
 //
 // Sets the size, creates the paddles, ball, and bricks
@@ -43,11 +53,11 @@ void setup() {
   // Also pass through the two keys used to control 'up' and 'down' respectively
   // NOTE: On a mac you can run into trouble if you use keys that create that popup of
   // different accented characters in text editors (so avoid those if you're changing this)
-  leftPaddle = new Paddle(PADDLE_INSET, height/2, 'w', 's');
-  rightPaddle = new Paddle(width - PADDLE_INSET, height/2, 'o', 'k');
+  leftPaddle = new Paddle(leftPaddleX, leftPaddleY, 'w', 's');
+  rightPaddle = new Paddle(rightPaddleX, rightPaddleY, 'o', 'k');
 
   // Create the ball at the centre of the screen
-  ball = new Ball(width, height, 5, 5);
+  ball = new Ball(leftPaddleX , height, 5, 5);
   ball2 = new Ball(width/2, height/2, -5, 5);
 
   bricks = new Brick[10];
@@ -81,9 +91,9 @@ background(backgroundImage);
   for ( int i=0; i < brickNum; i++) {
     ball.collideBrick(bricks[i]);
     ball2.collideBrick(bricks[i]);
-      if(brickCollision == true){
-        brickExists = false;
-      }
+      //if(brickCollision == true){
+      //  brickExists = false;
+      //}
   }
 
   //Check if the ball has gone off the screen
