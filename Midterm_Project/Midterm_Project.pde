@@ -52,14 +52,8 @@ void setup() {
 
   bricks = new Brick[10];
   //set up the brick onto the canvas
-<<<<<<< HEAD
   for (int i = 0; i < brickNum; i++) {
     bricks[i] = new Brick(width/2, i*(height/brickNum), 20, height/brickNum);
-=======
-  for (int i = 0; i < 10; i++) {
-    bricks[i] = new Brick(brickX, brickY, 20, 100);
-    brickY -= 100;
->>>>>>> 79dc2d410b6c85e726764daedc28ce6231a55aa9
   }
 }
 
@@ -77,14 +71,12 @@ background(backgroundImage);
   rightPaddle.update();
   ball.update();
   ball2.update();
-  
 
   // Check if the ball has collided with either paddle
   ball.collide(leftPaddle);
   ball.collide(rightPaddle);
   ball2.collide(rightPaddle);
   ball2.collide(leftPaddle);
-<<<<<<< HEAD
 
   for ( int i=0; i < brickNum; i++) {
     ball.collideBrick(bricks[i]);
@@ -94,13 +86,6 @@ background(backgroundImage);
       }
   }
 
-=======
-  
-  for(int i =0 ; i<10 ; i++){
-  ball.collideBrick(bricks[i]);
-  ball2.collideBrick(bricks[i]);
-  }
->>>>>>> 79dc2d410b6c85e726764daedc28ce6231a55aa9
   //Check if the ball has gone off the screen
   if (ball.isOffScreen()) {
     // If it has, reset the ball
