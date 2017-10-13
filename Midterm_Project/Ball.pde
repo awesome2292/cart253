@@ -13,6 +13,10 @@ class Ball {
   // The location of the ball
   float x;
   float y;
+  float startingX;
+  float startingY;
+  float startingVX;
+  float startingVY;
 
   // The velocity of the ball
   float vx;
@@ -36,8 +40,12 @@ class Ball {
   Ball(float _x, float _y, float tempVX, float tempVY) {
     x = _x;
     y = _y;
+    startingX = x;
+    startingY = y;
     vx = tempVX;
     vy = tempVY;
+    startingVX = vx;
+    startingVY = vy;
   }
 
 
@@ -67,8 +75,10 @@ class Ball {
   // Note that it KEEPS its velocity
   
   void reset() {
-    x = width/2;
-    y = height/2;
+    x = startingX;
+    y = startingY;
+    vx = startingVX;
+    vy = startingVY;
   }
   
   // isOffScreen()
@@ -107,7 +117,7 @@ class Ball {
         x = paddle.x - paddle.WIDTH/2 - SIZE/2;
       }
       // And make it bounce
-      vx = -vx;
+      vx = random(-1.5,-0.5)*vx;
     }
   }
 
@@ -133,7 +143,7 @@ void collideBrick(Brick bricks) {
         x = bricks.brickX - bricks.brickWidth/2 - SIZE/2;
       }
       // And make it bounce
-      vx = random(0.5,1.5)*vx;
+      vx = -vx;
       brickCollision = true;
       bricks.brickExists = false;
     }

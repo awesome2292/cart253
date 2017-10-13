@@ -33,12 +33,8 @@ int brickNum = 10;
 
 int leftPaddleX = PADDLE_INSET;
 int leftPaddleY = height/2;
-int leftStartingX = leftPaddleX;
-int leftStartingY;
 int rightPaddleX;
 int rightPaddleY;
-int rightStartingX;
-int rightStartingY;
 boolean ballMoving = false;
 // setup()
 //
@@ -49,9 +45,6 @@ void setup() {
   size(600, 600);
   int rightPaddleX = width - PADDLE_INSET;
   int rightPaddleY = height/2;
-  int rightStartingX = rightPaddleX;
-  int rightStartingY = rightPaddleY;
-  int leftStartingY = leftPaddleY;
   backgroundImage = loadImage("images/desertmockup.png");
   // Create the paddles on either side of the screen. 
   // Use PADDLE_INSET to to position them on x, position them both at centre on y
@@ -62,7 +55,7 @@ void setup() {
   rightPaddle = new Paddle(rightPaddleX, rightPaddleY, 38, 40);
 
   // Create the ball at the centre of the screen
-  ball = new Ball(leftPaddleX + leftPaddle.WIDTH/2 +8 , leftPaddleY, 0, 0);
+  ball = new Ball(leftPaddleX + leftPaddle.WIDTH/2 +8, leftPaddleY, 0, 0);
   ball2 = new Ball(rightPaddleX - rightPaddle.WIDTH/2 - 8, rightPaddleY, 0, 0);
 
   bricks = new Brick[10];
@@ -79,7 +72,7 @@ void setup() {
 
 void draw() {
   // Fill the background with gradient each frame so we have animation
-background(backgroundImage);
+  background(backgroundImage);
 
   // Update the paddles and ball by calling their update methods
   leftPaddle.update();
@@ -96,9 +89,6 @@ background(backgroundImage);
   for ( int i=0; i < brickNum; i++) {
     ball.collideBrick(bricks[i]);
     ball2.collideBrick(bricks[i]);
-      //if(brickCollision == true){
-      //  brickExists = false;
-      //}
   }
 
   //Check if the ball has gone off the screen
@@ -118,11 +108,11 @@ background(backgroundImage);
   ball2.display();
 
   // Display the bricks when round starts
-    for (int i = 0; i < 10; i++) {
-      bricks[i].update();
-      bricks[i].display();
-    }
+  for (int i = 0; i < 10; i++) {
+    bricks[i].update();
+    bricks[i].display();
   }
+}
 
 // keyPressed()
 //
@@ -134,19 +124,19 @@ void keyPressed() {
   // Just call both paddles' own keyPressed methods
   leftPaddle.keyPressed();
   rightPaddle.keyPressed();
-  
-  if (!ballMoving){
-   ball.vy = leftPaddle.vy;
-   ball2.vy = rightPaddle.vy;
-  
-  if( key == ' '){
-    ballMoving = true;
-   ball.vy = 5;
-   ball2.vy = -5;
-   ball.vx = 5;
-   ball2.vx = -5;
+
+  if (!ballMoving) {
+    ball.vy = leftPaddle.vy;
+    ball2.vy = rightPaddle.vy;
+
+    if ( key == ' ') {
+      ballMoving = true;
+      ball.vy = 5;
+      ball2.vy = -5;
+      ball.vx = 3;
+      ball2.vx = -3;
+    }
   }
-}
 }
 
 // keyReleased()
@@ -157,9 +147,9 @@ void keyReleased() {
   // Call both paddles' keyReleased methods
   leftPaddle.keyReleased();
   rightPaddle.keyReleased();
-  
-    if (!ballMoving){
-   ball.vy = leftPaddle.vy;
-   ball2.vy = rightPaddle.vy;
+
+  if (!ballMoving) {
+    ball.vy = leftPaddle.vy;
+    ball2.vy = rightPaddle.vy;
   }
 }
