@@ -15,6 +15,10 @@ Paddle rightPaddle;
 Ball ball;
 Ball ball2;
 Brick[] bricks;
+Brick[] bricksRightlvl2;
+Brick[] bricksLeftlvl2;
+Score scoreRight;
+Score scoreLeft;
 
 
 PImage backgroundImage;
@@ -36,6 +40,8 @@ int leftPaddleY = height/2;
 int rightPaddleX;
 int rightPaddleY;
 boolean ballMoving = false;
+
+color scoreColor = color(150, 150, 50, 90);
 // setup()
 //
 // Sets the size, creates the paddles, ball, and bricks
@@ -59,10 +65,17 @@ void setup() {
   ball2 = new Ball(rightPaddleX - rightPaddle.WIDTH/2 - 8, rightPaddleY, 0, 0);
 
   bricks = new Brick[10];
+  bricksRightlvl2 = new Brick[10];
+  bricksLeftlvl2 = new Brick[10];
   //set up the brick onto the canvas
   for (int i = 0; i < brickNum; i++) {
     bricks[i] = new Brick(width/2, i*(height/brickNum), 20, height/brickNum);
+    bricksRightlvl2[i] = new Brick(width/2 + 20, i*(height/brickNum), 20, height/brickNum);
+    bricksLeftlvl2[i] = new Brick(width/2 -20, i*(height/brickNum), 20, height/brickNum);
   }
+
+  scoreRight = new Score(300, scoreColor, width-width/4, height/2, 100, height/2);
+  scoreLeft = new Score(300, scoreColor, width/4, height/2, 100, height/2);
 }
 
 // draw()
@@ -79,6 +92,8 @@ void draw() {
   rightPaddle.update();
   ball.update();
   ball2.update();
+  scoreRight.update();
+  scoreLeft.update();
 
   // Check if the ball has collided with either paddle
   ball.collide(leftPaddle);
@@ -106,11 +121,21 @@ void draw() {
   rightPaddle.display();
   ball.display();
   ball2.display();
+  scoreRight.display();
+  scoreLeft.display();
 
   // Display the bricks when round starts
   for (int i = 0; i < 10; i++) {
     bricks[i].update();
     bricks[i].display();
+    if ( bricks[i].brickExists == false) {
+      bricksRightlvl2[i].update();
+      bricksLeftlvl2[i].update();
+      bricksRightlvl2[i].display();
+      bricksLeftlvl2[i].display();
+      bricksRightlvl2[i].brickExists = true;
+      bricksLeftlvl2[i].brickExists = true;
+    }
   }
 }
 
@@ -152,4 +177,7 @@ void keyReleased() {
     ball.vy = leftPaddle.vy;
     ball2.vy = rightPaddle.vy;
   }
+}
+
+void levelUp() {
 }
