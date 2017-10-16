@@ -155,7 +155,6 @@ class Ball {
       vx = -vx;
       brickCollision = true;
       bricks.brickExists = false;
-      scoreRight.scoreText = Integer.toString(scoreRight.scoreNum++);
       
       return true;
       
