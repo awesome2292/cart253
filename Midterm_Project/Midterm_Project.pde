@@ -17,6 +17,8 @@ Ball ball2;
 Brick[] bricks;
 Brick[] bricksRightlvl2;
 Brick[] bricksLeftlvl2;
+Brick[] bricksRightlvl3;
+Brick[] bricksLeftlvl3;
 Score scoreRight;
 Score scoreLeft;
 
@@ -75,13 +77,20 @@ void setup() {
   bricks = new Brick[10];
   bricksRightlvl2 = new Brick[10];
   bricksLeftlvl2 = new Brick[10];
+  bricksRightlvl3 = new Brick[10];
+  bricksLeftlvl3 = new Brick[10];
+  
   //Set up the bricks in the center of the screen 
   for (int i = 0; i < bricks.length; i++) {
     bricks[i] = new Brick(width/2, i*(height/bricks.length), 20, height/bricks.length);
     bricksRightlvl2[i] = new Brick(width/2 + 20, i*(height/bricks.length), 20, height/bricks.length);
     bricksLeftlvl2[i] = new Brick(width/2 -20, i*(height/bricks.length), 20, height/bricks.length);
+    bricksRightlvl3[i] = new Brick(width/2 + 40, i*(height/bricks.length), 20, height/bricks.length);
+    bricksLeftlvl3[i] = new Brick(width/2 - 40, i*(height/bricks.length), 20, height/bricks.length);
     bricksLeftlvl2[i].brickExists = false;
     bricksRightlvl2[i].brickExists = false;
+    bricksLeftlvl3[i].brickExists = false;
+    bricksRightlvl3[i].brickExists = false;
   }
 
 
@@ -118,16 +127,36 @@ void draw() {
   ball2.collide(leftPaddle);
 
   for ( int i=0; i < bricks.length; i++) {
-    if (ball.collideBrick(bricks[i]) == true){
-    brickCount ++;
-  }
-    if (ball2.collideBrick(bricks[i]) == true){
+    if (ball.collideBrick(bricks[i]) == true) {
+      brickCount ++;
+    }
+    if (ball2.collideBrick(bricks[i]) == true) {
       brickCount++;
     }
-    ball.collideBrick(bricksLeftlvl2[i]);
-    ball2.collideBrick(bricksRightlvl2[i]);
-    ball.collideBrick(bricksRightlvl2[i]);
-    ball2.collideBrick(bricksLeftlvl2[i]);
+    if (ball.collideBrick(bricksLeftlvl2[i]) == true) {
+      brickCount++;
+    }
+    if (ball2.collideBrick(bricksRightlvl2[i]) == true) {
+      brickCount++;
+    }
+    if (ball.collideBrick(bricksRightlvl2[i]) == true) {
+      brickCount++;
+    }
+    if (ball2.collideBrick(bricksLeftlvl2[i]) == true) {
+      brickCount++;
+    }
+    if (ball.collideBrick(bricksRightlvl3[i]) == true) {
+      brickCount++;
+    }
+    if (ball2.collideBrick(bricksLeftlvl3[i]) == true) {
+      brickCount++;
+    }
+    if (ball.collideBrick(bricksLeftlvl3[i]) == true) {
+      brickCount++;
+    }
+    if (ball2.collideBrick(bricksRightlvl3[i]) == true) {
+      brickCount++;
+    }
   }
 
   //Check if the ball has gone off the screen
@@ -156,9 +185,15 @@ void draw() {
     bricksLeftlvl2[i].update();
     bricksRightlvl2[i].display();
     bricksLeftlvl2[i].display();
+    bricksRightlvl2[i].display();
+    bricksLeftlvl3[i].update();
+    bricksRightlvl3[i].update();
+    bricksRightlvl3[i].display();
+    bricksLeftlvl3[i].display();
   }
-  levelUp();
   
+  levelUp1();
+  levelUp2();
 }
 
 //////// End of Draw Function ////////
@@ -219,11 +254,16 @@ void levelUp1() {
       bricks[i].brickExists = true;
     }
   }
-  void levelUp2(){
-        if (brickCount == bricks.length) {
-for (int i=0; i<brick.length; i++){
-  bricksRightlvl2[i].brickExists = true;
-  bricksLeftlvl2[i].brickExists = true;
-  bricks[i].brickExists = true;
-  }
 }
+  
+  void levelUp2() {
+    if (brickCount == bricks.length + bricksRightlvl2.length + bricksLeftlvl2.length) {
+      for (int i=0; i<bricks.length + bricksRightlvl2.length + bricksLeftlvl2.length; i++) {
+        bricksRightlvl2[i].brickExists = true;
+        bricksLeftlvl2[i].brickExists = true;
+        bricks[i].brickExists = true;
+        bricksRightlvl3[i].brickExists = true;
+        bricksLeftlvl3[i].brickExists = true;
+      }
+    }
+  }
