@@ -1,7 +1,7 @@
 // Pong
 //
-// A simple version of Pong using object-oriented programming.
-// Allows to people to bounce a ball back and forth between
+// A simple version of Brick Breaker using object-oriented programming.
+// Allows people to bounce a ball against a wall of bricks between
 // two paddles that they control.
 //
 // No scoring. (Yet!)
@@ -9,7 +9,7 @@
 // Pretty ugly. (Now!)
 // Only two paddles. (So far!)
 
-// Global variables for the paddles, the ball, and the bricks
+// Global variables for the paddles, the ball, the bricks, and the scores
 Paddle leftPaddle;
 Paddle rightPaddle;
 Ball ball;
@@ -21,6 +21,7 @@ Score scoreRight;
 Score scoreLeft;
 
 
+//backgroun image variable
 PImage backgroundImage;
 
 // The distance from the edge of the window a paddle should be
@@ -28,23 +29,27 @@ int PADDLE_INSET = 8;
 
 //variable determining whether the bricks exist or not
 boolean brickCollision;
-//CHANGE: Go away
 
 //variables for the brick dimmensions
 int brickX = width/2; //for some reason width/2 doesn't work???
 int brickY = height;
-int brickNum = 10;
+int brickCount = 0;
 
+
+//variables for the paddle parameters which influence the parameters of the balls in the beginning of each round
 int leftPaddleX = PADDLE_INSET;
 int leftPaddleY = height/2;
 int rightPaddleX;
 int rightPaddleY;
 boolean ballMoving = false;
 
+//variable for the score
 color scoreColor = color(150, 150, 50, 90);
-// setup()
-//
-// Sets the size, creates the paddles, ball, and bricks
+
+
+
+///// Beginning of set up //////
+// Sets the size of screen, creates the paddles, ball, bricks, and score
 
 void setup() {
   // Set the size
@@ -52,36 +57,47 @@ void setup() {
   int rightPaddleX = width - PADDLE_INSET;
   int rightPaddleY = height/2;
   backgroundImage = loadImage("images/desertmockup.png");
-  // Create the paddles on either side of the screen. 
-  // Use PADDLE_INSET to to position them on x, position them both at centre on y
-  // Also pass through the two keys used to control 'up' and 'down' respectively
-  // NOTE: On a mac you can run into trouble if you use keys that create that popup of
-  // different accented characters in text editors (so avoid those if you're changing this)
+
+  //////////////////////// Paddles ///////////////////////////
+  // Create the paddles on either side of the screen
   leftPaddle = new Paddle(leftPaddleX, leftPaddleY, 87, 83);
   rightPaddle = new Paddle(rightPaddleX, rightPaddleY, 38, 40);
 
-  // Create the ball at the centre of the screen
+
+  //////////////////////// Balls ////////////////////////////
+  // Create the ball on its respective paddle
   ball = new Ball(leftPaddleX + leftPaddle.WIDTH/2 +8, leftPaddleY, 0, 0);
   ball2 = new Ball(rightPaddleX - rightPaddle.WIDTH/2 - 8, rightPaddleY, 0, 0);
 
+
+  //////////////////////// Bricks ///////////////////////////
+  //Create an array of bricks
   bricks = new Brick[10];
   bricksRightlvl2 = new Brick[10];
   bricksLeftlvl2 = new Brick[10];
-  //set up the brick onto the canvas
-  for (int i = 0; i < brickNum; i++) {
-    bricks[i] = new Brick(width/2, i*(height/brickNum), 20, height/brickNum);
-    bricksRightlvl2[i] = new Brick(width/2 + 20, i*(height/brickNum), 20, height/brickNum);
-    bricksLeftlvl2[i] = new Brick(width/2 -20, i*(height/brickNum), 20, height/brickNum);
+  //Set up the bricks in the center of the screen 
+  for (int i = 0; i < bricks.length; i++) {
+    bricks[i] = new Brick(width/2, i*(height/bricks.length), 20, height/bricks.length);
+    bricksRightlvl2[i] = new Brick(width/2 + 20, i*(height/bricks.length), 20, height/bricks.length);
+    bricksLeftlvl2[i] = new Brick(width/2 -20, i*(height/bricks.length), 20, height/bricks.length);
+    bricksLeftlvl2[i].brickExists = false;
+    bricksRightlvl2[i].brickExists = false;
   }
 
-  scoreRight = new Score(300, scoreColor, width-width/4, height/2, 100, height/2);
-  scoreLeft = new Score(300, scoreColor, width/4, height/2, 100, height/2);
+
+  //////////////////////// Score ///////////////////////////
+  scoreRight = new Score(300, scoreColor, width - width/4, height, 500, 500);
+  scoreLeft = new Score(300, scoreColor, -25, height, 500, 500);
 }
 
-// draw()
-//
+////// end of set up //////
+
+
+
+
+////// Beginning of draw ////////
 // Handles all the magic of making the paddles and ball move, checking
-// if the ball has hit a paddle, and displaying everything.
+// if the ball has hit a paddle and the bricks, and displaying everything.
 
 void draw() {
   // Fill the background with gradient each frame so we have animation
@@ -101,19 +117,27 @@ void draw() {
   ball2.collide(rightPaddle);
   ball2.collide(leftPaddle);
 
-  for ( int i=0; i < brickNum; i++) {
-    ball.collideBrick(bricks[i]);
-    ball2.collideBrick(bricks[i]);
+  for ( int i=0; i < bricks.length; i++) {
+    if (ball.collideBrick(bricks[i]) == true){
+    brickCount ++;
+  }
+    if (ball2.collideBrick(bricks[i]) == true){
+      brickCount++;
+    }
+    ball.collideBrick(bricksLeftlvl2[i]);
+    ball2.collideBrick(bricksRightlvl2[i]);
+    ball.collideBrick(bricksRightlvl2[i]);
+    ball2.collideBrick(bricksLeftlvl2[i]);
   }
 
   //Check if the ball has gone off the screen
   if (ball.isOffScreen()) {
     // If it has, reset the ball
-    ball.reset();
+    ball.reset(leftPaddle);
   }
   if (ball2.isOffScreen()) {
     // If it has, reset the ball
-    ball2.reset();
+    ball2.reset(rightPaddle);
   }
 
   // Display the paddles and the ball
@@ -125,25 +149,28 @@ void draw() {
   scoreLeft.display();
 
   // Display the bricks when round starts
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < bricks.length; i++) {
     bricks[i].update();
     bricks[i].display();
-    if ( bricks[i].brickExists == false) {
-      bricksRightlvl2[i].update();
-      bricksLeftlvl2[i].update();
-      bricksRightlvl2[i].display();
-      bricksLeftlvl2[i].display();
-      bricksRightlvl2[i].brickExists = true;
-      bricksLeftlvl2[i].brickExists = true;
-    }
+    bricksRightlvl2[i].update();
+    bricksLeftlvl2[i].update();
+    bricksRightlvl2[i].display();
+    bricksLeftlvl2[i].display();
   }
+  levelUp();
+  
 }
 
-// keyPressed()
-//
+//////// End of Draw Function ////////
+
+
+
+//////// Beginning of keyPressed() function //////////
+
 // The paddles need to know if they should move based on a keypress
 // so when the keypress is detected in the main program we need to
 // tell the paddles
+// The game will begin with the ball glued to each paddle
 
 void keyPressed() {
   // Just call both paddles' own keyPressed methods
@@ -163,7 +190,10 @@ void keyPressed() {
     }
   }
 }
+//////// End of keyPressed() //////////
 
+
+//////// Beginning of keyReleased() function ////////
 // keyReleased()
 //
 // As for keyPressed, except for released!
@@ -179,5 +209,21 @@ void keyReleased() {
   }
 }
 
-void levelUp() {
+///////// End of keyReleased() function /////////
+
+void levelUp1() {
+  if (brickCount == bricks.length) {
+    for (int i=0; i<bricks.length; i++) {
+      bricksRightlvl2[i].brickExists = true;
+      bricksLeftlvl2[i].brickExists = true;
+      bricks[i].brickExists = true;
+    }
+  }
+  void levelUp2(){
+        if (brickCount == bricks.length) {
+for (int i=0; i<brick.length; i++){
+  bricksRightlvl2[i].brickExists = true;
+  bricksLeftlvl2[i].brickExists = true;
+  bricks[i].brickExists = true;
+  }
 }

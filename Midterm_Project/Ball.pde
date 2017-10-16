@@ -68,33 +68,35 @@ class Ball {
       vy = -vy;
     }
   }
-  
-  // reset()
-  //
+
+
+
+  //////// Beginning of reset() ////////////
   // Resets the ball to the centre of the screen.
   // Note that it KEEPS its velocity
-  
-  void reset() {
+
+  void reset(Paddle paddle) {
     x = startingX;
-    y = startingY;
-    vx = startingVX;
-    vy = startingVY;
+    y = paddle.y;
+    vx = paddle.vx;
+    vy = paddle.vy;
   }
-  
-  // isOffScreen()
-  //
+  ///////// End of Reset //////////
+
+
+  ///////// Declaration of boolean isOffScreen() /////
   // Returns true if the ball is off the left or right side of the window
   // otherwise false
   // (If we wanted to return WHICH side it had gone off, we'd have to return
   // something like an int (e.g. 0 = not off, 1 = off left, 2 = off right)
   // or a String (e.g. "ON SCREEN", "OFF LEFT", "OFF RIGHT")
-  
+
   boolean isOffScreen() {
     return (x + SIZE/2 < 0 || x - SIZE/2 > width);
   }
 
-  // collide(Paddle paddle)
-  //
+
+  /////////// Beginning of collide() for the ball with the paddles ///
   // Checks whether this ball is colliding with the paddle passed as an argument
   // If it is, it makes the ball bounce away from the paddle by reversing its
   // x velocity
@@ -105,7 +107,7 @@ class Ball {
     boolean insideRight = (x - SIZE/2 < paddle.x + paddle.WIDTH/2);
     boolean insideTop = (y + SIZE/2 > paddle.y - paddle.HEIGHT/2);
     boolean insideBottom = (y - SIZE/2 < paddle.y + paddle.HEIGHT/2);
-    
+
     // Check if the ball overlaps with the paddle
     if (insideLeft && insideRight && insideTop && insideBottom) {
       // If it was moving to the left
@@ -117,40 +119,54 @@ class Ball {
         x = paddle.x - paddle.WIDTH/2 - SIZE/2;
       }
       // And make it bounce
-      vx = random(-1.5,-0.5)*vx;
+      vx = random(-1.5, -0.5)*vx;
     }
   }
+  ///////// End of collide(Paddle paddle) ////////  
 
-void collideBrick(Brick bricks) {
+  
+  
+  /////////// Beginning of collide() for the bal with the bricks ///
+  // Checks whether this ball is colliding with the brick passed as an argument
+  // If it is, it makes the ball bounce away from the brick by reversing its
+  // x velocity, as well as makes the brick disappear thanks to the brickExists boolean
+  boolean collideBrick(Brick bricks) {
     // Calculate possible overlaps with the bricks side by side
-    if(!bricks.brickExists){
-     return; 
+    if (!bricks.brickExists) {
+      return false;
     }
-    
+
     boolean insideLeft = (x + SIZE/2 > bricks.brickX - bricks.brickWidth/2);
     boolean insideRight = (x - SIZE/2 < bricks.brickX + bricks.brickWidth/2);
     boolean insideTop = (y + SIZE/2 > bricks.brickY - bricks.brickHeight/2);
     boolean insideBottom = (y - SIZE/2 < bricks.brickY + bricks.brickHeight/2);
-    
-    // Check if the ball overlaps with the paddle
+
+    // Check if the ball overlaps with the brick
     if (insideLeft && insideRight && insideTop && insideBottom) {
       // If it was moving to the left
       if (vx < 0) {
-        // Reset its position to align with the right side of the paddle
+        // Reset its position to align with the right side of the brick
         x = bricks.brickX + bricks.brickWidth/2 + SIZE/2;
       } else if (vx > 0) {
-        // Reset its position to align with the left side of the paddle
+        // Reset its position to align with the left side of the brick
         x = bricks.brickX - bricks.brickWidth/2 - SIZE/2;
       }
       // And make it bounce
       vx = -vx;
       brickCollision = true;
       bricks.brickExists = false;
+      scoreRight.scoreText = Integer.toString(scoreRight.scoreNum++);
+      
+      return true;
+      
     }
+    return false;
   }
-  
-  // display()
-  //
+  /////// End of collide(Brick bricks) ///////
+
+
+
+  ///////// Display function ////////
   // Draw the ball at its position
 
   void display() {
@@ -162,4 +178,6 @@ void collideBrick(Brick bricks) {
     // Draw the ball
     ellipse(x, y, SIZE, SIZE);
   }
+  //////// End of display() ////////
 }
+///////// End of Ball class ////////
