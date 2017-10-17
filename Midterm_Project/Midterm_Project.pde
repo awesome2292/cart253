@@ -48,7 +48,10 @@ boolean ballMoving = false;
 //variable for the score
 color scoreColor = color(150, 150, 50, 90);
 
+boolean gameStart = true;
 
+PFont wallFont;
+PFont instructionFont;
 
 ///// Beginning of set up //////
 // Sets the size of screen, creates the paddles, ball, bricks, and score
@@ -95,8 +98,8 @@ void setup() {
 
 
   //////////////////////// Score ///////////////////////////
-  scoreRight = new Score(300, scoreColor, width - width/4, height, 500, 500);
-  scoreLeft = new Score(300, scoreColor, -25, height, 500, 500);
+  scoreRight = new Score(130, scoreColor, width - width/4, height, 500, 500);
+  scoreLeft = new Score(130, scoreColor, -25, height, 500, 500);
 }
 
 ////// end of set up //////
@@ -111,6 +114,8 @@ void setup() {
 void draw() {
   // Fill the background with gradient each frame so we have animation
   background(backgroundImage);
+  wallFont = loadFont("Nervous-48.vlw");
+  instructionFont = loadFont("ArcadeClassic-16.vlw");
 
   // Update the paddles and ball by calling their update methods
   leftPaddle.update();
@@ -127,65 +132,65 @@ void draw() {
   ball2.collide(leftPaddle);
 
 
+  int scoreRightNum = scoreRight.scoreNum;
+  int scoreLeftNum = scoreLeft.scoreNum;
   for ( int i=0; i < bricks.length; i++) {
-    int scoreRightNum = scoreRight.scoreNum;
-    int scoreLeftNum = scoreLeft.scoreNum;
     if (ball.collideBrick(bricks[i]) == true) {
       brickCount ++;
       scoreRightNum ++;
-      scoreRight.scoreText = Integer.toString(scoreRightNum++);
+      scoreRight.scoreText = Integer.toString(scoreRightNum);
     }
 
     if (ball2.collideBrick(bricks[i]) == true) {
       brickCount++;
       scoreLeftNum++;
-      scoreLeft.scoreText = Integer.toString(scoreLeftNum++);
+      scoreLeft.scoreText = Integer.toString(scoreLeftNum);
     }
 
     if (ball.collideBrick(bricksLeftlvl2[i]) == true) {
       brickCount++;
       scoreRightNum ++;
-      scoreRight.scoreText = Integer.toString(scoreRightNum++);
+      scoreRight.scoreText = Integer.toString(scoreRightNum);
     }
 
     if (ball2.collideBrick(bricksRightlvl2[i]) == true) {
       brickCount++;
       scoreLeftNum++;
-      scoreLeft.scoreText = Integer.toString(scoreLeftNum++);
+      scoreLeft.scoreText = Integer.toString(scoreLeftNum);
     }
     if (ball.collideBrick(bricksRightlvl2[i]) == true) {
       brickCount++;
       scoreRightNum ++;
-      scoreRight.scoreText = Integer.toString(scoreRightNum++);
+      scoreRight.scoreText = Integer.toString(scoreRightNum);
     }
 
     if (ball2.collideBrick(bricksLeftlvl2[i]) == true) {
       brickCount++;
       scoreLeftNum++;
-      scoreLeft.scoreText = Integer.toString(scoreLeftNum++);
+      scoreLeft.scoreText = Integer.toString(scoreLeftNum);
     }
 
     if (ball.collideBrick(bricksRightlvl3[i]) == true) {
       brickCount++;
       scoreRightNum ++;
-      scoreRight.scoreText = Integer.toString(scoreRightNum++);
+      scoreRight.scoreText = Integer.toString(scoreRightNum);
     }
     if (ball2.collideBrick(bricksLeftlvl3[i]) == true) {
       brickCount++;
       scoreLeftNum++;
-      scoreLeft.scoreText = Integer.toString(scoreLeftNum++);
+      scoreLeft.scoreText = Integer.toString(scoreLeftNum);
     }
 
     if (ball.collideBrick(bricksLeftlvl3[i]) == true) {
       brickCount++;
       scoreRightNum ++;
-      scoreRight.scoreText = Integer.toString(scoreRightNum++);
+      scoreRight.scoreText = Integer.toString(scoreRightNum);
     }
 
     if (ball2.collideBrick(bricksRightlvl3[i]) == true) {
       brickCount++;
       scoreLeftNum++;
-      scoreLeft.scoreText = Integer.toString(scoreLeftNum++);
+      scoreLeft.scoreText = Integer.toString(scoreLeftNum);
     }
   }
 
@@ -221,13 +226,27 @@ void draw() {
     bricksRightlvl3[i].display();
     bricksLeftlvl3[i].display();
   }
-
+  gameBegin();
   levelUp1();
   levelUp2();
+  gameOver();
 }
 
 //////// End of Draw Function ////////
 
+
+void gameBegin() {
+  if (ballMoving == false && gameStart == true) {
+    background(0, 0, 0, 5);
+    fill(255);
+    textFont(wallFont);
+    textAlign(CENTER);
+    text("The Wall", width/2, height/2);
+    textFont(instructionFont);
+    textAlign(CENTER);
+    text("Take down the Wall! Use the W and S keys (player 1)\n and the Up and Down keys (player 2) to bounce the balls\n off the bricks of the wall to make them disappear.\n Clear all three walls to win the game!", width/2, height-height/2.5);
+  }
+}
 
 
 //////// Beginning of keyPressed() function //////////
@@ -246,6 +265,10 @@ void keyPressed() {
     ball.vy = leftPaddle.vy;
     ball2.vy = rightPaddle.vy;
 
+
+    if (gameStart == true && key == 's') {
+      gameStart = false;
+    }
     if ( key == ' ') {
       ballMoving = true;
       ball.vy = 5;
@@ -278,15 +301,6 @@ void keyReleased() {
 
 void levelUp1() {
   if (brickCount == bricks.length) {
-    //ballMoving = false;
-    //ball.vx = leftPaddleX;
-    //ball2.vx = rightPaddleX;
-    //ball.y = leftPaddle.y;
-    //ball2.y = rightPaddle.y;
-    //ball.x = leftPaddle.x + ball.SIZE;
-    //ball2.x = rightPaddle.x - ball.SIZE;
-    //keyPressed();
-    //keyReleased();
     for (int i=0; i<bricks.length; i++) {
       bricksRightlvl2[i].brickExists = true;
       bricksLeftlvl2[i].brickExists = true;
@@ -304,5 +318,18 @@ void levelUp2() {
       bricksRightlvl3[i].brickExists = true;
       bricksLeftlvl3[i].brickExists = true;
     }
+  }
+}
+
+
+
+void gameOver() {
+  if (ball.ballReset == true && ball2.ballReset == true) {
+    background (0);
+    fill(255);
+    textSize(36);
+    textAlign(CENTER);
+    textFont(wallFont);
+    text("GAME OVER", width/2, height/2);
   }
 }

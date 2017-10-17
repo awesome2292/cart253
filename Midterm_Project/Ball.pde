@@ -25,6 +25,7 @@ class Ball {
   // The colour of the ball
   color ballColor = color(255);
 
+boolean ballReset;
 
   /////////////// Constructor ///////////////
 
@@ -76,10 +77,11 @@ class Ball {
   // Note that it KEEPS its velocity
 
   void reset(Paddle paddle) {
-    x = startingX;
-    y = paddle.y;
-    vx = paddle.vx;
-    vy = paddle.vy;
+    x = -100;
+    y = -100;
+    vx = 0;
+    vy = 0;
+    ballReset = true;
   }
   ///////// End of Reset //////////
 

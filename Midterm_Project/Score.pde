@@ -27,7 +27,10 @@ class Score {
   void display() {
     rectMode(CENTER);
     fill(scoreColor);
+    PFont scoreFont = loadFont("LemonMilk-16.vlw");
+    textFont(scoreFont);
     textSize(scoreSize);
+    textAlign(LEFT);
     text(scoreText, scoreX, scoreY);
   }
 }
