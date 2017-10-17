@@ -244,7 +244,7 @@ void gameBegin() {
     text("The Wall", width/2, height/2);
     textFont(instructionFont);
     textAlign(CENTER);
-    text("Take down the Wall! Use the W and S keys (player 1)\n and the Up and Down keys (player 2) to bounce the balls\n off the bricks of the wall to make them disappear.\n Clear all three walls to win the game!", width/2, height-height/2.5);
+    text("Take down the Wall! Use the W and S keys (player 1)\n and the Up and Down keys (player 2) to bounce the balls\n off the bricks of the wall to make them disappear.\n Clear all three walls to win the game!\n\nBe careful though! If one player loses their ball,\n the other can still play!", width/2, height-height/2.5);
   }
 }
 
