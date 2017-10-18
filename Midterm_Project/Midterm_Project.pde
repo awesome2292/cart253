@@ -81,8 +81,8 @@ void setup() {
 
   //////////////////////// Balls ////////////////////////////
   // Create the ball on its respective paddle
-  ball = new Ball(leftPaddleX + leftPaddle.WIDTH/2 +8, leftPaddleY, 0, 0);
-  ball2 = new Ball(rightPaddleX - rightPaddle.WIDTH/2 - 8, rightPaddleY, 0, 0);
+  ball = new Ball(leftPaddleX + leftPaddle.WIDTH/2 +8, leftPaddleY, 0, 0, 0);
+  ball2 = new Ball(rightPaddleX - rightPaddle.WIDTH/2 - 8, rightPaddleY, 0, 0, 255);
 
 
   //////////////////////// Bricks ///////////////////////////
@@ -144,6 +144,7 @@ void draw() {
   ball2.collide(leftPaddle);
 
   //Adjusting score parameters based on the number of bricks hit for each ball
+  //and the paddles change size depending on the number of bricks hit
   for ( int i=0; i < bricks.length; i++) {
     if (ball2.collideBrick(bricks[i]) == true) {
       brickCount ++;
@@ -234,21 +235,17 @@ void draw() {
 
   // Display the bricks when round starts
   for (int i = 0; i < bricks.length; i++) {
-    bricks[i].update();
     bricks[i].display();
-    bricksRightlvl2[i].update();
-    bricksLeftlvl2[i].update();
     bricksRightlvl2[i].display();
     bricksLeftlvl2[i].display();
     bricksRightlvl2[i].display();
-    bricksLeftlvl3[i].update();
-    bricksRightlvl3[i].update();
     bricksRightlvl3[i].display();
     bricksLeftlvl3[i].display();
   }
 
   //list of all the functions that are called in the beginning of the game
   scoreReadjust();
+  playerNames();
   gameBegin();
   spaceBegin();
   levelUp1();
@@ -271,6 +268,15 @@ void scoreReadjust() {
   if (scoreLeftNum >= 10) {
     scoreLeft.scoreX = readjustedScoreLeftX;
   }
+}
+
+void playerNames (){
+  textFont(scoreRight.scoreFont);
+  fill(0, 0, 0, 70);
+  textAlign(CENTER);
+  text("Player 1", width/4, height/4);
+  text("Player 2", width - width/4, height/4);
+  
 }
 //////// end of scoreReadjust /////////
 
@@ -419,6 +425,8 @@ void gameOver() {
   }
 }
 //////// end of gameOver() ///////
+
+
 
 //void winGame() {
 //  for (int i=0; i<9*bricks.length; i++) {

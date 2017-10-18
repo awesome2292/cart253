@@ -23,7 +23,7 @@ class Ball {
   float vy;
 
   // The colour of the ball
-  color ballColor = color(255);
+  color ballColor;
 
 boolean ballReset;
 
@@ -38,7 +38,7 @@ boolean ballReset;
   // NOTE that I'm using an underscore in front of the arguments to distinguish
   // them from the class's properties
 
-  Ball(float _x, float _y, float tempVX, float tempVY) {
+  Ball(float _x, float _y, float tempVX, float tempVY, color ballColorTemp) {
     x = _x;
     y = _y;
     startingX = x;
@@ -47,6 +47,7 @@ boolean ballReset;
     vy = tempVY;
     startingVX = vx;
     startingVY = vy;
+    ballColor = ballColorTemp;
   }
 
 

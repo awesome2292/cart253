@@ -12,6 +12,7 @@ class Brick {
   boolean brickExists = true;
 
   ///////// Constructor ///////////
+  // the player needs to enter the position and size of the bricks
   Brick(float tempX, float tempY, float tempBrickWidth, float tempBrickHeight) {
     brickX = tempX;
     brickY = tempY;
@@ -24,8 +25,6 @@ class Brick {
 
 
   //////// Methods /////////
-  void update() {
-  }
 
 ///////// display() //////////
 //display the bricks 
