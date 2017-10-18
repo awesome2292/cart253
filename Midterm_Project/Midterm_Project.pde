@@ -49,9 +49,15 @@ boolean ballMoving = false;
 color scoreColor = color(150, 150, 50, 90);
 
 boolean gameStart = true;
+boolean spaceStart = false;
 
 PFont wallFont;
 PFont instructionFont;
+
+int scoreRightNum;
+int scoreLeftNum;
+int readjustedScoreRightX;
+int readjustedScoreLeftX;
 
 ///// Beginning of set up //////
 // Sets the size of screen, creates the paddles, ball, bricks, and score
@@ -61,6 +67,8 @@ void setup() {
   size(600, 600);
   int rightPaddleX = width - PADDLE_INSET;
   int rightPaddleY = height/2;
+  readjustedScoreRightX = 350;
+  readjustedScoreLeftX = 40;
   backgroundImage = loadImage("images/desertmockup.png");
 
   //////////////////////// Paddles ///////////////////////////
@@ -100,6 +108,8 @@ void setup() {
   //////////////////////// Score ///////////////////////////
   scoreRight = new Score(130, scoreColor, width - width/4, height, 500, 500);
   scoreLeft = new Score(130, scoreColor, -25, height, 500, 500);
+  scoreRightNum = scoreRight.scoreNum;
+  scoreLeftNum = scoreLeft.scoreNum;
 }
 
 ////// end of set up //////
@@ -132,65 +142,73 @@ void draw() {
   ball2.collide(leftPaddle);
 
 
-  int scoreRightNum = scoreRight.scoreNum;
-  int scoreLeftNum = scoreLeft.scoreNum;
   for ( int i=0; i < bricks.length; i++) {
-    if (ball.collideBrick(bricks[i]) == true) {
+    if (ball2.collideBrick(bricks[i]) == true) {
       brickCount ++;
       scoreRightNum ++;
       scoreRight.scoreText = Integer.toString(scoreRightNum);
+      rightPaddle.HEIGHT += 3;
     }
 
-    if (ball2.collideBrick(bricks[i]) == true) {
+    if (ball.collideBrick(bricks[i]) == true) {
       brickCount++;
       scoreLeftNum++;
       scoreLeft.scoreText = Integer.toString(scoreLeftNum);
-    }
-
-    if (ball.collideBrick(bricksLeftlvl2[i]) == true) {
-      brickCount++;
-      scoreRightNum ++;
-      scoreRight.scoreText = Integer.toString(scoreRightNum);
-    }
-
-    if (ball2.collideBrick(bricksRightlvl2[i]) == true) {
-      brickCount++;
-      scoreLeftNum++;
-      scoreLeft.scoreText = Integer.toString(scoreLeftNum);
-    }
-    if (ball.collideBrick(bricksRightlvl2[i]) == true) {
-      brickCount++;
-      scoreRightNum ++;
-      scoreRight.scoreText = Integer.toString(scoreRightNum);
+      leftPaddle.HEIGHT += 3;
     }
 
     if (ball2.collideBrick(bricksLeftlvl2[i]) == true) {
       brickCount++;
-      scoreLeftNum++;
-      scoreLeft.scoreText = Integer.toString(scoreLeftNum);
-    }
-
-    if (ball.collideBrick(bricksRightlvl3[i]) == true) {
-      brickCount++;
       scoreRightNum ++;
       scoreRight.scoreText = Integer.toString(scoreRightNum);
+      rightPaddle.HEIGHT += 2;
     }
-    if (ball2.collideBrick(bricksLeftlvl3[i]) == true) {
+
+    if (ball.collideBrick(bricksRightlvl2[i]) == true) {
       brickCount++;
       scoreLeftNum++;
       scoreLeft.scoreText = Integer.toString(scoreLeftNum);
+      leftPaddle.HEIGHT += 2;
     }
-
-    if (ball.collideBrick(bricksLeftlvl3[i]) == true) {
+    if (ball2.collideBrick(bricksRightlvl2[i]) == true) {
       brickCount++;
       scoreRightNum ++;
       scoreRight.scoreText = Integer.toString(scoreRightNum);
+      rightPaddle.HEIGHT += 2;
+    }
+
+    if (ball.collideBrick(bricksLeftlvl2[i]) == true) {
+      brickCount++;
+      scoreLeftNum++;
+      scoreLeft.scoreText = Integer.toString(scoreLeftNum);
+      leftPaddle.HEIGHT += 2;
     }
 
     if (ball2.collideBrick(bricksRightlvl3[i]) == true) {
       brickCount++;
+      scoreRightNum ++;
+      scoreRight.scoreText = Integer.toString(scoreRightNum);
+      rightPaddle.HEIGHT += 1;
+    }
+    if (ball.collideBrick(bricksLeftlvl3[i]) == true) {
+      brickCount++;
       scoreLeftNum++;
       scoreLeft.scoreText = Integer.toString(scoreLeftNum);
+      leftPaddle.HEIGHT += 1;
+    }
+
+    if (ball2.collideBrick(bricksLeftlvl3[i]) == true) {
+      brickCount++;
+      scoreRightNum ++;
+      scoreRight.scoreText = Integer.toString(scoreRightNum);
+      rightPaddle.HEIGHT += 1;
+    }
+
+    if (ball.collideBrick(bricksRightlvl3[i]) == true) {
+      brickCount++;
+      scoreLeftNum++;
+      scoreLeft.scoreText = Integer.toString(scoreLeftNum);
+      leftPaddle.HEIGHT += 1;
     }
   }
 
@@ -226,13 +244,26 @@ void draw() {
     bricksRightlvl3[i].display();
     bricksLeftlvl3[i].display();
   }
+  scoreReadjust();
   gameBegin();
+  spaceBegin();
   levelUp1();
   levelUp2();
   gameOver();
+  //winGame();
 }
 
 //////// End of Draw Function ////////
+
+
+void scoreReadjust(){
+ if (scoreRightNum >= 10){
+   scoreRight.scoreX = readjustedScoreRightX;
+ }
+ if (scoreLeftNum >= 10){
+   scoreLeft.scoreX = readjustedScoreLeftX;
+ }
+}
 
 
 void gameBegin() {
@@ -244,10 +275,18 @@ void gameBegin() {
     text("The Wall", width/2, height/2);
     textFont(instructionFont);
     textAlign(CENTER);
-    text("Take down the Wall! Use the W and S keys (player 1)\n and the Up and Down keys (player 2) to bounce the balls\n off the bricks of the wall to make them disappear.\n Clear all three walls to win the game!\n\nBe careful though! If one player loses their ball,\n the other can still play!", width/2, height-height/2.5);
+    text("Take down the Wall! Use the W and S keys (player 1)\n and the Up and Down keys (player 2) to bounce the balls\n off the bricks of the wall to make them disappear.\n Clear all three walls to win the game!\n\nBe careful though! If one player loses their ball,\n the other can still play!\n\nPress A to begin", width/2, height-height/2.5);
   }
 }
 
+void spaceBegin() {
+  if (spaceStart == false && gameStart ==false) {
+    fill(255);
+    textFont(instructionFont);
+    textAlign(CENTER);
+    text("Press SPACE to begin", width/2, height/2);
+  }
+}
 
 //////// Beginning of keyPressed() function //////////
 
@@ -266,10 +305,11 @@ void keyPressed() {
     ball2.vy = rightPaddle.vy;
 
 
-    if (gameStart == true && key == 's') {
+    if (gameStart == true && key == 'a') {
       gameStart = false;
     }
     if ( key == ' ') {
+      spaceStart = true;
       ballMoving = true;
       ball.vy = 5;
       ball2.vy = -5;
@@ -331,5 +371,47 @@ void gameOver() {
     textAlign(CENTER);
     textFont(wallFont);
     text("GAME OVER", width/2, height/2);
+    if (scoreRightNum > scoreLeftNum) {
+      textFont(instructionFont);
+      text("Player 2 beat PLayer 1!", width/2, height-height/2.25);
+    }
+    if (scoreRightNum < scoreLeftNum) {
+      textFont(instructionFont);
+      text("Player 1 beat PLayer 2!", width/2, height-height/2.25);
+    }
+    if (scoreRightNum == scoreLeftNum) {
+      textFont(instructionFont);
+      text("It's a tie between the two players!", width/2, height-height/2.25);
+    }
+    textFont(instructionFont);
+    text("Please Restart the Game", width/2, height-height/2.5);
   }
 }
+
+
+//void winGame() {
+//  for (int i=0; i<9*bricks.length; i++) {
+//    if (bricks[i].brickExists == false &&  bricksLeftlvl2[i].brickExists == false && bricksRightlvl2[i].brickExists == false && bricksRightlvl3[i].brickExists == false && bricksLeftlvl3[i].brickExists == false && ballMoving == true) {
+//      background (0);
+//      fill(255);
+//      textSize(36);
+//      textAlign(CENTER);
+//      textFont(wallFont);
+//      text("YOU WIN!!", width/2, height/2);
+//      textFont(instructionFont);
+//      text("Please Restart the Game", width/2, height-height/2.5);
+//      if (scoreRightNum > scoreLeftNum) {
+//        textFont(instructionFont);
+//        text("Player 2 beat PLayer 1!", width/2, height-height/2.25);
+//      }
+//      if (scoreRightNum < scoreLeftNum) {
+//        textFont(instructionFont);
+//        text("Player 1 beat PLayer 2!", width/2, height-height/2.25);
+//      }
+//      if (scoreRightNum == scoreLeftNum) {
+//        textFont(instructionFont);
+//        text("It's a tie between the two players!", width/2, height-height/2.25);
+//      }
+//    }
+//  }
+//}
