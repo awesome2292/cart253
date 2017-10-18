@@ -38,7 +38,7 @@ class Score {
     fill(scoreColor);
     textFont(scoreFont);
     textSize(scoreSize);
-    textAlign(LEFT);
+    textAlign(CENTER);
     text(scoreText, scoreX, scoreY);
   }
 }

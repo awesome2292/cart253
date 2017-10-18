@@ -75,8 +75,8 @@ void setup() {
 
   //////////////////////// Paddles ///////////////////////////
   // Create the paddles on either side of the screen
-  leftPaddle = new Paddle(leftPaddleX, leftPaddleY, 87, 83);
-  rightPaddle = new Paddle(rightPaddleX, rightPaddleY, 38, 40);
+  leftPaddle = new Paddle(leftPaddleX, leftPaddleY, 87, 83, 0);
+  rightPaddle = new Paddle(rightPaddleX, rightPaddleY, 38, 40, 255);
 
 
   //////////////////////// Balls ////////////////////////////
@@ -109,7 +109,7 @@ void setup() {
 
   //////////////////////// Score ///////////////////////////
   scoreRight = new Score(130, scoreColor, width - width/4, height, 500, 500);
-  scoreLeft = new Score(130, scoreColor, -25, height, 500, 500);
+  scoreLeft = new Score(130, scoreColor, width/4, height, 500, 500);
   scoreRightNum = scoreRight.scoreNum;
   scoreLeftNum = scoreLeft.scoreNum;
 }
@@ -244,14 +244,13 @@ void draw() {
   }
 
   //list of all the functions that are called in the beginning of the game
-  scoreReadjust();
   playerNames();
   gameBegin();
   spaceBegin();
   levelUp1();
   levelUp2();
   gameOver();
-  //winGame();
+  winGame();
 }
 
 //////// End of Draw Function ////////
@@ -261,14 +260,14 @@ void draw() {
 
 ////////// scoreReadjust() function ///////////
 // readjusts the x coordinate of the scores if they go over the screen
-void scoreReadjust() {
-  if (scoreRightNum >= 10) {
-    scoreRight.scoreX = readjustedScoreRightX;
-  }
-  if (scoreLeftNum >= 10) {
-    scoreLeft.scoreX = readjustedScoreLeftX;
-  }
-}
+//void scoreReadjust() {
+//  if (scoreRightNum >= 10) {
+//    scoreRight.scoreX = readjustedScoreRightX;
+//  }
+//  if (scoreLeftNum >= 10) {
+//    scoreLeft.scoreX = readjustedScoreLeftX;
+//  }
+//}
 
 void playerNames (){
   textFont(scoreRight.scoreFont);
@@ -427,30 +426,56 @@ void gameOver() {
 //////// end of gameOver() ///////
 
 
+////////// winGame() function ///////////
+//if there is atl least one brick that exists in the game
+// then the game will continue to play
+//once there are no more bricks left
+//the screen will go black and display "YOU WON!!"
+void winGame() {
+  boolean wonGame = true;
+  for (int i=0; i<bricks.length; i++) {
+    if (bricks[i].brickExists == true ||  bricksLeftlvl2[i].brickExists == true || bricksRightlvl2[i].brickExists == true || bricksRightlvl3[i].brickExists == true || bricksLeftlvl3[i].brickExists == true || ballMoving == true) {
+     wonGame = false;
+     break;
+    }
+  }
+  
+  if (wonGame) {
+      background (0);
+      fill(255);
+      textSize(36);
+      textAlign(CENTER);
+      textFont(wallFont);
+      text("YOU WIN!!", width/2, height/2);
+      textFont(instructionFont);
+      text("Please Restart the Game", width/2, height-height/2.5);
+      if (scoreRightNum > scoreLeftNum) {
+        textFont(instructionFont);
+        text("Player 2 beat PLayer 1!", width/2, height-height/2.25);
+      }
+      if (scoreRightNum < scoreLeftNum) {
+        textFont(instructionFont);
+        text("Player 1 beat PLayer 2!", width/2, height-height/2.25);
+      }
+      if (scoreRightNum == scoreLeftNum) {
+        textFont(instructionFont);
+        text("It's a tie between the two players!", width/2, height-height/2.25);
+      }
+    }
+  }
+/////////// end of windGame() /////////
 
-//void winGame() {
-//  for (int i=0; i<9*bricks.length; i++) {
-//    if (bricks[i].brickExists == false &&  bricksLeftlvl2[i].brickExists == false && bricksRightlvl2[i].brickExists == false && bricksRightlvl3[i].brickExists == false && bricksLeftlvl3[i].brickExists == false && ballMoving == true) {
-//      background (0);
-//      fill(255);
-//      textSize(36);
-//      textAlign(CENTER);
-//      textFont(wallFont);
-//      text("YOU WIN!!", width/2, height/2);
-//      textFont(instructionFont);
-//      text("Please Restart the Game", width/2, height-height/2.5);
-//      if (scoreRightNum > scoreLeftNum) {
-//        textFont(instructionFont);
-//        text("Player 2 beat PLayer 1!", width/2, height-height/2.25);
-//      }
-//      if (scoreRightNum < scoreLeftNum) {
-//        textFont(instructionFont);
-//        text("Player 1 beat PLayer 2!", width/2, height-height/2.25);
-//      }
-//      if (scoreRightNum == scoreLeftNum) {
-//        textFont(instructionFont);
-//        text("It's a tie between the two players!", width/2, height-height/2.25);
-//      }
-//    }
-//  }
+
+//function to test to see if winGame() works
+//void mouseCLicked() {
+// for (int i=0; i<bricks.length; i++){
+//    bricksRightlvl2[i].brickExists = false;
+//      bricksLeftlvl2[i].brickExists = false;
+//      bricks[i].brickExists = false;
+//      bricksRightlvl3[i].brickExists = false;
+//      bricksLeftlvl3[i].brickExists = false;
+   
+// }
+  
+  
 //}
