@@ -96,6 +96,31 @@ class Griddie {
       energy = constrain(energy,0,maxEnergy);
     }
   }
+  
+    // collide(chomper)
+  //
+  // Checks for collision with the Griddie
+  // and updates energy level
+  
+  void collide(Chomper chomper) {
+    // QUESTION: What is this if-statement for?
+    // ANSWER: This if-statement verifies if the value of energy or new value (other) energy is 0 
+    // to stop the function and return null
+    if (energy == 0 || chomper.energy == 0) {
+      return;
+    }
+    
+    // QUESTION: What does this if-statement check?
+    // ANSWER: This statement verifies that the x and y coordinates of the griddie 
+    // are equivalent to the x and y coordinates of the "other" value so that the 
+    // energy of the griddie would increase with each encounter with another
+    if (x == chomper.x && y == chomper.y) {
+      // Decrease this Griddie's energy
+      energy -= chomper.collideEnergy;
+      // Constrain the energy level to be within bounds
+      energy = constrain(energy,0,maxEnergy);
+    }
+  }
 
   // display()
   //
