@@ -8,9 +8,10 @@ class Circle {
   float ballColor;
 
   /////// constructor ////////
-  Circle( float tempX, float tempY, float tempColor) {
+  Circle( float tempX, float tempY, float tempSize, float tempColor) {
     circleX = tempX;
     circleY = tempY;
+    size = tempSize;
     ballColor = tempColor;
   }
 
