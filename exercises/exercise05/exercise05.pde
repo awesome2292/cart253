@@ -17,7 +17,7 @@ float varyingBallSize = random(5,20);
 Circle[] circles = new Circle[100];
 
 //setup()
-//put the circles in place with their different coordinates
+//put the circles in place with their different coordinates, sizes and opacities
 void setup() {
   size(500, 500);
   for ( int i = 0; i< circles.length; i++ ) {
