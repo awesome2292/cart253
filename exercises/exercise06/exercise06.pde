@@ -15,8 +15,6 @@ Capture video;
 // as a default value)
 PVector brightestPixel = new PVector(-1,-1);
 
-// An array of bouncers to play with
-Bouncer[] bouncers = new Bouncer[10];
 
 // setup()
 //
@@ -25,12 +23,6 @@ Bouncer[] bouncers = new Bouncer[10];
 void setup() {
   size(640, 480);
 
-  // Our old friend the for-loop used to go through the length of an
-  // array adding new objects to it (Bouncers in this case)
-  for (int i = 0; i < bouncers.length; i++) {
-    // Each Bouncer just starts with random values 
-    bouncers[i] = new Bouncer(random(0,width),random(0,height),random(-10,10),random(-10,10),random(20,50),color(random(255)));
-  }
   
   // Start up the webcam
   video = new Capture(this, 640, 480, 30);
@@ -50,14 +42,6 @@ void draw() {
   // Draw the video frame to the screen
   image(video, 0, 0);
   
-  // Our old friend the for-loop running through the length of an array to
-  // update and display objects, in this case Bouncers.
-  // If the brightness (or other video property) is going to interact with all the
-  // Bouncers, it will need to happen in here.
-  for (int i = 0; i < bouncers.length; i++) {
-   bouncers[i].update();
-   bouncers[i].display();
-  }
   
   // For now we just draw a crappy ellipse at the brightest pixel
   fill(#ff0000);
@@ -87,24 +71,22 @@ void handleVideoInput() {
 
   // Go through every pixel in the grid of pixels made by this
   // frame of video
-  for (int x = 0; x < video.width; x++) {
-    for (int y = 0; y < video.height; y++) {
-      // Calculate the location in the 1D pixels array
-      int loc = x + y * width;
-      // Get the color of the pixel we're looking at
-      color pixelColor = video.pixels[loc];
-      // Get the brightness of the pixel we're looking at
-      float pixelBrightness = brightness(pixelColor);
-      // Check if this pixel is the brighest we've seen so far
-      if (pixelBrightness > brightnessRecord) {
-        // If it is, change the record value
-        brightnessRecord = pixelBrightness;
-        // Remember where this pixel is in the the grid of pixels
-        // (and therefore on the screen) by setting the PVector
-        // brightestPixel's x and y properties.
-        brightestPixel.x = x;
-        brightestPixel.y = y;
-      }
+ int reddestX = 0;
+int reddestY = 0;
+float record = 1000;
+for ( int x = 1; x < video.width; x++ ) {
+  for ( int y = 0; y < video.height; y++ ) {
+    int loc = x + y * width;
+    color pixelColor = video.pixels[loc];
+    float amount = dist(255,0,0,red(pixelColor),green(pixelColor),blue(pixelColor));
+    if (amount < record) {
+      record = amount;
+      reddestX = x;
+      reddestY = y;
     }
   }
+}
+fill(255,0,0);
+image(video,0,0);
+ellipse(reddestX,reddestY,10,10);
 }
