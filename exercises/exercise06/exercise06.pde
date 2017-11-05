@@ -24,36 +24,53 @@ void setup() {
   video.start();
 }
 
+//An event for when a new frame is available
+void captureEvent (Capture video){
+ //Read the image from the camera.
+  video.read();
+}
+  
+
 // draw()
 //
-// Processes the frame of video, draws the video to the screen, updates the Bouncers
-// and then just draws an ellipse at the brightest pixel location. You code should
-// do something much more interesting in order to actually interact with the Bouncers.
-
+// processes the video while adding the magic wand mouse effect: The video runs normally but is too dark
+//the only area where you can see the video is where the mouse is on the canvas
+//the video has a glitch effect
 void draw() {
-  // A function that processes the current frame of video
-  handleVideoInput();
+  loadPixels();
+  video.loadPixels();
 
   // Draw the video frame to the screen
   image(video, 0, 0);
   
- 
-
-// handleVideoInput
-//
-// Checks for available video, reads the frame, and then finds the brightest pixel
-// in that frame and stores its location in brightestPixel.
-
-  // If we're here, there IS a frame to look at so read it in
-  video.read();
-
-
-}
-
-void handleVideoInput() {
-  // Check if there's a frame to look at
-  if (!video.available()) {
-    // If not, then just return, nothing to do
-    return;
-  }
+//scans the canvas from point zero to the end point of the video
+//from the top left corner to the bottom right corner
+for (int x = 0; x < video.width; x++) {    
+    for (int y = 0; y < video.height; y++) {      
+      // Calculate the 1D location from a 2D grid
+      int loc = x + y * video.width;  
+      // Get the red, green, blue values from a pixel      
+      float redColor = red (video.pixels[loc]);      
+      float greenColor = green(video.pixels[loc]);      
+      float blueColor = blue (video.pixels[loc]);      
+      
+      // Calculate an amount to change brightness based on proximity to the mouse      
+      float d = dist(x, y, mouseX, mouseY);      
+      float adjustbrightness = map(d, 0, 100, 4, 0);      
+      redColor *= adjustbrightness;      
+      greenColor *= adjustbrightness;      
+      blueColor *= adjustbrightness;      
+      
+      // Constrain RGB to make sure they are within 0-255 color range      
+      redColor = constrain(redColor, 0, 255);      
+      greenColor = constrain(greenColor, 0, 255);      
+      blueColor = constrain(blueColor, 0, 255);      
+    
+      // Make a new color and set pixel in the window      
+      color c = color(redColor, greenColor, blueColor);      
+      pixels[loc] = c;    
+    }  
+  }  
+  
+  updatePixels();
 }
