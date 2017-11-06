@@ -1,7 +1,8 @@
 
-
 // Exercise 06
-
+//Light up your webcam! Use the mouse to move the torch around the screen. 
+//To increase the size of the light, click the mouse.
+//To decrease the size of the light, press the spacebar.
 
 // Import the video library
 import processing.video.*;
@@ -9,6 +10,8 @@ import processing.video.*;
 // The capture object for reading from the webcam
 Capture video;
 
+//This is the parameter that controls the size of the ball of light.
+float increaseBrightness = 100;
 
 // setup()
 //
@@ -55,7 +58,7 @@ void draw() {
 
       // Calculate an amount to change brightness based on proximity to the mouse      
       float mouseLocation = dist(x, y, mouseX, mouseY);      
-      float adjustbrightness = map(mouseLocation, 0, 100, 4, 0);      
+      float adjustbrightness = map(mouseLocation, 0, increaseBrightness, 4, 0);      
       redColor *= adjustbrightness;      
       greenColor *= adjustbrightness;      
       blueColor *= adjustbrightness;      
@@ -74,7 +77,15 @@ void draw() {
   updatePixels();
 }
 
+
+//if the mouse is clicked, then increase the size of the ball of light
 void mouseClicked(){
-  
-  
+  increaseBrightness *=1.25; 
+}
+
+//if the spacebar is pressed, the decrease the size of the ball of light
+void keyPressed(){
+  if (key == ' '){
+   increaseBrightness *=0.5; 
+  }
 }
