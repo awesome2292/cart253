@@ -34,6 +34,7 @@ Sprite puppet;
 //the game will be in full screen, with a black background
 void setup(){
   fullScreen();
+  //size(500,500);
   background(0);
   
   r1X = 0;
@@ -57,10 +58,22 @@ void setup(){
 //this draw function will be where all the code runs
 
 void draw(){
-  
+  rectMode(CORNER);
+  background(0);
   room1.display();
+  puppet.update();
   puppet.display();
   
   
+}
+
+
+void keyPressed(){
+ puppet.keyPressed();
+  
+}
+
+void keyReleased(){
+ puppet.keyReleased(); 
   
 }
