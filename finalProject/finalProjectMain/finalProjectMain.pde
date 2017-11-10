@@ -15,12 +15,18 @@ float r1Y;
 float r1W;
 float r1H;
 
+float pX;
+float pY;
+float pW;
+float pH;
+
 
 
 //////////////// CLASSES ////////////////////
 Room room1;
 
 
+Sprite puppet;
 
 
 
@@ -36,6 +42,13 @@ void setup(){
   r1H = height/2;
   room1 = new Room(r1X, r1Y, r1W, r1H);
   
+  
+  pX = width/4;
+  pY = 2*height/3;
+  pW = 100;
+  pH = 150;
+  puppet = new Sprite(pX, pY, pW, pH);
+  
 }
 
 
@@ -46,6 +59,7 @@ void setup(){
 void draw(){
   
   room1.display();
+  puppet.display();
   
   
   

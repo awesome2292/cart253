@@ -17,12 +17,13 @@ float roomWidth;
 float roomHeight;
 //the color of the "walls" of the room as well as their thickness
 float strokeColor = 50;
-float strokeThickness = 10;
+float strokeThickness = 30;
   
   
   
 //////////////// CONSTRUCTOR //////////////////
 //Each room will have varying positions and sizes
+//Will add an image argument after once they have been made
 Room(float roomTempX, float roomTempY, float roomTempWidth, float roomTempHeight){
   roomX = roomTempX;
   roomY = roomTempY;
