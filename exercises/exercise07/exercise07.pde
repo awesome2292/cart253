@@ -8,6 +8,10 @@ int framesPerBeat = 15;
 //color of the tone for the mouse
 color soundColor;
 
+SinOsc sin;
+int[] frequency;
+int previousTone;
+
 int rainNum = 50;
 ArrayList rain = new ArrayList();
 ArrayList splash = new ArrayList();
@@ -20,14 +24,26 @@ void setup() {
   background(0);
   rain.add(new Rain());
   current = millis();
+  
+frequency = new int[4];
+frequency[0] = 40;
+frequency[1] = frequency[0]*2;
+frequency[2] = frequency[1]*2;
+frequency[3] = frequency[2]*2;
+  
+  
   // Go through the array loading sound files into it
   for (int i = 0; i < tones.length; i++) {
     // We can use the i variable to work out which filename to use!
     tones[i] = new SoundFile(this, "sounds/tone0" + (i+1) + ".wav");
   }
+  
+  sin = new SinOsc(this);
+  sin.play();
 }
 
 void draw() {
+  /////////////////////////////// TONES CODE ///////////////////////////////////
   // Use modulo to check if this frame is a multiple of the beat count
   if (frameCount % framesPerBeat == 0) {
     // Pick a random index in the array
@@ -41,7 +57,20 @@ void draw() {
     tones[randomIndex].play();
   }
   
-  //ADDED RAIN CODE
+/////////////////////////////// SINE CODE //////////////////////////////////////  
+ if(frameCount % 100 == 0){
+   int rand = floor(random(0,4));
+   println(rand);
+   
+   while(rand == previousTone){
+     rand = floor(random(0,4));
+   }
+   
+  sin.freq(frequency[rand]);
+  previousTone = rand;
+ 
+ }
+/////////////////////////////// ADDED RAIN CODE //////////////////////////////////////
   blur(50);
   
   if ((millis()-current)/1000>reseed&&rain.size()<150)
