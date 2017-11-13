@@ -46,8 +46,8 @@ void setup(){
   
   pX = width/4;
   pY = 2*height/3;
-  pW = 100;
-  pH = 150;
+  pW = 50;
+  pH = 75;
   puppet = new Sprite(pX, pY, pW, pH);
   
 }
