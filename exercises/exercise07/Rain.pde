@@ -1,10 +1,14 @@
+//RAIN CLASS
+//This Rain class forms a rain animation
+
 public class Rain
 {
+  
   PVector position,pposition,speed;
   float col;
   
   public Rain()
-  {
+  {//Changed the code so that the rain comes from the mouse cursor instead of the top of the screen
     position = new PVector(random(mouseX-20,mouseX+20),random(mouseY-20,mouseY+20));
     pposition = position;
     speed = new PVector(0,0);
@@ -34,6 +38,10 @@ public class Rain
   }
 }
 
+
+
+//SPLASH CLASS
+//Allows the fallen rain to form splashes at the bottom of the screen
 public class Splash
 {
   PVector position,speed;
