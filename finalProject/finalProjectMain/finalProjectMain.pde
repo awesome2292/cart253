@@ -49,9 +49,9 @@ void setup(){
   r1H = height/2;
   room1 = new Room(r1X, r1Y, r1W, r1H);
 
-r2X = r1X + r1W;
-r2Y = height/2;
-r2W = width/3.5;
+r2X = 0;
+r2Y = 0;
+r2W = width/3;
 r2H = height/2;
 room2 = new Room(r2X, r2Y, r2W, r2H);
   
