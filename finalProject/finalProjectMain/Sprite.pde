@@ -113,30 +113,40 @@ class Sprite {
 
   void collide(Room wall) {
     // Calculate possible overlaps with the wall side by side
-    boolean insideLeft = (spriteX < wall.strokeThickness && spriteX > wall.roomX);
-    boolean insideRight = (spriteX > wall.roomWidth - wall.strokeThickness && spriteX < wall.roomX + wall.roomWidth);
-    boolean insideBottom = (spriteY < height-wall.strokeThickness && spriteY > wall.roomY + wall.roomHeight);
-    boolean insideTop = (spriteY > height-wall.roomHeight && spriteY < wall.roomY);
+    boolean insideLeft = (spriteX < wall.roomX + wall.strokeThickness && spriteX > wall.roomX);
+    boolean insideRight = (spriteX > wall.roomWidth - wall.strokeThickness*2 && spriteX < wall.roomX + wall.roomWidth);
+    boolean insideBottom = (spriteY > wall.roomY + wall.roomHeight - wall.strokeThickness*2 && spriteY < wall.roomY + wall.roomHeight);
+    boolean insideTop = (spriteY < height-wall.roomHeight && spriteY > wall.roomY);
 
     // Check if the sprite overlaps with the wall
     if (insideLeft && spriteVX <= 0) {
       // If it was moving to the left
         //then stop
         spriteVX = 0;
+        spriteX +=10;
+        wallCollisionLeftRight = true;
       //if it was moving up
       } else if (insideRight && spriteVX >= 0) {
         //then stop
         spriteVX = 0;
+        spriteX -=10;
+        wallCollisionLeftRight = true;
       }
-       else if (insideBottom && spriteVY >= 0) {
+       else if (insideBottom && spriteVY <= 0) {
         //then stop
         spriteVY = 0;
+        wallCollisionUpDown = true;
       }
-       else if (insideTop && spriteVY <= 0) {
+       else if (insideTop && spriteVY >= 0) {
         //then stop
         spriteVY = 0;
+        wallCollisionUpDown = true;
       }
-      
+      else{
+        wallCollisionLeftRight = false;
+        wallCollisionUpDown = false;
+        
+      }
       
   }
   ///////// End of collide(Paddle paddle) ////////  

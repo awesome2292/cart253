@@ -15,6 +15,11 @@ float r1Y;
 float r1W;
 float r1H;
 
+float r2X;
+float r2Y;
+float r2W;
+float r2H;
+
 float pX;
 float pY;
 float pW;
@@ -24,6 +29,7 @@ float pH;
 
 //////////////// CLASSES ////////////////////
 Room room1;
+Room room2;
 
 
 Sprite puppet;
@@ -42,6 +48,12 @@ void setup(){
   r1W = width/3;
   r1H = height/2;
   room1 = new Room(r1X, r1Y, r1W, r1H);
+
+r2X = r1X + r1W;
+r2Y = height/2;
+r2W = width/3.5;
+r2H = height/2;
+room2 = new Room(r2X, r2Y, r2W, r2H);
   
   
   pX = width/4;
@@ -61,10 +73,12 @@ void draw(){
   rectMode(CORNER);
   background(0);
   room1.display();
+  room2.display();
   puppet.update();
   puppet.display();
   
   puppet.collide(room1);
+  puppet.collide(room2);
 }
 
 
