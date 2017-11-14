@@ -64,7 +64,7 @@ void draw(){
   puppet.update();
   puppet.display();
   
-  
+  puppet.collide(room1);
 }
 
 

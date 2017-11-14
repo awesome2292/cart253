@@ -17,6 +17,9 @@ class Sprite {
   float spriteWidth;
   float spriteHeight;
   PImage sprite;
+  //Collision checker
+  boolean wallCollisionUpDown;
+  boolean wallCollisionLeftRight;
 
   //////////// CONSTRUCTOR //////////////
 
@@ -70,6 +73,13 @@ class Sprite {
       // If so, the sprite moves to the right with a positive X velocity
       spriteVX = speed;
     }
+    else if(wallCollisionUpDown){
+     spriteVY = 0;
+    }
+    
+    else if(wallCollisionLeftRight){
+     spriteVX = 0; 
+    }
   }
 
 
@@ -94,6 +104,42 @@ class Sprite {
       spriteVX = 0;
     }
   }
+
+
+
+  //////////////////////// COLLIDE FUNCTION //////////////////////////
+  // Checks whether the sprite is colliding with any of the walls in the room
+  // If it is, the velocity becomes null so that the sprite can't move any further
+
+  void collide(Room wall) {
+    // Calculate possible overlaps with the wall side by side
+    boolean insideLeft = (spriteX < wall.strokeThickness && spriteX > wall.roomX);
+    boolean insideRight = (spriteX > wall.roomWidth - wall.strokeThickness && spriteX < wall.roomX + wall.roomWidth);
+    boolean insideBottom = (spriteY < height-wall.strokeThickness && spriteY > wall.roomY + wall.roomHeight);
+    boolean insideTop = (spriteY > height-wall.roomHeight && spriteY < wall.roomY);
+
+    // Check if the sprite overlaps with the wall
+    if (insideLeft && spriteVX <= 0) {
+      // If it was moving to the left
+        //then stop
+        spriteVX = 0;
+      //if it was moving up
+      } else if (insideRight && spriteVX >= 0) {
+        //then stop
+        spriteVX = 0;
+      }
+       else if (insideBottom && spriteVY >= 0) {
+        //then stop
+        spriteVY = 0;
+      }
+       else if (insideTop && spriteVY <= 0) {
+        //then stop
+        spriteVY = 0;
+      }
+      
+      
+  }
+  ///////// End of collide(Paddle paddle) ////////  
 
 
 
