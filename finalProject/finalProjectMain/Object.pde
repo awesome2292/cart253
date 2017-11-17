@@ -24,38 +24,54 @@ class Object {
 
 
   ///////////////////// CONSTRUCTOR //////////////////////
-
-  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempUseObj, PImage tempObjImg) {
+  //Each object will have different locations, dimmensions, interaction types, and images
+  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempUseObj, PImage tempObjImg, PImage tempHighlight) {
     objectX = tempObjX;
     objectY = tempObjY;
     objectWidth = tempObjW;
     objectHeight = tempObjH;
     useObject = tempUseObj;
     objectImage = tempObjImg;
+    highlightImage = tempHighlight;
   }
 
 
   ///////////////////// FUNCTIONS ////////////////////
-  
-  void update(){
 
-    
+  void update() {
   }
-  
-  void highlight(Sprite puppet){
+
+//This function determines when the objects should be interactable, by "highlighting"
+//it when the sprite passes by it
+  void highlight(Sprite puppet) {
     //Calculate possible overlaps with the sprite and the object
     boolean insideX = (objectX <= puppet.spriteX && objectX >= puppet.spriteX);
     boolean insideY = (objectY >= puppet.spriteY && objectY <= puppet.spriteY);
-// Check if the sprite overlaps with the object
+    // Check if the sprite overlaps with the object
     if (insideX && insideY) {
       //If so, then the image of the object will be replaced with a "highlighted" version
       //Meaning that the object will be highlighted when the sprite passes by it
       loadImage(highlightImage); 
+      //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
+    } else {
+      loadImage(objectImage);
+    }
   }
-  else {
-   loadImage(objectImage); 
+
+
+//This function allows the textBox to appear when the player presses the action button
+// 'i' while the object is highlighted
+//The desigated textBox will provide information about the object interacted with
+  void interact(Sprite puppet, Textbox popup) {
+    if (key == 'i' && talkObject) {
+    }
   }
-  
-  
+
+
+  void display() {
+    loadImage(objectImage, objectX, objectY, objectWidth, objectHeight);
+  }
+}
+
 }
