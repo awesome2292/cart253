@@ -20,18 +20,19 @@ class Object {
   boolean talkObject;
   //image of the object
   PImage objectImage;
-  PImage highlightImage;
+  String noHighlightImage;
+  String highlightImage;
 
 
   ///////////////////// CONSTRUCTOR //////////////////////
   //Each object will have different locations, dimmensions, interaction types, and images
-  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempUseObj, PImage tempObjImg, PImage tempHighlight) {
+  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempUseObj, String tempNoHighlight, String tempHighlight) {
     objectX = tempObjX;
     objectY = tempObjY;
     objectWidth = tempObjW;
     objectHeight = tempObjH;
     useObject = tempUseObj;
-    objectImage = tempObjImg;
+    noHighlightImage = tempNoHighlight;
     highlightImage = tempHighlight;
   }
 
@@ -41,8 +42,8 @@ class Object {
   void update() {
   }
 
-//This function determines when the objects should be interactable, by "highlighting"
-//it when the sprite passes by it
+  //This function determines when the objects should be interactable, by "highlighting"
+  //it when the sprite passes by it
   void highlight(Sprite puppet) {
     //Calculate possible overlaps with the sprite and the object
     boolean insideX = (objectX <= puppet.spriteX && objectX >= puppet.spriteX);
@@ -51,18 +52,18 @@ class Object {
     if (insideX && insideY) {
       //If so, then the image of the object will be replaced with a "highlighted" version
       //Meaning that the object will be highlighted when the sprite passes by it
-      loadImage(highlightImage); 
+      objectImage = loadImage(highlightImage); 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
     } else {
-      loadImage(objectImage);
+      objectImage = loadImage(noHighlightImage);
     }
   }
 
 
-//This function allows the textBox to appear when the player presses the action button
-// 'i' while the object is highlighted
-//The desigated textBox will provide information about the object interacted with
+  //This function allows the textBox to appear when the player presses the action button
+  // 'i' while the object is highlighted
+  //The desigated textBox will provide information about the object interacted with
   void interact(Sprite puppet, Textbox popup) {
     if (key == 'i' && talkObject) {
     }
@@ -70,8 +71,7 @@ class Object {
 
 
   void display() {
-    loadImage(objectImage, objectX, objectY, objectWidth, objectHeight);
+    objectImage = loadImage(noHighlightImage);
+    image(objectImage, objectX, objectY, objectWidth, objectHeight);
   }
-}
-
 }

@@ -6,7 +6,7 @@
 //position, size and color will be fixed, so they do not need to be included in the 
 //arguments
 
-Class Textbox {
+class Textbox {
 
   ///////////////// VARABIABLES //////////////////
   // The whole text to display
@@ -21,17 +21,17 @@ Class Textbox {
   // Position and size
   int textBoxX;
   int textBoxY;
-  int textBoxSize;
+  int textSize;
 
 
   //////////////////////// CONSTRUCTOR //////////////////////
 
   // Takes the position of the text, the size of the text, and the
   // number of frames between characters displaying
-  Typewriter (int tempX, int tempY, int tempSize, int tempFramesPerChar) {
-    x = tempX;
-    y = tempY;
-    size = tempSize;
+  Textbox(int tempX, int tempY, int tempSize, int tempFramesPerChar) {
+    textBoxX = tempX;
+    textBoxY = tempY;
+    textSize = tempSize;
     framesPerChar = tempFramesPerChar;
   }
 
@@ -44,7 +44,7 @@ Class Textbox {
     // Reset the currentText to be empty
     currentText = "";
     // Store the text to display
-    text = tempText;
+    textContent = tempText;
   }
 
 
@@ -53,21 +53,20 @@ Class Textbox {
   // over time to display each character one at a time.
   void display() {
     // Make sure there's a text to display
-    if (text != "") {
+    if (textContent != "") {
       // Check if this frame is a multiple of our frame rate
       if (frameCount % framesPerChar == 0) {
         // Check whether there are more characters to display
-        if (currentChar < text.length()) {
+        if (currentChar < textContent.length()) {
           // Add the next character to our display String
-          currentText += text.charAt(currentChar);
+          currentText += textContent.charAt(currentChar);
           // Increase the character index
           currentChar++;
         }
       }
       // Set the size
-      textSize(size);
+      textSize(textSize);
       // Display the current text at the position
-      text(currentText, x, y);
-    }
+      text(currentText, textBoxX, textBoxY);    }
   }
 }
