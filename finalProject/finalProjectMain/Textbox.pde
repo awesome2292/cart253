@@ -16,7 +16,7 @@ class Textbox {
   // The character to display next in the text
   int currentChar = 0;
   // How many frames between characters displayed
-  int framesPerChar = 2;
+  float framesPerChar = 0.25;
   
 
   // Position and size
@@ -28,7 +28,10 @@ class Textbox {
   float textX = textBoxX - textBoxW/2 + textStroke*2;
   float textY = textBoxY - textBoxH/2 + textStroke*3;
   int textSize = 40;
-
+  PFont textFont = loadFont("AmaticSC-Bold-60.vlw");
+  
+  //Boolean determining if the textbox should appear or not
+  boolean textAppear;
 
   //////////////////////// CONSTRUCTOR //////////////////////
 
@@ -65,16 +68,21 @@ class Textbox {
           currentChar++;
         }
       }
+      //Added a rectangle to hold the text.
+      //It will most likely be replaced with an image later.
+      if (textAppear){
       rectMode(CENTER);
       fill(20);
       strokeWeight(textStroke);
       rect(textBoxX, textBoxY, textBoxW, textBoxH, 7);
       // Set the size
       textSize(textSize);
+      textFont(textFont);
       fill(255);
       // Display the current text at the position
       rectMode(CORNER);
-      text(currentText, textX, textY);
+      text(currentText, textX, textY, textBoxW-textStroke*3, textBoxH-textStroke*3);
+      }
     }
   }
 }

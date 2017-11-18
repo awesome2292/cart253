@@ -84,7 +84,7 @@ void setup() {
   chest = new Object(chestX, chestY, chestW, chestH, true, chestImage, chestHighlight);
   
   testText = new Textbox();
-  testText.setText("This is a test");
+  testText.setText("This is a test to see if I write a bunch of words whether or not it will go off the screen and continue into the endless abyss that is the processing canvas or if it will simply go to the next line as hoped -- It seems that is works!!!");
   
 }
 
