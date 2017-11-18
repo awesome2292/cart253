@@ -143,9 +143,9 @@ class Sprite {
       wallCollisionUpDown = false;
     }
 
-    println("The top coordinate I wrote is " + (wall.roomY + wall.roomHeight - wall.strokeThickness*2));
-    println("The bottom coordinate I wrote is " + (wall.roomY + wall.roomHeight + wall.strokeThickness*2));
-    println("The actual y value is " + (spriteY + spriteWidth/2));
+    //println("The top coordinate I wrote is " + (wall.roomY + wall.roomHeight - wall.strokeThickness*2));
+    //println("The bottom coordinate I wrote is " + (wall.roomY + wall.roomHeight + wall.strokeThickness*2));
+    //println("The actual y value is " + (spriteY + spriteWidth/2));
   }
   ///////// End of collide(Paddle paddle) ////////  
 

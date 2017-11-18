@@ -79,8 +79,8 @@ void setup() {
   chestY = height-height/5;
   chestW = 200;
   chestH = 163;
-  chestImage = "images/room1Chest.png";
-  chestHighlight = "image/room1ChestHighlight.png";
+  chestImage = "images/room1Chest.jpg";
+  chestHighlight = "images/room1ChestHighlight.jpg";
   chest = new Object(chestX, chestY, chestW, chestH, true, chestImage, chestHighlight);
   
   testText = new Textbox();
@@ -98,9 +98,9 @@ void draw() {
   background(0);
   room1.display();
   room2.display();
+  chest.display();
   puppet.update();
   puppet.display();
-  chest.display();
   testText.display();
 
   puppet.collide(room1);

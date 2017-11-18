@@ -22,6 +22,9 @@ class Object {
   PImage objectImage;
   String noHighlightImage;
   String highlightImage;
+  boolean highlightObject;
+  
+ 
 
 
   ///////////////////// CONSTRUCTOR //////////////////////
@@ -47,17 +50,18 @@ class Object {
   //it when the sprite passes by it
   void highlight(Sprite puppet) {
     //Calculate possible overlaps with the sprite and the object
-    boolean insideX = (objectX <= puppet.spriteX && objectX >= puppet.spriteX);
-    boolean insideY = (objectY >= puppet.spriteY && objectY <= puppet.spriteY);
+    boolean insideX = (puppet.spriteX <= objectX+objectWidth/2 && puppet.spriteX >= objectX-objectWidth/2);
+    boolean insideY = (puppet.spriteY <= objectY+objectHeight/2 && puppet.spriteY >= objectY-objectHeight/2);
     // Check if the sprite overlaps with the object
     if (insideX && insideY) {
       //If so, then the image of the object will be replaced with a "highlighted" version
       //Meaning that the object will be highlighted when the sprite passes by it
-      objectImage = loadImage(highlightImage); 
+      highlightObject = true; 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
     } else {
-      objectImage = loadImage(noHighlightImage);
+      highlightObject = false;
+      talkObject = false;
     }
   }
 
@@ -73,6 +77,15 @@ class Object {
 
 
   void display() {
+    imageMode(CENTER);
+    if (!highlightObject){
+      objectImage = loadImage(noHighlightImage);
     image(objectImage, objectX, objectY, objectWidth, objectHeight);
   }
+  else if(highlightObject){
+    objectImage = loadImage(highlightImage);
+    println("The object is highlighted");
+    image(objectImage, objectX, objectY, objectWidth, objectHeight);
+  }
+}
 }
