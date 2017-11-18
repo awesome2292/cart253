@@ -44,6 +44,8 @@ Sprite puppet;
 
 Object chest;
 
+Textbox testText;
+
 
 
 
@@ -78,8 +80,11 @@ void setup() {
   chestW = 200;
   chestH = 200;
   chestImage = "images/room1Chest.png";
-  chestHighlight = "images/room1ChestHighlight.png";
+  chestHighlight = "image/room1ChestHighlight.png";
   chest = new Object(chestX, chestY, chestW, chestH, true, chestImage, chestHighlight);
+  
+  testText = new Textbox();
+  testText.setText("This is a test");
   
 }
 
@@ -96,6 +101,7 @@ void draw() {
   puppet.update();
   puppet.display();
   chest.display();
+  testText.display();
 
   puppet.collide(room1);
   puppet.collide(room2);

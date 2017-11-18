@@ -37,10 +37,6 @@ class Room {
   void update() {
   }
 
-  // This function is responsible for the sprite colliding with the walls of each room and
-  //unable to move further
-  void collide() {
-  }
 
   void display() {
     noFill();

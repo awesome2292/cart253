@@ -16,24 +16,25 @@ class Textbox {
   // The character to display next in the text
   int currentChar = 0;
   // How many frames between characters displayed
-  int framesPerChar;
+  int framesPerChar = 2;
+  
 
   // Position and size
-  int textBoxX;
-  int textBoxY;
-  int textSize;
+  float textBoxX = width/2;
+  float textBoxY = height - height/4.5;
+  float textBoxW = width-150;
+  float textBoxH = height/3;
+  int textStroke = 30;
+  float textX = textBoxX - textBoxW/2 + textStroke*2;
+  float textY = textBoxY - textBoxH/2 + textStroke*3;
+  int textSize = 40;
 
 
   //////////////////////// CONSTRUCTOR //////////////////////
 
   // Takes the position of the text, the size of the text, and the
   // number of frames between characters displaying
-  Textbox(int tempX, int tempY, int tempSize, int tempFramesPerChar) {
-    textBoxX = tempX;
-    textBoxY = tempY;
-    textSize = tempSize;
-    framesPerChar = tempFramesPerChar;
-  }
+
 
 
 
@@ -64,9 +65,16 @@ class Textbox {
           currentChar++;
         }
       }
+      rectMode(CENTER);
+      fill(20);
+      strokeWeight(textStroke);
+      rect(textBoxX, textBoxY, textBoxW, textBoxH, 7);
       // Set the size
       textSize(textSize);
+      fill(255);
       // Display the current text at the position
-      text(currentText, textBoxX, textBoxY);    }
+      rectMode(CORNER);
+      text(currentText, textX, textY);
+    }
   }
 }
