@@ -23,8 +23,8 @@ class Object {
   String noHighlightImage;
   String highlightImage;
   boolean highlightObject;
-  
- 
+
+
 
 
   ///////////////////// CONSTRUCTOR //////////////////////
@@ -70,7 +70,8 @@ class Object {
   // 'i' while the object is highlighted
   //The desigated textBox will provide information about the object interacted with
   void interact(Sprite puppet, Textbox popup) {
-    if (key == 'i' && talkObject) {
+    if (keyPressed && key =='i' && talkObject) {
+      println("key is being pressed");
       popup.textAppear = true;
     }
   }
@@ -78,14 +79,13 @@ class Object {
 
   void display() {
     imageMode(CENTER);
-    if (!highlightObject){
+    if (!highlightObject) {
       objectImage = loadImage(noHighlightImage);
-    image(objectImage, objectX, objectY, objectWidth, objectHeight);
+      image(objectImage, objectX, objectY, objectWidth, objectHeight);
+    } else if (highlightObject) {
+      objectImage = loadImage(highlightImage);
+      println("The object is highlighted");
+      image(objectImage, objectX, objectY, objectWidth, objectHeight);
+    }
   }
-  else if(highlightObject){
-    objectImage = loadImage(highlightImage);
-    println("The object is highlighted");
-    image(objectImage, objectX, objectY, objectWidth, objectHeight);
-  }
-}
 }
