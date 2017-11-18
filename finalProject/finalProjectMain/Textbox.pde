@@ -68,11 +68,15 @@ class Textbox {
           currentChar++;
         }
       }
-      //Added a rectangle to hold the text.
-      //It will most likely be replaced with an image later.
+      //Check to see if the text should appear, in other words, whether the sprite has interacted with an object or not
       if (textAppear){
+        //If so then, display the textBox
+        
+        //Added a rectangle to hold the text.
+      //It will most likely be replaced with an image later.
       rectMode(CENTER);
       fill(20);
+      //stroke of the textBox holding the text
       strokeWeight(textStroke);
       rect(textBoxX, textBoxY, textBoxW, textBoxH, 7);
       // Set the size

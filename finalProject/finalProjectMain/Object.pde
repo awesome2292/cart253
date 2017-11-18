@@ -34,6 +34,7 @@ class Object {
     useObject = tempUseObj;
     noHighlightImage = tempNoHighlight;
     highlightImage = tempHighlight;
+    objectImage = loadImage(noHighlightImage);
   }
 
 
@@ -66,12 +67,12 @@ class Object {
   //The desigated textBox will provide information about the object interacted with
   void interact(Sprite puppet, Textbox popup) {
     if (key == 'i' && talkObject) {
+      popup.textAppear = true;
     }
   }
 
 
   void display() {
-    objectImage = loadImage(noHighlightImage);
     image(objectImage, objectX, objectY, objectWidth, objectHeight);
   }
 }

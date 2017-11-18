@@ -75,10 +75,10 @@ void setup() {
   pH = 75;
   puppet = new Sprite(pX, pY, pW, pH);
   
-  chestX = width/3.5;
-  chestY = height - 30;
+  chestX = width/4.5;
+  chestY = height-height/5;
   chestW = 200;
-  chestH = 200;
+  chestH = 163;
   chestImage = "images/room1Chest.png";
   chestHighlight = "image/room1ChestHighlight.png";
   chest = new Object(chestX, chestY, chestW, chestH, true, chestImage, chestHighlight);
