@@ -153,12 +153,6 @@ void draw() {
   puppet.update();
   puppet.display();
 
-  // boxText.display();
-  //chestText.display();
-
-  //puppet.collide(room1);
-  //puppet.collide(room2);
-
   chest.highlight(puppet);
   box.highlight(puppet);
 }
