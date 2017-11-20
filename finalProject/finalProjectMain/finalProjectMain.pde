@@ -148,6 +148,13 @@ void keyReleased() {
   puppet.keyReleased();
 }
 
+
+//When the mouse is clicked, the sprite will move from the room it's in to the other room on the screen;
 void mouseClicked(){
+  if(puppet.roomIn == room1){
 puppet.roomIn = room2;
+  }
+  else if(puppet.roomIn == room2){
+   puppet.roomIn = room1; 
+  }
 }
