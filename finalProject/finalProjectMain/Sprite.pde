@@ -20,6 +20,7 @@ class Sprite {
   //Collision checker
   boolean wallCollisionUpDown;
   boolean wallCollisionLeftRight;
+  Room roomIn;
 
   //////////// CONSTRUCTOR //////////////
 
@@ -28,6 +29,8 @@ class Sprite {
     spriteY = spriteTempY;
     spriteWidth = spriteTempWidth;
     spriteHeight = spriteTempHeight;
+    
+   roomIn = room1;
 
     spriteVX = 0;
     spriteVY = 0;
@@ -45,8 +48,14 @@ class Sprite {
     spriteY += spriteVY;
 
     // Constrain the Sprite's x and y position to remain in the window
-    spriteY = constrain(spriteY, 0, height - spriteHeight);
-    spriteX = constrain(spriteX, 0, width - spriteWidth);
+   // spriteY = constrain(spriteY, 0, height - spriteHeight);
+   // spriteX = constrain(spriteX, 0, width - spriteWidth);
+   
+   
+   spriteY = constrain(spriteY, roomIn.roomY + roomIn.strokeThickness, roomIn.roomY + roomIn.roomHeight - spriteHeight);
+  // println("spriteY:" + spriteY);
+  // println("roomY: "+roomIn.roomY);
+   spriteX = constrain(spriteX, roomIn.roomX + roomIn.strokeThickness, roomIn.roomX + roomIn.roomWidth - spriteWidth);
   }
 
 
@@ -57,6 +66,13 @@ class Sprite {
     if (keyCode == UP) {
       // If so, the sprite moves upwards with a negative Y velocity
       spriteVY = -speed;
+      //println("bkajdbgkzjdngkz");
+     /* if (wallCollisionUpDown) {
+        //println("bkajdbgkzjdngkz");
+        spriteVY = 0;
+      } else if (wallCollisionLeftRight) {
+        spriteVX = 0;
+      }*/
     } // Otherwise check if the DOWN key is pressed 
     else if (keyCode == DOWN) {
       // If so, the sprite moves downwards with a positive Y velocity
@@ -72,14 +88,18 @@ class Sprite {
     else if (keyCode == RIGHT) {
       // If so, the sprite moves to the right with a positive X velocity
       spriteVX = speed;
-    } else if (wallCollisionUpDown) {
-      spriteVY = 0;
-    } else if (wallCollisionLeftRight) {
-      spriteVX = 0;
+     /* if (wallCollisionUpDown) {
+        spriteVY = 0;
+      } else if (wallCollisionLeftRight) {
+        spriteVX = 0;
+      }*/
     }
     //On the other hand, check if the I key is pressed (I for Interaction)
-    else if (key == 'i' && talkObject){
-     textAppear = true; 
+    else if (key == 'i' && talkObject) {
+      textAppear = true;
+    } else if (key == 'i' && talkObject && textAppear) {
+      talkObject = false;
+      textAppear = false;
     }
   }
 
@@ -114,13 +134,14 @@ class Sprite {
 
   void collide(Room wall) {
     // Calculate possible overlaps with the wall side by side
-    boolean insideLeft = (spriteX <= wall.roomX + wall.strokeThickness && spriteX >= wall.roomX);
-    boolean insideRight = (spriteX >= wall.roomWidth - wall.strokeThickness*2 && spriteX <= wall.roomX + wall.roomWidth);
-    boolean insideBottom = (spriteY + spriteWidth/2 >= wall.roomY + wall.roomHeight - wall.strokeThickness*2 && spriteY + spriteWidth/2 <= wall.roomY + wall.roomHeight + wall.strokeThickness*2);
-    boolean insideTop = (spriteY - spriteWidth/2 <= wall.roomY && spriteY - spriteWidth/2 >= wall.roomY);
+   /* boolean insideLeft = (spriteX <= wall.roomX + wall.strokeThickness && spriteX >= wall.roomX);
+    boolean insideRight = (spriteX >= wall.roomWidth - wall.strokeThickness && spriteX <= wall.roomX + wall.roomWidth);
+    boolean insideBottom = (spriteY + spriteHeight/2 >= wall.roomY + wall.roomHeight - wall.strokeThickness);// && spriteY + spriteWidth/2 <= wall.roomY + wall.roomHeight + wall.strokeThickness*2);
+    boolean insideTop = (spriteY - spriteHeight/2  <= wall.roomY + wall.strokeThickness*2);// && spriteY - spriteWidth/2 >= wall.roomY);
+    println(insideTop);*/
 
     // Check if the sprite overlaps with the wall
-    if (insideLeft && spriteVX <= 0) {
+   /* if (insideLeft && spriteVX <= 0) {
       // If it was moving to the left
       //then stop
       spriteVX = 0;
@@ -138,9 +159,10 @@ class Sprite {
       spriteY -=10;
       wallCollisionUpDown = true;
     } else if (insideTop && spriteVY >= 0) {
+      println("top wall");
       //then stop
       spriteVY = 0;
-      spriteY +=10;
+      spriteY += 10;
       wallCollisionUpDown = true;
     } else {
       wallCollisionLeftRight = false;
@@ -149,7 +171,7 @@ class Sprite {
 
     //println("The top coordinate I wrote is " + (wall.roomY + wall.roomHeight - wall.strokeThickness*2));
     //println("The bottom coordinate I wrote is " + (wall.roomY + wall.roomHeight + wall.strokeThickness*2));
-    //println("The actual y value is " + (spriteY + spriteWidth/2));
+    //println("The actual y value is " + (spriteY + spriteWidth/2));*/
   }
   ///////// End of collide(Paddle paddle) ////////  
 

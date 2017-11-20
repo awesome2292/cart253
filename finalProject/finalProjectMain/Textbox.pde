@@ -57,7 +57,7 @@ class Textbox {
   // over time to display each character one at a time.
   void display() {
     // Make sure there's a text to display
-    if (textContent != "" && talkObject) {
+    if (textContent != "" && textAppear) {
       // Check if this frame is a multiple of our frame rate
       if (frameCount % framesPerChar == 0) {
         // Check whether there are more characters to display
@@ -86,6 +86,9 @@ class Textbox {
       // Display the current text at the position
       rectMode(CORNER);
       text(currentText, textX, textY, textBoxW-textStroke*3, textBoxH-textStroke*3);
+      }
+      else if(!textAppear){
+        
       }
     }
   }

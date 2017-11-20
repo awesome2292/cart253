@@ -64,8 +64,8 @@ Textbox testText;
 //////////////// SETUP /////////////////////
 //the game will be in full screen, with a black background
 void setup() {
-  fullScreen();
-  //size(500,500);
+ // fullScreen();
+  size(500,500);
   background(0);
 
   //room1
@@ -76,24 +76,26 @@ void setup() {
   room1 = new Room(r1X, r1Y, r1W, r1H);
 
   //room2
-  r2X = 0;
-  r2Y = 0;
+  r2X = width/2;
+  r2Y = height/2;
   r2W = width/3;
   r2H = height/2;
   room2 = new Room(r2X, r2Y, r2W, r2H);
 
   //sprite
-  pX = width/4;
-  pY = 2*height/3;
-  pW = 50;
-  pH = 75;
+  //pX = width/4;
+  //pY = 2*height/3;
+  pX = 50;
+  pY = height-50;
+  pW = (width/height)*25;
+  pH = (width/height)*35;
   puppet = new Sprite(pX, pY, pW, pH);
 
   //chest object
   chestX = width/4.5;
   chestY = height-height/5;
-  chestW = 200;
-  chestH = 163;
+  chestW = (width/height)*100;
+  chestH = (width/height)*70;
   chestImage = "images/room1Chest.jpg";
   chestHighlight = "images/room1ChestHighlight.jpg";
   chest = new Object(chestX, chestY, chestW, chestH, true, chestImage, chestHighlight);
@@ -101,8 +103,8 @@ void setup() {
   //box object
   boxX = width/10;
   boxY = height-height/5;
-  boxW = 200;
-  boxH = 181;
+  boxW = (width/height)*100;
+  boxH = (width/height)*80;
   boxImage = "images/room1Box.jpg";
   boxHighlight = "images/room1BoxHighlight.jpg";
   box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight);
@@ -130,8 +132,8 @@ void draw() {
 
   testText.display();
 
-  puppet.collide(room1);
-  puppet.collide(room2);
+  //puppet.collide(room1);
+  //puppet.collide(room2);
 
   chest.highlight(puppet);
   box.highlight(puppet);
@@ -144,4 +146,8 @@ void keyPressed() {
 
 void keyReleased() {
   puppet.keyReleased();
+}
+
+void mouseClicked(){
+puppet.roomIn = room2;
 }
