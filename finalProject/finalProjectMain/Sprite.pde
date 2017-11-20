@@ -77,6 +77,10 @@ class Sprite {
     } else if (wallCollisionLeftRight) {
       spriteVX = 0;
     }
+    //On the other hand, check if the I key is pressed (I for Interaction)
+    else if (key == 'i' && talkObject){
+     textAppear = true; 
+    }
   }
 
 

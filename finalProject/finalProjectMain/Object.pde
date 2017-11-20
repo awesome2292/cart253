@@ -16,8 +16,8 @@ class Object {
   float objectWidth;
   float objectHeight;
   //interaction type
-  boolean useObject;
-  boolean talkObject;
+  //boolean useObject;
+  //boolean talkObject;
   //image of the object
   PImage objectImage;
   String noHighlightImage;
@@ -69,12 +69,12 @@ class Object {
   //This function allows the textBox to appear when the player presses the action button
   // 'i' while the object is highlighted
   //The desigated textBox will provide information about the object interacted with
-  void interact(Sprite puppet, Textbox popup) {
-    if (keyPressed && key =='i' && talkObject) {
-      println("key is being pressed");
-      popup.textAppear = true;
-    }
-  }
+  //void interact(Sprite puppet, Textbox popup) {
+  //  if (keyPressed && key =='i' && talkObject) {
+  //    println("key is being pressed");
+  //    textAppear = true;
+  //  }
+  //}
 
 
   void display() {

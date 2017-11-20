@@ -31,7 +31,7 @@ class Textbox {
   PFont textFont = loadFont("AmaticSC-Bold-60.vlw");
   
   //Boolean determining if the textbox should appear or not
-  boolean textAppear;
+ // boolean textAppear;
 
   //////////////////////// CONSTRUCTOR //////////////////////
 
@@ -57,7 +57,7 @@ class Textbox {
   // over time to display each character one at a time.
   void display() {
     // Make sure there's a text to display
-    if (textContent != "") {
+    if (textContent != "" && talkObject) {
       // Check if this frame is a multiple of our frame rate
       if (frameCount % framesPerChar == 0) {
         // Check whether there are more characters to display

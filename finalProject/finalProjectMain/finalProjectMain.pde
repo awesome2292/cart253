@@ -34,6 +34,8 @@ float chestW;
 float chestH;
 String chestImage;
 String chestHighlight;
+boolean useObject;
+boolean talkObject = false;
 
 float boxX;
 float boxY;
@@ -41,6 +43,7 @@ float boxW;
 float boxH;
 String boxImage;
 String boxHighlight;
+boolean textAppear = false;
 
 
 //////////////// CLASSES ////////////////////
@@ -85,7 +88,7 @@ void setup() {
   pW = 50;
   pH = 75;
   puppet = new Sprite(pX, pY, pW, pH);
-  
+
   //chest object
   chestX = width/4.5;
   chestY = height-height/5;
@@ -94,7 +97,7 @@ void setup() {
   chestImage = "images/room1Chest.jpg";
   chestHighlight = "images/room1ChestHighlight.jpg";
   chest = new Object(chestX, chestY, chestW, chestH, true, chestImage, chestHighlight);
-  
+
   //box object
   boxX = width/10;
   boxY = height-height/5;
@@ -103,10 +106,9 @@ void setup() {
   boxImage = "images/room1Box.jpg";
   boxHighlight = "images/room1BoxHighlight.jpg";
   box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight);
-  
+
   testText = new Textbox();
   testText.setText("This is a test to see if I write a bunch of words whether or not it will go off the screen and continue into the endless abyss that is the processing canvas or if it will simply go to the next line as hoped -- It seems that is works!!!");
-  
 }
 
 
@@ -119,22 +121,20 @@ void draw() {
   background(0);
   room1.display();
   room2.display();
-  
+
   chest.display();
   box.display();
-  
+
   puppet.update();
   puppet.display();
-  
+
   testText.display();
 
   puppet.collide(room1);
   puppet.collide(room2);
-  
+
   chest.highlight(puppet);
   box.highlight(puppet);
-  
-  
 }
 
 
