@@ -11,58 +11,40 @@
 
 //////////////// VARIABLES ///////////////////
 //Room Variables
-float r1X;
-float r1Y;
-float r1W;
-float r1H;
-
-float r2X;
-float r2Y;
-float r2W;
-float r2H;
+float r1X, r1Y, r1W, r1H;
+float r2X, r2Y, r2W, r2H;
+float r3X, r3Y, r3W, r3H;
+float r4X, r4Y, r4W, r4H;
+float r5X, r5Y, r5W, r5H;
+float r6X, r6Y, r6W, r6H;
 
 //Sprite Variables
-float pX;
-float pY;
-float pW;
-float pH;
+float pX, pY, pW, pH;
+
 
 //Object Variables
+boolean talkObject = false;
+
 
 //Room 1 Objects
 //chest
-float chestX;
-float chestY;
-float chestW;
-float chestH;
-String chestImage;
-String chestHighlight;
+float chestX, chestY, chestW, chestH;
+String chestImage, chestHighlight, chestInfo;
 boolean useObject;
-String chestInfo;
-boolean talkObject = false;
 
 //carboard box
-float boxX;
-float boxY;
-float boxW;
-float boxH;
-String boxImage;
-String boxHighlight;
-String boxInfo;
+float boxX, boxY, boxW, boxH;
+String boxImage, boxHighlight, boxInfo;
 boolean textAppear = false;
 
 
 //////////////// CLASSES ////////////////////
-Room room1;
-Room room2;
+Room room1, room2, room3, room4, room5, room6;
 
 Sprite puppet;
 
-Object chest;
-Object box;
+Object chest, box;
 
-//Textbox boxText;
-//Textbox chestText;
 
 
 
@@ -72,32 +54,63 @@ Object box;
 //the game will be in full screen, with a black background
 void setup() {
   fullScreen();
-  //size(500,500);
+  //size(1000,1000);
   background(0);
 
+  ////////////// ROOMS /////////////
   //room1
   r1X = 0;
   r1Y =  height/2;
-  r1W = width/3;
+  r1W = width/4;
   r1H = height/2;
   room1 = new Room(r1X, r1Y, r1W, r1H);
 
   //room2
   r2X = r1W;
   r2Y = height/2;
-  r2W = width/3;
+  r2W = width/2.25;
   r2H = height/2;
   room2 = new Room(r2X, r2Y, r2W, r2H);
 
+ //room4
+  r4X = 0;
+  r4Y = 0;
+  r4W = width/4 + width/10;
+  r4H = height/2;
+  room4 = new Room(r4X, r4Y, r4W, r4H);
+
+  //room3
+  r3X = r4W;
+  r3Y = 0;
+  r3W = width/2.5;
+  r3H = height/2;
+  room3 = new Room(r3X, r3Y, r3W, r3H);
+
+  //room5
+  r5X = r2X + r2W;
+  r5Y =  height/2;
+  r5W = width/3.25;
+  r5H = height/2;
+  room5 = new Room(r5X, r5Y, r5W, r5H);
+
+  //room6
+  r6X = r3X + r3W;
+  r6Y = 0;
+  r6W = width/4;
+  r6H = height/2;
+  room6 = new Room(r6X, r6Y, r6W, r6H);
+
+
+  //////////// SPRITE /////////////
   //sprite
-  //pX = width/4;
-  //pY = 2*height/3;
-  pX = 50;
-  pY = height-50;
+  pX = 20;
+  pY = height - 50;
   pW = (width/height)*25;
   pH = (width/height)*35;
   puppet = new Sprite(pX, pY, pW, pH);
 
+
+  ////////// OBJECTS ////////////
   //chest object
   chestX = width/4.5;
   chestY = height-height/5;
@@ -117,12 +130,6 @@ void setup() {
   boxHighlight = "images/room1BoxHighlight.jpg";
   boxInfo = "This is a carboard box.";
   box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, boxInfo);
-
- /* boxText = new Textbox();
-  boxText.setText(box);
-
-  chestText = new Textbox();
-  chestText.setText(chest);*/
 }
 
 
@@ -135,6 +142,10 @@ void draw() {
   background(0);
   room1.display();
   room2.display();
+  room3.display();
+  room4.display();
+  room5.display();
+  room6.display();
 
   chest.display();
   box.display();
@@ -142,7 +153,7 @@ void draw() {
   puppet.update();
   puppet.display();
 
- // boxText.display();
+  // boxText.display();
   //chestText.display();
 
   //puppet.collide(room1);
@@ -154,7 +165,7 @@ void draw() {
 
 
 void keyPressed() {
-  
+
   if (key == 'i') {
     textAppear = !textAppear;
   }
