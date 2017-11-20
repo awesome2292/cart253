@@ -80,13 +80,13 @@ class Sprite {
     
     
     //On the other hand, check if the I key is pressed (I for Interaction)
-    else if (key == 'i' && talkObject) {
+   /* else if (key == 'i' && talkObject) {
       textAppear = true;
       //If the textbox is already displayed, press the I key to remove it
     } else if (key == 'i' && talkObject && textAppear) {
       talkObject = false;
       textAppear = false;
-    }
+    }*/
   }
 
 

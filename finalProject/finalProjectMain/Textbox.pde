@@ -30,25 +30,26 @@ class Textbox {
   int textSize = 40;
   PFont textFont = loadFont("AmaticSC-Bold-60.vlw");
   
-  //Boolean determining if the textbox should appear or not
- // boolean textAppear;
+Object talk;
 
   //////////////////////// CONSTRUCTOR //////////////////////
 
   // Takes the position of the text, the size of the text, and the
   // number of frames between characters displaying
-
+Textbox(){
+  talk = box;
+}
 
 
 
   ///////////////////// FUNCTIONS //////////////////////////
 
   // This function will set the text for this Typewriter to display
-  void setText(String tempText) {
+  void setText(String talk) {
     // Reset the currentText to be empty
     currentText = "";
     // Store the text to display
-    textContent = tempText;
+    textContent = talk;
   }
 
 
@@ -87,9 +88,9 @@ class Textbox {
       rectMode(CORNER);
       text(currentText, textX, textY, textBoxW-textStroke*3, textBoxH-textStroke*3);
       }
-      else if(!textAppear){
+      
+    } else if(!textAppear){
         
       }
-    }
   }
 }

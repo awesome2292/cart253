@@ -28,6 +28,9 @@ float pW;
 float pH;
 
 //Object Variables
+
+//Room 1 Objects
+//chest
 float chestX;
 float chestY;
 float chestW;
@@ -35,14 +38,17 @@ float chestH;
 String chestImage;
 String chestHighlight;
 boolean useObject;
+String chestInfo;
 boolean talkObject = false;
 
+//carboard box
 float boxX;
 float boxY;
 float boxW;
 float boxH;
 String boxImage;
 String boxHighlight;
+String boxInfo;
 boolean textAppear = false;
 
 
@@ -55,7 +61,8 @@ Sprite puppet;
 Object chest;
 Object box;
 
-Textbox testText;
+//Textbox boxText;
+//Textbox chestText;
 
 
 
@@ -64,8 +71,8 @@ Textbox testText;
 //////////////// SETUP /////////////////////
 //the game will be in full screen, with a black background
 void setup() {
- // fullScreen();
-  size(500,500);
+  fullScreen();
+  //size(500,500);
   background(0);
 
   //room1
@@ -76,7 +83,7 @@ void setup() {
   room1 = new Room(r1X, r1Y, r1W, r1H);
 
   //room2
-  r2X = width/2;
+  r2X = r1W;
   r2Y = height/2;
   r2W = width/3;
   r2H = height/2;
@@ -98,7 +105,8 @@ void setup() {
   chestH = (width/height)*70;
   chestImage = "images/room1Chest.jpg";
   chestHighlight = "images/room1ChestHighlight.jpg";
-  chest = new Object(chestX, chestY, chestW, chestH, true, chestImage, chestHighlight);
+  chestInfo = "This chest is locked.";
+  chest = new Object(chestX, chestY, chestW, chestH, true, chestImage, chestHighlight, chestInfo);
 
   //box object
   boxX = width/10;
@@ -107,10 +115,14 @@ void setup() {
   boxH = (width/height)*80;
   boxImage = "images/room1Box.jpg";
   boxHighlight = "images/room1BoxHighlight.jpg";
-  box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight);
+  boxInfo = "This is a carboard box.";
+  box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, boxInfo);
 
-  testText = new Textbox();
-  testText.setText("This is a test to see if I write a bunch of words whether or not it will go off the screen and continue into the endless abyss that is the processing canvas or if it will simply go to the next line as hoped -- It seems that is works!!!");
+ /* boxText = new Textbox();
+  boxText.setText(box);
+
+  chestText = new Textbox();
+  chestText.setText(chest);*/
 }
 
 
@@ -130,7 +142,8 @@ void draw() {
   puppet.update();
   puppet.display();
 
-  testText.display();
+ // boxText.display();
+  //chestText.display();
 
   //puppet.collide(room1);
   //puppet.collide(room2);
@@ -142,6 +155,10 @@ void draw() {
 
 void keyPressed() {
   puppet.keyPressed();
+  
+  if (key == 'i') {
+    textAppear = !textAppear;
+  }
 }
 
 void keyReleased() {
@@ -150,11 +167,10 @@ void keyReleased() {
 
 
 //When the mouse is clicked, the sprite will move from the room it's in to the other room on the screen;
-void mouseClicked(){
-  if(puppet.roomIn == room1){
-puppet.roomIn = room2;
-  }
-  else if(puppet.roomIn == room2){
-   puppet.roomIn = room1; 
+void mouseClicked() {
+  if (puppet.roomIn == room1) {
+    puppet.roomIn = room2;
+  } else if (puppet.roomIn == room2) {
+    puppet.roomIn = room1;
   }
 }

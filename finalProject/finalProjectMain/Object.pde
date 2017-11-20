@@ -15,29 +15,34 @@ class Object {
   //object dimmensions
   float objectWidth;
   float objectHeight;
-  //interaction type
-  //boolean useObject;
-  //boolean talkObject;
+
   //image of the object
   PImage objectImage;
   String noHighlightImage;
   String highlightImage;
   boolean highlightObject;
+  
+  //information about the object
+  String objectInfo;
+  Textbox textbox;
 
 
 
 
   ///////////////////// CONSTRUCTOR //////////////////////
   //Each object will have different locations, dimmensions, interaction types, and images
-  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempUseObj, String tempNoHighlight, String tempHighlight) {
+  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempUseObj, String tempNoHighlight, String tempHighlight, String tempObjectInfo) {
     objectX = tempObjX;
     objectY = tempObjY;
     objectWidth = tempObjW;
     objectHeight = tempObjH;
     useObject = tempUseObj;
+    objectInfo = tempObjectInfo;
     noHighlightImage = tempNoHighlight;
     highlightImage = tempHighlight;
     objectImage = loadImage(noHighlightImage);
+    textbox = new Textbox();
+    textbox.setText(tempObjectInfo);
   }
 
 
@@ -59,6 +64,7 @@ class Object {
       highlightObject = true; 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
+      textbox.display();
     } else {
       highlightObject = false;
       talkObject = false;
@@ -69,12 +75,12 @@ class Object {
   //This function allows the textBox to appear when the player presses the action button
   // 'i' while the object is highlighted
   //The desigated textBox will provide information about the object interacted with
-  //void interact(Sprite puppet, Textbox popup) {
-  //  if (keyPressed && key =='i' && talkObject) {
-  //    println("key is being pressed");
-  //    textAppear = true;
-  //  }
-  //}
+  //void keyPressed() {
+  //  if (key =='i' && talkObject) {
+  ////    println("key is being pressed");
+  ////    textAppear = true;
+  ////  }
+  ////}
 
 
   void display() {
@@ -84,7 +90,6 @@ class Object {
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
     } else if (highlightObject) {
       objectImage = loadImage(highlightImage);
-      println("The object is highlighted");
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
     }
   }
