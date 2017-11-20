@@ -154,7 +154,6 @@ void draw() {
 
 
 void keyPressed() {
-  puppet.keyPressed();
   
   if (key == 'i') {
     textAppear = !textAppear;

@@ -12,12 +12,17 @@ class Sprite {
   //Sprite velocity
   float spriteVX;
   float spriteVY;
-  float speed = 10;
+  float speed = 5;
+  float friction = 0.9;
+  //Accelaration
+  float spriteAX;
+  float spriteAY;
+  float acceleration = 7;
   //Sprite Size
   float spriteWidth;
   float spriteHeight;
   PImage sprite;
- 
+
   Room roomIn;
 
   //////////// CONSTRUCTOR //////////////
@@ -27,8 +32,8 @@ class Sprite {
     spriteY = spriteTempY;
     spriteWidth = spriteTempWidth;
     spriteHeight = spriteTempHeight;
-    
-   roomIn = room1;
+
+    roomIn = room1;
 
     spriteVX = 0;
     spriteVY = 0;
@@ -43,74 +48,66 @@ class Sprite {
   //The coordinates of the sprite are constrained
   void update() {
     // Update position with velocity to move the Sprite
-    spriteX += spriteVX;
-    spriteY += spriteVY;
-   
-   //The sprite is constrained to the borders of the room it's in
-   spriteY = constrain(spriteY, roomIn.roomY + roomIn.strokeThickness, roomIn.roomY + roomIn.roomHeight - spriteHeight);;
-   spriteX = constrain(spriteX, roomIn.roomX + roomIn.strokeThickness, roomIn.roomX + roomIn.roomWidth - spriteWidth);
-  }
 
 
-
-
-  //keyPressed() allows the sprite to move around the house
-  void keyPressed() {
+    //keyPressed() allows the sprite to move around the house
     // Check if the UP key is pressed
-    if (keyCode == UP) {
-      // If so, the sprite moves upwards with a negative Y velocity
-      spriteVY = -speed;
+    if (keyPressed) {
+      if (keyCode == UP) {
+        // If so, the sprite moves upwards with a negative Y velocity
+        spriteAY = -acceleration;
+      } // Otherwise check if the DOWN key is pressed 
+      else if (keyCode == DOWN) {
+        // If so, the sprite moves downwards with a positive Y velocity
 
-    } // Otherwise check if the DOWN key is pressed 
-    else if (keyCode == DOWN) {
-      // If so, the sprite moves downwards with a positive Y velocity
-      spriteVY = speed;
-    }
-    //Check if the LEFT key is pressed
-    else if (keyCode == LEFT) {
-      // If so, the sprite moves to the left with a negative X velocity
-      spriteVX = -speed;
+        spriteAY = acceleration;
+      }
 
+      //Check if the LEFT key is pressed
+      if (keyCode == LEFT) {
+        // If so, the sprite moves to the left with a negative X velocity
+
+        spriteAX = -acceleration;
+      }
+      //Otherwise check if the RIGHT key is pressed
+      else if (keyCode == RIGHT) {
+        // If so, the sprite moves to the right with a positive X velocity
+        spriteAX = acceleration;
+      }
     }
-    //Otherwise check if the RIGHT key is pressed
-    else if (keyCode == RIGHT) {
-      // If so, the sprite moves to the right with a positive X velocity
-      spriteVX = speed;
-    }
+
+
+      spriteVX += spriteAX;
+      spriteVY += spriteAY;
+
+      spriteVX *= friction;
+      spriteVY *= friction;
+
+      spriteX += spriteVX;
+      spriteY += spriteVY;
+
+      //The sprite is constrained to the borders of the room it's in
+      spriteY = constrain(spriteY, roomIn.roomY + roomIn.strokeThickness, roomIn.roomY + roomIn.roomHeight - spriteHeight);
+      
+      spriteX = constrain(spriteX, roomIn.roomX + roomIn.strokeThickness, roomIn.roomX + roomIn.roomWidth - spriteWidth);
+
+      spriteVX = constrain(spriteVX, -speed, speed);
+      spriteVY = constrain(spriteVY, -speed, speed);
     
-    
-    //On the other hand, check if the I key is pressed (I for Interaction)
-   /* else if (key == 'i' && talkObject) {
-      textAppear = true;
-      //If the textbox is already displayed, press the I key to remove it
-    } else if (key == 'i' && talkObject && textAppear) {
-      talkObject = false;
-      textAppear = false;
-    }*/
+
   }
 
 
-//keyReleased() function
+  //keyReleased() function
   void keyReleased() {
-    // Check if the UP key is pressed while the sprite is moving up
-    if (keyCode == UP && spriteVY < 0) {
-      // If so it should stop
-      spriteVY = 0;
-    } // Otherwise check if the DOWN key is pressed while the sprite is moving down 
-    else if (keyCode == DOWN && spriteVY > 0) {
-      // If so it should stop
-      spriteVY = 0;
+    if (keyCode == UP || keyCode == DOWN) {
+      spriteAY = 0;
     }
-    // Check if the LEFT key is pressed while the sprite is moving left
-    if (keyCode == LEFT && spriteVX < 0) {
-      // If so it should stop
-      spriteVX = 0;
-    } // Otherwise check if the RIGHT key is pressed while sprite is moving right
-    else if (keyCode == RIGHT && spriteVX > 0) {
-      // If so it should stop
-      spriteVX = 0;
+    if (keyCode == LEFT || keyCode == RIGHT) {
+      spriteAX = 0;
     }
   }
+
 
 
 

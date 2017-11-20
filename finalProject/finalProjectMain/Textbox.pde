@@ -57,7 +57,8 @@ Textbox(){
   // position given and at the size given, and updates the text
   // over time to display each character one at a time.
   void display() {
-    // Make sure there's a text to display
+    // Make sure there's a text to display, and that the text box is visible
+    //so that the typewriter doesn't run behind the scenes
     if (textContent != "" && textAppear) {
       // Check if this frame is a multiple of our frame rate
       if (frameCount % framesPerChar == 0) {
@@ -90,7 +91,8 @@ Textbox(){
       }
       
     } else if(!textAppear){
-        
+        currentChar = 0;
+        currentText = "";
       }
   }
 }
