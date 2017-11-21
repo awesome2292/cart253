@@ -18,17 +18,21 @@ class Room {
   //the color of the "walls" of the room as well as their thickness
   float strokeColor = 50;
   float strokeThickness = 30;
-
+  //the image of the room
+  PImage roomBackground;
+  String roomImage;
 
 
   //////////////// CONSTRUCTOR //////////////////
   //Each room will have varying positions and sizes
   //Will add an image argument after once they have been made
-  Room(float roomTempX, float roomTempY, float roomTempWidth, float roomTempHeight) {
+  Room(float roomTempX, float roomTempY, float roomTempWidth, float roomTempHeight, String tempRoomImage) {
     roomX = roomTempX;
     roomY = roomTempY;
     roomWidth = roomTempWidth;
     roomHeight = roomTempHeight;
+    roomImage = tempRoomImage;
+
   }
 
   //////////////// FUNCTIONS ////////////////////
@@ -39,9 +43,13 @@ class Room {
 
 
   void display() {
+    imageMode(CORNER);
+    roomBackground = loadImage(roomImage);
     noFill();
     stroke(strokeColor);
     strokeWeight(strokeThickness);
     rect(roomX, roomY, roomWidth, roomHeight);
+    image(roomBackground, roomX, roomY, roomWidth, roomHeight);
+
   }
 }
