@@ -17,7 +17,7 @@ class Textbox {
   int currentChar = 0;
   // How many frames between characters displayed
   float framesPerChar = 0.25;
-  
+
 
   // Position and size
   float textBoxX = width/2;
@@ -29,16 +29,15 @@ class Textbox {
   float textY = textBoxY - textBoxH/2 + textStroke*3;
   int textSize = 40;
   PFont textFont = loadFont("AmaticSC-Bold-60.vlw");
-  
-Object talk;
+
+  Object talk;
 
   //////////////////////// CONSTRUCTOR //////////////////////
 
-  // Takes the position of the text, the size of the text, and the
-  // number of frames between characters displaying
-Textbox(){
-  talk = box;
-}
+  // Takes the content of the text from the corresponding object
+  Textbox() {
+    talk = box;
+  }
 
 
 
@@ -71,29 +70,28 @@ Textbox(){
         }
       }
       //Check to see if the text should appear, in other words, whether the sprite has interacted with an object or not
-      if (textAppear){
+      if (textAppear) {
         textBoxOn = true;
         //If so then, display the textBox
         //Added a rectangle to hold the text.
-      //It will most likely be replaced with an image later.
-      rectMode(CENTER);
-      fill(20);
-      //stroke of the textBox holding the text
-      strokeWeight(textStroke);
-      rect(textBoxX, textBoxY, textBoxW, textBoxH, 7);
-      // Set the size
-      textSize(textSize);
-      textFont(textFont);
-      fill(255);
-      // Display the current text at the position
-      rectMode(CORNER);
-      text(currentText, textX, textY, textBoxW-textStroke*3, textBoxH-textStroke*3);
+        //It will most likely be replaced with an image later.
+        rectMode(CENTER);
+        fill(20);
+        //stroke of the textBox holding the text
+        strokeWeight(textStroke);
+        rect(textBoxX, textBoxY, textBoxW, textBoxH, 7);
+        // Set the size
+        textSize(textSize);
+        textFont(textFont);
+        fill(255);
+        // Display the current text at the position
+        rectMode(CORNER);
+        text(currentText, textX, textY, textBoxW-textStroke*3, textBoxH-textStroke*3);
       }
-      
-    } else if(!textAppear){
+    } else if (!textAppear) {
       textBoxOn = false;
-        currentChar = 0;
-        currentText = "";
-      }
+      currentChar = 0;
+      currentText = "";
+    }
   }
 }

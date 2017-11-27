@@ -21,7 +21,8 @@ class Object {
   String noHighlightImage;
   String highlightImage;
   boolean highlightObject;
-  
+
+
   //information about the object
   String objectInfo;
   Textbox textbox;
@@ -81,9 +82,9 @@ class Object {
   ////    textAppear = true;
   ////  }
   ////}
-void displayText(){
- textbox.display();
-}
+  void displayText() {
+    textbox.display();
+  }
 
   void display() {
     imageMode(CENTER);

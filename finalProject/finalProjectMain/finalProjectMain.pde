@@ -54,6 +54,9 @@ Sprite puppet;
 Object[] stuff;
 Object chest, box;
 
+Door door0Right, door1Left, door1Right;
+boolean nextToDoor = false;
+
 
 ////////////// GLOBAL VARIABLES /////////////
 Room roomIn;
@@ -66,8 +69,8 @@ Room roomIn;
 //////////////// SETUP /////////////////////
 //the game will be in full screen, with a black background
 void setup() {
-  fullScreen();
-  //size(1000,1000);
+ //fullScreen();
+  size(1000,1000);
   background(0);
 
   ////////////// ROOMS /////////////
@@ -119,7 +122,9 @@ void setup() {
   r2H = height/2;
   r2Image = "images/room1bg.jpg";
   rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, stuff);
-
+  
+  door0Right = new Door(rooms[0], rooms[1]);
+  
   ////room4
   //r4X = 0;
   //r4Y = 0;
@@ -183,11 +188,15 @@ void draw() {
     }
   }
 
+door0Right.display();
+
   for (int i = 0; i < rooms.length; i++) {
     if (roomIn == rooms[i]) {
       rooms[i].displayText();
     }
   }
+  
+  
 
   if (!textBoxOn) {
     puppet.update();

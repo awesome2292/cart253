@@ -22,10 +22,11 @@ class Room {
   PImage roomBackground;
   String roomImage;
   String roomImageDark;
-  
+
+
   //Outer variables
   Object[] things;
-
+  Door doors;
 
   //////////////// CONSTRUCTOR //////////////////
   //Each room will have varying positions and sizes
@@ -41,17 +42,9 @@ class Room {
 
   //////////////// FUNCTIONS ////////////////////
 
-  ////not sure if I'll need and update function...
-  //void update(Room room) {
-  //  if(roomIn == room){
-  //   display(); 
-  //  }
-  //  else{
-  //   darkDisplay(); 
-  //  }
-  //}
-
-
+  //display() function will display the room with it's
+  //corresponding image, as well as a stroke surrounding the image
+  //to create a wall
   void display() {
     imageMode(CORNER);
     roomBackground = loadImage(roomImage);
@@ -60,28 +53,31 @@ class Room {
     strokeWeight(strokeThickness);
     image(roomBackground, roomX, roomY, roomWidth, roomHeight);
     rect(roomX, roomY, roomWidth, roomHeight);
-    
-    for (int i = 0; i < things.length ; i++){
-  things[i].display();
-  things[i].highlight(puppet);
-}
 
+    //the objects will also be displayed within their corresponding room
+    for (int i = 0; i < things.length; i++) {
+      things[i].display();
+      things[i].highlight(puppet);
+    }
   }
 
+
+  //darkDisplay() function will remove the display of the room when
+  //the sprite is no longer inside it
   void darkDisplay() {
     rectMode(CORNER);
     noFill();
     stroke(strokeColor);
     strokeWeight(strokeThickness);
     rect(roomX, roomY, roomWidth, roomHeight);
- 
   }
-  
-  void displayText(){
-    for (int i = 0 ; i < things.length; i++){
-    if (things[i].highlightObject){
-      things[i].displayText();
-    }
+
+  //the text box will be displayed on top of everything else
+  void displayText() {
+    for (int i = 0; i < things.length; i++) {
+      if (things[i].highlightObject) {
+        things[i].displayText();
+      }
     }
   }
 }
