@@ -23,7 +23,6 @@ class Sprite {
   float spriteHeight;
   PImage sprite;
 
-  Room roomIn;
 
   //////////// CONSTRUCTOR //////////////
 
@@ -33,7 +32,6 @@ class Sprite {
     spriteWidth = spriteTempWidth;
     spriteHeight = spriteTempHeight;
 
-    roomIn = room1;
 
     spriteVX = 0;
     spriteVY = 0;

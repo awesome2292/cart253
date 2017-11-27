@@ -72,6 +72,7 @@ Textbox(){
       }
       //Check to see if the text should appear, in other words, whether the sprite has interacted with an object or not
       if (textAppear){
+        textBoxOn = true;
         //If so then, display the textBox
         //Added a rectangle to hold the text.
       //It will most likely be replaced with an image later.
@@ -90,6 +91,7 @@ Textbox(){
       }
       
     } else if(!textAppear){
+      textBoxOn = false;
         currentChar = 0;
         currentText = "";
       }

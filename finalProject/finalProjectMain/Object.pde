@@ -64,7 +64,7 @@ class Object {
       highlightObject = true; 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
-      textbox.display();
+      // textbox.display();
     } else {
       highlightObject = false;
       talkObject = false;
@@ -81,7 +81,9 @@ class Object {
   ////    textAppear = true;
   ////  }
   ////}
-
+void displayText(){
+ textbox.display();
+}
 
   void display() {
     imageMode(CENTER);
