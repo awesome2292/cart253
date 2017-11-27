@@ -55,12 +55,13 @@ Object[] stuff;
 Object chest, box;
 
 Door door0Right, door1Left, door1Right;
-boolean nextToDoor = false;
+
 
 
 ////////////// GLOBAL VARIABLES /////////////
 Room roomIn;
 
+boolean nextToDoor = false;
 
 
 
@@ -70,7 +71,7 @@ Room roomIn;
 //the game will be in full screen, with a black background
 void setup() {
  //fullScreen();
-  size(1000,1000);
+ size(1000,1000);
   background(0);
 
   ////////////// ROOMS /////////////
@@ -189,7 +190,7 @@ void draw() {
   }
 
 door0Right.display();
-
+door0Right.update();
   for (int i = 0; i < rooms.length; i++) {
     if (roomIn == rooms[i]) {
       rooms[i].displayText();

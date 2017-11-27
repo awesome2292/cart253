@@ -88,17 +88,19 @@ class Sprite {
 
     //if the sprite is next to the left side of the door it needs to pass through
     // the constrain will be cancelled and it will be able to pass through to the next room from the left side
-    if (spriteX > door0Right.leftDoorX1 - 100 && spriteX < door0Right.leftDoorX1 + roomIn.strokeThickness/2 && spriteY > door0Right.leftDoorY1 && spriteY < door0Right.leftDoorY2) {
-      nextToDoor = true;
-      roomIn = door0Right.room1;
-      //if the sprite is next to the right side of the door it needs to pass through
-      // the constrain will be cancelled and it will be able to pass through to the next room from the right side
-    } else if (spriteX < door0Right.rightDoorX1 + 100 && spriteX > door0Right.rightDoorX1 - roomIn.strokeThickness/2 && spriteY > door0Right.rightDoorY1 && spriteY < door0Right.rightDoorY2) {
-      nextToDoor = true;
-      roomIn = door0Right.room2;
-      //otherwise the boolean will remain false and the constrain will remain functional
-    } else {
-      nextToDoor = false;
+    if (door0Right.locked == false) {
+      if (spriteX > door0Right.leftDoorX1 - 100 && spriteX < door0Right.leftDoorX1 + roomIn.strokeThickness/2 && spriteY > door0Right.leftDoorY1 && spriteY < door0Right.leftDoorY2) {
+        nextToDoor = true;
+        roomIn = door0Right.room1;
+        //if the sprite is next to the right side of the door it needs to pass through
+        // the constrain will be cancelled and it will be able to pass through to the next room from the right side
+      } else if (spriteX < door0Right.rightDoorX1 + 100 && spriteX > door0Right.rightDoorX1 - roomIn.strokeThickness/2 && spriteY > door0Right.rightDoorY1 && spriteY < door0Right.rightDoorY2) {
+        nextToDoor = true;
+        roomIn = door0Right.room2;
+        //otherwise the boolean will remain false and the constrain will remain functional
+      } else {
+        nextToDoor = false;
+      }
     }
 
     //The sprite is constrained to the borders of the room it's in
@@ -133,8 +135,6 @@ class Sprite {
   void display() {
     imageMode(CENTER);
     image(sprite, spriteX, spriteY, spriteWidth, spriteHeight);
-    println("RoomIn: " + roomIn);
-    println("x: " + spriteX + " y: " + spriteY);
     imageMode(CORNER);
   }
 }

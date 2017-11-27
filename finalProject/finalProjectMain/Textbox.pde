@@ -29,6 +29,7 @@ class Textbox {
   float textY = textBoxY - textBoxH/2 + textStroke*3;
   int textSize = 40;
   PFont textFont = loadFont("AmaticSC-Bold-60.vlw");
+  float strokeColor = 50;
 
   Object talk;
 
@@ -79,6 +80,7 @@ class Textbox {
         fill(20);
         //stroke of the textBox holding the text
         strokeWeight(textStroke);
+        stroke(strokeColor);
         rect(textBoxX, textBoxY, textBoxW, textBoxH, 7);
         // Set the size
         textSize(textSize);

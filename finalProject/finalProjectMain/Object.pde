@@ -21,7 +21,7 @@ class Object {
   String noHighlightImage;
   String highlightImage;
   boolean highlightObject;
-
+  boolean visited = false;
 
   //information about the object
   String objectInfo;
@@ -83,7 +83,11 @@ class Object {
   ////  }
   ////}
   void displayText() {
+     if (textAppear){
+    visited = true;
+    }
     textbox.display();
+   
   }
 
   void display() {

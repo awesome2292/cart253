@@ -21,6 +21,8 @@ class Door {
   //door
   int doorThickness;
   color doorColor;
+  
+  boolean locked = true;
 
 
 
@@ -44,6 +46,18 @@ class Door {
 
 
   void update() {
+    int numberVisited = 0;
+    for (int i = 0; i< room1.things.length ; i++){
+     if(room1.things[i].visited == true){
+       numberVisited ++;
+     }
+    }
+    
+    if(numberVisited == room1.things.length-1){
+     locked = false; 
+    }
+    
+    println("nb visited: " + numberVisited);
   }
 
 
@@ -57,15 +71,15 @@ class Door {
 
     //the coordinates of the door from the left room
     leftDoorX1 = room1.roomX + room1.roomWidth;
-    leftDoorY1 = room1.roomY + 50;
+    leftDoorY1 = room1.roomY + 150;
     leftDoorX2 = leftDoorX1;
-    leftDoorY2 = room1.roomY + room1.roomHeight - 50;
+    leftDoorY2 = room1.roomY + room1.roomHeight - 15;
 
     //the coordinates of the door from the right room
     rightDoorX1 = room2.roomX;
-    rightDoorY1 = room2.roomY + 50;
+    rightDoorY1 = room2.roomY + 150;
     rightDoorX2 = rightDoorX1;
-    rightDoorY2 = room2.roomY + room2.roomHeight - 50;
+    rightDoorY2 = room2.roomY + room2.roomHeight - 15;
 
     //the doors will overlap and create one door
     line(rightDoorX1, rightDoorY1, rightDoorX2, rightDoorY2);
