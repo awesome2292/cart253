@@ -191,6 +191,7 @@ void draw() {
 
 door0Right.display();
 door0Right.update();
+door0Right.highlight(puppet);
   for (int i = 0; i < rooms.length; i++) {
     if (roomIn == rooms[i]) {
       rooms[i].displayText();

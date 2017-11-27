@@ -21,7 +21,9 @@ class Door {
   //door
   int doorThickness;
   color doorColor;
-  
+
+  boolean highlightDoor;
+  boolean talkDoor;
   boolean locked = true;
 
 
@@ -47,28 +49,46 @@ class Door {
 
   void update() {
     int numberVisited = 0;
-    for (int i = 0; i< room1.things.length ; i++){
-     if(room1.things[i].visited == true){
-       numberVisited ++;
-     }
+    for (int i = 0; i< room1.things.length; i++) {
+      if (room1.things[i].visited == true) {
+        numberVisited ++;
+      }
     }
-    
-    if(numberVisited == room1.things.length-1){
-     locked = false; 
+
+    if (numberVisited == room1.things.length) {
+      locked = false;
     }
-    
+
     println("nb visited: " + numberVisited);
   }
+
+
+  //This function determines when the objects should be interactable, by "highlighting"
+  //it when the sprite passes by it
+  void highlight(Sprite puppet) {
+    //Calculate possible overlaps with the sprite and the object
+    boolean insideX = (puppet.spriteX > leftDoorX1 - 100 && puppet.spriteX < leftDoorX1);
+    boolean insideY = (puppet.spriteY > leftDoorY1 && puppet.spriteY < leftDoorY2);
+    // Check if the sprite overlaps with the object
+    if (insideX && insideY) {
+      //If so, then the image of the object will be replaced with a "highlighted" version
+      //Meaning that the object will be highlighted when the sprite passes by it
+      highlightDoor = true; 
+      //This talkObject boolean determines whether the object can be interacted with or not
+      talkDoor = true;
+      // textbox.display();
+    } else {
+      highlightDoor = false;
+      talkDoor = false;
+    }
+  }
+
 
 
 
   //display() function
   //the door's display depends on the type of room it corresponds to
   void display() {
-    fill(0, 0, 0, 0.5);
-    stroke(doorThickness);
-    strokeCap(SQUARE);
-
     //the coordinates of the door from the left room
     leftDoorX1 = room1.roomX + room1.roomWidth;
     leftDoorY1 = room1.roomY + 150;
@@ -81,8 +101,17 @@ class Door {
     rightDoorX2 = rightDoorX1;
     rightDoorY2 = room2.roomY + room2.roomHeight - 15;
 
-    //the doors will overlap and create one door
-    line(rightDoorX1, rightDoorY1, rightDoorX2, rightDoorY2);
-    line(leftDoorX1, leftDoorY1, leftDoorX2, leftDoorY2);
+    stroke(doorThickness);
+    strokeCap(SQUARE);
+    if (highlightDoor) {
+      fill(255, 255, 255);
+      line(rightDoorX1, rightDoorY1, rightDoorX2, rightDoorY2);
+      line(leftDoorX1, leftDoorY1, leftDoorX2, leftDoorY2);
+    } else {
+      fill(0, 0, 0, 0.5);
+      //the doors will overlap and create one door
+      line(rightDoorX1, rightDoorY1, rightDoorX2, rightDoorY2);
+      line(leftDoorX1, leftDoorY1, leftDoorX2, leftDoorY2);
+    }
   }
 }
