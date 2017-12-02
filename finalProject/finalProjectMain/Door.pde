@@ -22,6 +22,9 @@ class Door {
   int doorThickness;
   color doorColor;
 
+//information about the object
+  String doorInfo;
+  Textbox textbox;
   boolean highlightDoor;
   boolean talkDoor;
   boolean locked = true;
@@ -37,10 +40,13 @@ class Door {
   //and then the sprite will be able to pass through to the next room
 
   //the constructor requires the rooms on either side of the door
-  Door(Room tempRoom1, Room tempRoom2) {
+  Door(Room tempRoom1, Room tempRoom2, String tempDoorInfo) {
     room1 = tempRoom1;
     room2 = tempRoom2;
     doorThickness = 20;
+    doorInfo= tempDoorInfo;
+    textbox = new Textbox();
+    textbox.setText(tempDoorInfo);
   }
 
 
@@ -83,7 +89,11 @@ class Door {
     }
   }
 
-
+void displayText() {
+  if(talkDoor){
+    textbox.display();
+  }
+  }
 
 
   //display() function

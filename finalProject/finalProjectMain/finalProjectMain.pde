@@ -41,7 +41,11 @@ boolean useObject;
 float boxX, boxY, boxW, boxH;
 String boxImage, boxHighlight, boxInfo;
 boolean textAppear = false;
+boolean textDoorAppear = false;
 
+
+//Door0 Variables
+String door0Info;
 
 //////////////// CLASSES ////////////////////
 Room room1, room2, room3, room4, room5, room6;
@@ -70,8 +74,8 @@ boolean nextToDoor = false;
 //////////////// SETUP /////////////////////
 //the game will be in full screen, with a black background
 void setup() {
- //fullScreen();
- size(1000,1000);
+ fullScreen();
+ //size(1000,1000);
   background(0);
 
   ////////////// ROOMS /////////////
@@ -79,17 +83,6 @@ void setup() {
   rooms = new Room[2];
 
   stuff = new Object[2];
-
-  //chest object
-  chestX = width/4.5;
-  chestY = height-height/5;
-  chestW = (width/height)*100;
-  chestH = (width/height)*70;
-  chestImage = "images/room1Chest.jpg";
-  chestHighlight = "images/room1ChestHighlight.jpg";
-  chestInfo = "This chest is locked.";
-  chest = new Object(chestX, chestY, chestW, chestH, true, chestImage, chestHighlight, chestInfo);
-  stuff[0] = chest;
 
   //box object
   boxX = width/10;
@@ -99,8 +92,20 @@ void setup() {
   boxImage = "images/room1Box.jpg";
   boxHighlight = "images/room1BoxHighlight.jpg";
   boxInfo = "This is a carboard box.";
-  box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, boxInfo);
-  stuff[1] = box;
+  box = new Object(boxX, boxY, boxW, boxH, true, false, boxImage, boxHighlight, boxInfo, box);
+  stuff[0] = box;
+  
+  //chest object
+  chestX = width/4.5;
+  chestY = height-height/5;
+  chestW = (width/height)*100;
+  chestH = (width/height)*70;
+  chestImage = "images/room1Chest.jpg";
+  chestHighlight = "images/room1ChestHighlight.jpg";
+  chestInfo = "This chest is locked.";
+  chest = new Object(chestX, chestY, chestW, chestH, false, true, chestImage, chestHighlight, chestInfo, box);
+  stuff[1] = chest;
+  
 
   //room1
   r1X = 0;
@@ -124,7 +129,9 @@ void setup() {
   r2Image = "images/room1bg.jpg";
   rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, stuff);
   
-  door0Right = new Door(rooms[0], rooms[1]);
+  
+  door0Info = "This door is locked.";
+  door0Right = new Door(rooms[0], rooms[1], door0Info);
   
   ////room4
   //r4X = 0;

@@ -26,24 +26,32 @@ class Object {
   //information about the object
   String objectInfo;
   Textbox textbox;
+  
+  //objects needed to interact with before
+  boolean firstObject;
+  boolean nextObject;
+  Object objectBefore;
+  boolean objectBeforeVisited = false;
 
 
 
 
   ///////////////////// CONSTRUCTOR //////////////////////
   //Each object will have different locations, dimmensions, interaction types, and images
-  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempUseObj, String tempNoHighlight, String tempHighlight, String tempObjectInfo) {
+  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempFirstObj, boolean tempNextObj, String tempNoHighlight, String tempHighlight, String tempObjectInfo, Object tempObjBefore) {
     objectX = tempObjX;
     objectY = tempObjY;
     objectWidth = tempObjW;
     objectHeight = tempObjH;
-    useObject = tempUseObj;
     objectInfo = tempObjectInfo;
     noHighlightImage = tempNoHighlight;
     highlightImage = tempHighlight;
     objectImage = loadImage(noHighlightImage);
+    objectBefore = tempObjBefore;
     textbox = new Textbox();
     textbox.setText(tempObjectInfo);
+    firstObject = tempFirstObj;
+    nextObject = tempNextObj;
   }
 
 
@@ -59,18 +67,26 @@ class Object {
     boolean insideX = (puppet.spriteX <= objectX+objectWidth/2 && puppet.spriteX >= objectX-objectWidth/2);
     boolean insideY = (puppet.spriteY <= objectY+objectHeight/2 && puppet.spriteY >= objectY-objectHeight/2);
     // Check if the sprite overlaps with the object
-    if (insideX && insideY) {
+    if(firstObject && insideX && insideY) {
       //If so, then the image of the object will be replaced with a "highlighted" version
       //Meaning that the object will be highlighted when the sprite passes by it
       highlightObject = true; 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
-      // textbox.display();
-    } else {
+      objectBeforeVisited = true;
+    } 
+    else if(nextObject && objectBeforeVisited && insideX && insideY) {
+      
+      highlightObject = true; 
+      //This talkObject boolean determines whether the object can be interacted with or not
+      talkObject = true;
+    }
+    else {
       highlightObject = false;
       talkObject = false;
     }
   }
+  
 
 
   //This function allows the textBox to appear when the player presses the action button
@@ -91,6 +107,7 @@ class Object {
   }
 
   void display() {
+    if(firstObject){
     imageMode(CENTER);
     if (!highlightObject) {
       objectImage = loadImage(noHighlightImage);
@@ -100,4 +117,20 @@ class Object {
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
     }
   }
+  
+  if(nextObject && objectBeforeVisited){
+      if (!highlightObject) {
+      objectImage = loadImage(noHighlightImage);
+      image(objectImage, objectX, objectY, objectWidth, objectHeight);
+    } else if (highlightObject) {
+      objectImage = loadImage(highlightImage);
+      image(objectImage, objectX, objectY, objectWidth, objectHeight);
+    }
+}
+
+  else{
+    
+  }
+}
+
 }

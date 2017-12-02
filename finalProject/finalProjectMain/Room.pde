@@ -26,7 +26,7 @@ class Room {
 
   //Outer variables
   Object[] things;
-  Door doors;
+  Door[] doors;
 
   //////////////// CONSTRUCTOR //////////////////
   //Each room will have varying positions and sizes
@@ -78,6 +78,11 @@ class Room {
       if (things[i].highlightObject) {
         things[i].displayText();
       }
+     //for(int c = 0; c < doors.length; i++){
+     //   if (doors[c].talkDoor){
+     //    doors[c].displayText(); 
+     //   }
+     // }
     }
   }
 }
