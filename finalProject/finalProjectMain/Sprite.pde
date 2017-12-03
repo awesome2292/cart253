@@ -36,7 +36,7 @@ class Sprite {
     spriteVX = 0;
     spriteVY = 0;
 
-    sprite = loadImage("images/testSprite.png");
+    sprite = loadImage("images/sprite.png");
   }
 
   ///////////// FUNCTIONS //////////////

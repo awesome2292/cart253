@@ -26,12 +26,13 @@ class Object {
   //information about the object
   String objectInfo;
   Textbox textbox;
+  Object objectBefore;
   
   //objects needed to interact with before
   boolean firstObject;
   boolean nextObject;
-  Object objectBefore;
-  boolean objectBeforeVisited = false;
+  //boolean objectBefore;
+  //boolean objectBeforeVisited = false;
 
 
 
@@ -70,16 +71,17 @@ class Object {
     if(firstObject && insideX && insideY) {
       //If so, then the image of the object will be replaced with a "highlighted" version
       //Meaning that the object will be highlighted when the sprite passes by it
-      highlightObject = true; 
+      objectBefore.highlightObject = true; 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
-      objectBeforeVisited = true;
+      println("This object should be highlighted");
     } 
-    else if(nextObject && objectBeforeVisited && insideX && insideY) {
+    else if(objectBefore.visited && insideX && insideY) {
       
       highlightObject = true; 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
+      println("This is the next object that should be highlighted");
     }
     else {
       highlightObject = false;
@@ -89,15 +91,6 @@ class Object {
   
 
 
-  //This function allows the textBox to appear when the player presses the action button
-  // 'i' while the object is highlighted
-  //The desigated textBox will provide information about the object interacted with
-  //void keyPressed() {
-  //  if (key =='i' && talkObject) {
-  ////    println("key is being pressed");
-  ////    textAppear = true;
-  ////  }
-  ////}
   void displayText() {
      if (textAppear){
     visited = true;
@@ -106,31 +99,28 @@ class Object {
    
   }
 
-  void display() {
-    if(firstObject){
+  void display(Object beforeObject) {
     imageMode(CENTER);
-    if (!highlightObject) {
+    if (!highlightObject && firstObject) {
       objectImage = loadImage(noHighlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
-    } else if (highlightObject) {
+    }
+    else if (highlightObject && firstObject) {
       objectImage = loadImage(highlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
+      println("this is the first object");
     }
-  }
   
-  if(nextObject && objectBeforeVisited){
+ 
       if (!highlightObject) {
       objectImage = loadImage(noHighlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
-    } else if (highlightObject) {
+    } else if (highlightObject && beforeObject.visited) {
       objectImage = loadImage(highlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
+      println("this is the next object");
     }
-}
 
-  else{
-    
-  }
 }
 
 }

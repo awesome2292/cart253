@@ -84,20 +84,22 @@ void setup() {
 
   stuff = new Object[2];
 
+
+ ////////// OBJECTS ////////////
   //box object
   boxX = width/10;
-  boxY = height-height/5;
+  boxY = height - height/9;
   boxW = (width/height)*100;
   boxH = (width/height)*80;
   boxImage = "images/room1Box.jpg";
   boxHighlight = "images/room1BoxHighlight.jpg";
   boxInfo = "This is a carboard box.";
-  box = new Object(boxX, boxY, boxW, boxH, true, false, boxImage, boxHighlight, boxInfo, box);
+  box = new Object(boxX, boxY, boxW, boxH, true, false, boxImage, boxHighlight, boxInfo,box);
   stuff[0] = box;
   
   //chest object
-  chestX = width/4.5;
-  chestY = height-height/5;
+  chestX = width/5;
+  chestY = height - height/9;
   chestW = (width/height)*100;
   chestH = (width/height)*70;
   chestImage = "images/room1Chest.jpg";
@@ -171,12 +173,11 @@ void setup() {
   //sprite
   pX = 20;
   pY = height - 50;
-  pW = (width/height)*25;
-  pH = (width/height)*35;
+  pW = (width/height)*45;
+  pH = (width/height)*65;
   puppet = new Sprite(pX, pY, pW, pH);
 
 
-  ////////// OBJECTS ////////////
 }
 
 
@@ -218,6 +219,7 @@ void keyPressed() {
 
   if (key == 'i') {
     textAppear = !textAppear;
+    box.visited = true;
   }
 }
 

@@ -56,7 +56,7 @@ class Room {
 
     //the objects will also be displayed within their corresponding room
     for (int i = 0; i < things.length; i++) {
-      things[i].display();
+      things[i].display(box);
       things[i].highlight(puppet);
     }
   }
