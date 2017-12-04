@@ -68,21 +68,21 @@ class Object {
     boolean insideX = (puppet.spriteX <= objectX+objectWidth/2 && puppet.spriteX >= objectX-objectWidth/2);
     boolean insideY = (puppet.spriteY <= objectY+objectHeight/2 && puppet.spriteY >= objectY-objectHeight/2);
     // Check if the sprite overlaps with the object
-    if(firstObject && insideX && insideY) {
+    if(insideX && insideY) {
       //If so, then the image of the object will be replaced with a "highlighted" version
       //Meaning that the object will be highlighted when the sprite passes by it
-      objectBefore.highlightObject = true; 
+      highlightObject = true; 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
       println("This object should be highlighted");
     } 
-    else if(objectBefore.visited && insideX && insideY) {
+    //else if(objectBefore.visited && insideX && insideY) {
       
-      highlightObject = true; 
-      //This talkObject boolean determines whether the object can be interacted with or not
-      talkObject = true;
-      println("This is the next object that should be highlighted");
-    }
+    //  highlightObject = true; 
+    //  //This talkObject boolean determines whether the object can be interacted with or not
+    //  talkObject = true;
+    //  println("This is the next object that should be highlighted");
+    //}
     else {
       highlightObject = false;
       talkObject = false;
@@ -112,10 +112,12 @@ class Object {
     }
   
  
+ 
+ 
       if (!highlightObject) {
       objectImage = loadImage(noHighlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
-    } else if (highlightObject && beforeObject.visited) {
+    } else if (highlightObject && nextObject) {
       objectImage = loadImage(highlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
       println("this is the next object");
