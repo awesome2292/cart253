@@ -81,8 +81,8 @@ int currentId = -1;
 //////////////// SETUP /////////////////////
 //the game will be in full screen, with a black background
 void setup() {
-  //fullScreen();
-  size(1000,1000);
+  fullScreen();
+  //size(1000,1000);
   background(0);
 
   ////////////// ROOMS /////////////
@@ -98,8 +98,8 @@ void setup() {
   boxY = height - height/9;
   boxW = (width/height)*100;
   boxH = (width/height)*80;
-  boxImage = "images/room1Box.jpg";
-  boxHighlight = "images/room1BoxHighlight.jpg";
+  boxImage = "images/room1Box.png";
+  boxHighlight = "images/room1BoxHighlight.png";
   boxInfo = "This is a carboard box.";
   boxId = 0;
   box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, boxInfo, boxId);
@@ -110,8 +110,8 @@ void setup() {
   chestY = height - height/9;
   chestW = (width/height)*100;
   chestH = (width/height)*70;
-  chestImage = "images/room1Chest.jpg";
-  chestHighlight = "images/room1ChestHighlight.jpg";
+  chestImage = "images/room1Chest.png";
+  chestHighlight = "images/room1ChestHighlight.png";
   chestInfo = "This chest is locked.";
   chestId = 1;
   chest = new Object(chestX, chestY, chestW, chestH, false, chestImage, chestHighlight, chestInfo, chestId);
