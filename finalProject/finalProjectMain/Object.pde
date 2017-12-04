@@ -33,13 +33,14 @@ class Object {
   boolean nextObject;
   //boolean objectBefore;
   //boolean objectBeforeVisited = false;
-
+  int idNum;
+  boolean state;
 
 
 
   ///////////////////// CONSTRUCTOR //////////////////////
   //Each object will have different locations, dimmensions, interaction types, and images
-  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempFirstObj, boolean tempNextObj, String tempNoHighlight, String tempHighlight, String tempObjectInfo, Object tempObjBefore) {
+  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempState, String tempNoHighlight, String tempHighlight, String tempObjectInfo, int tempIdNum) {
     objectX = tempObjX;
     objectY = tempObjY;
     objectWidth = tempObjW;
@@ -48,18 +49,15 @@ class Object {
     noHighlightImage = tempNoHighlight;
     highlightImage = tempHighlight;
     objectImage = loadImage(noHighlightImage);
-    objectBefore = tempObjBefore;
+    state = tempState;
+    idNum = tempIdNum;
     textbox = new Textbox();
     textbox.setText(tempObjectInfo);
-    firstObject = tempFirstObj;
-    nextObject = tempNextObj;
   }
 
 
   ///////////////////// FUNCTIONS ////////////////////
 
-  void update() {
-  }
 
   //This function determines when the objects should be interactable, by "highlighting"
   //it when the sprite passes by it
@@ -74,7 +72,9 @@ class Object {
       highlightObject = true; 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
-      println("This object should be highlighted");
+      //println("This object should be highlighted");
+      
+      
     } 
     //else if(objectBefore.visited && insideX && insideY) {
       
@@ -89,6 +89,26 @@ class Object {
     }
   }
   
+  
+  void update() {
+   currentId = idNum;
+    println("currentid: " + currentId);
+    println("currentindex: " + currentIndex);
+    for(int i = 0; i < objectIds.length ; i++){
+      
+      if(currentId == objectIds[currentIndex]){
+        println("currentid = currentindex");
+        currentIndex +=1;
+        for (int j = 0; j < stuff.length; j++){
+          if (stuff[j].idNum == objectIds[currentIndex]){
+            stuff[j].state = true;
+          }
+        }
+    }
+    
+  }
+  }
+  
 
 
   void displayText() {
@@ -96,20 +116,20 @@ class Object {
     visited = true;
     }
     textbox.display();
-   
+  
   }
 
-  void display(Object beforeObject) {
+  void display() {
     imageMode(CENTER);
-    if (!highlightObject && firstObject) {
-      objectImage = loadImage(noHighlightImage);
-      image(objectImage, objectX, objectY, objectWidth, objectHeight);
-    }
-    else if (highlightObject && firstObject) {
-      objectImage = loadImage(highlightImage);
-      image(objectImage, objectX, objectY, objectWidth, objectHeight);
-      println("this is the first object");
-    }
+    //if (!highlightObject) {
+    //  objectImage = loadImage(noHighlightImage);
+    //  image(objectImage, objectX, objectY, objectWidth, objectHeight);
+    //}
+    //else if (highlightObject && firstObject) {
+    //  objectImage = loadImage(highlightImage);
+    //  image(objectImage, objectX, objectY, objectWidth, objectHeight);
+    //  println("this is the first object");
+    //}
   
  
  
@@ -117,10 +137,10 @@ class Object {
       if (!highlightObject) {
       objectImage = loadImage(noHighlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
-    } else if (highlightObject && nextObject) {
+    } else if (highlightObject) {
       objectImage = loadImage(highlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
-      println("this is the next object");
+      //println("this is the next object");
     }
 
 }

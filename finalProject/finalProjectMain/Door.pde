@@ -65,7 +65,7 @@ class Door {
       locked = false;
     }
 
-    println("nb visited: " + numberVisited);
+   // println("nb visited: " + numberVisited);
   }
 
 

@@ -35,11 +35,13 @@ boolean textBoxOn = false;
 //chest
 float chestX, chestY, chestW, chestH;
 String chestImage, chestHighlight, chestInfo;
+int chestId;
 boolean useObject;
 
 //carboard box
 float boxX, boxY, boxW, boxH;
 String boxImage, boxHighlight, boxInfo;
+int boxId;
 boolean textAppear = false;
 boolean textDoorAppear = false;
 
@@ -67,6 +69,11 @@ Room roomIn;
 
 boolean nextToDoor = false;
 
+int[] objectIds = {0, 1, 2, 3};
+
+int currentIndex = 0;
+int currentId = -1;
+
 
 
 
@@ -74,8 +81,8 @@ boolean nextToDoor = false;
 //////////////// SETUP /////////////////////
 //the game will be in full screen, with a black background
 void setup() {
- fullScreen();
- //size(1000,1000);
+  //fullScreen();
+  size(1000,1000);
   background(0);
 
   ////////////// ROOMS /////////////
@@ -85,7 +92,7 @@ void setup() {
   stuff = new Object[2];
 
 
- ////////// OBJECTS ////////////
+  ////////// OBJECTS ////////////
   //box object
   boxX = width/10;
   boxY = height - height/9;
@@ -94,9 +101,10 @@ void setup() {
   boxImage = "images/room1Box.jpg";
   boxHighlight = "images/room1BoxHighlight.jpg";
   boxInfo = "This is a carboard box.";
-  box = new Object(boxX, boxY, boxW, boxH, true, false, boxImage, boxHighlight, boxInfo,box);
+  boxId = 0;
+  box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, boxInfo, boxId);
   stuff[0] = box;
-  
+
   //chest object
   chestX = width/5;
   chestY = height - height/9;
@@ -105,9 +113,10 @@ void setup() {
   chestImage = "images/room1Chest.jpg";
   chestHighlight = "images/room1ChestHighlight.jpg";
   chestInfo = "This chest is locked.";
-  chest = new Object(chestX, chestY, chestW, chestH, false, true, chestImage, chestHighlight, chestInfo, box);
+  chestId = 1;
+  chest = new Object(chestX, chestY, chestW, chestH, false, chestImage, chestHighlight, chestInfo, chestId);
   stuff[1] = chest;
-  
+
 
   //room1
   r1X = 0;
@@ -121,20 +130,20 @@ void setup() {
   roomIn = rooms[0];
 
 
-  stuff = new Object[0];
+  //stuff = new Object[0];
 
   //room2
   r2X = r1W;
   r2Y = height/2;
   r2W = width/2.25;
   r2H = height/2;
-  r2Image = "images/room1bg.jpg";
+  r2Image = "images/room2bg.jpg";
   rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, stuff);
-  
-  
+
+
   door0Info = "This door is locked.";
   door0Right = new Door(rooms[0], rooms[1], door0Info);
-  
+
   ////room4
   //r4X = 0;
   //r4Y = 0;
@@ -176,8 +185,6 @@ void setup() {
   pW = (width/height)*45;
   pH = (width/height)*65;
   puppet = new Sprite(pX, pY, pW, pH);
-
-
 }
 
 
@@ -197,29 +204,43 @@ void draw() {
     }
   }
 
-door0Right.display();
-door0Right.update();
-door0Right.highlight(puppet);
+  door0Right.display();
+  door0Right.update();
+  door0Right.highlight(puppet);
   for (int i = 0; i < rooms.length; i++) {
     if (roomIn == rooms[i]) {
       rooms[i].displayText();
     }
   }
-  
-  
+
 
   if (!textBoxOn) {
     puppet.update();
     puppet.display();
   }
+  
+  //for (int i= 0; i < objectIds.length; i++){
+  // if( 
+    
+  //}
+  
+  
 }
 
 
 void keyPressed() {
-
-  if (key == 'i') {
-    textAppear = !textAppear;
-    box.visited = true;
+   
+      if (key == 'i') {
+  for (int i = 0; i< stuff.length; i++) {
+     println("state of " + i+ " is " + stuff[i].state);
+    if (stuff[i].highlightObject == true && stuff[i].state == true) {
+     
+     textAppear = !textAppear;
+      textBoxOn = !textBoxOn;
+        box.visited = true;
+        stuff[i].update();
+      }
+    }
   }
 }
 

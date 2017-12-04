@@ -56,9 +56,10 @@ class Room {
 
     //the objects will also be displayed within their corresponding room
     for (int i = 0; i < things.length; i++) {
-      things[i].display(box);
+      things[i].display();
       things[i].highlight(puppet);
     }
+    
   }
 
 
@@ -75,7 +76,7 @@ class Room {
   //the text box will be displayed on top of everything else
   void displayText() {
     for (int i = 0; i < things.length; i++) {
-      if (things[i].highlightObject) {
+      if (things[i].highlightObject && textAppear && things[i].state) {
         things[i].displayText();
       }
      //for(int c = 0; c < doors.length; i++){
