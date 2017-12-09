@@ -10,6 +10,11 @@
 
 
 //////////////// VARIABLES ///////////////////
+//beginning of game
+boolean gameStart = true;
+PFont titleFont;
+PFont instructionFont;
+
 //Room Variables
 float r1X, r1Y, r1W, r1H;
 float r2X, r2Y, r2W, r2H;
@@ -24,6 +29,7 @@ int roomNum;
 
 //Sprite Variables
 float pX, pY, pW, pH;
+boolean spriteMoving = false;
 
 
 //Object Variables
@@ -90,6 +96,11 @@ void setup() {
   fullScreen();
   //size(1000,1000);
   background(0);
+
+  ////////////// MENU //////////////
+  titleFont = loadFont("AmaticSC-Regular-150.vlw");
+  instructionFont = loadFont("BirchStd-72.vlw");
+  
 
   ////////////// ROOMS /////////////
 
@@ -237,18 +248,18 @@ void draw() {
     puppet.display();
   }
   
-  //for (int i= 0; i < objectIds.length; i++){
-  // if( 
-    
-  //}
+  gameBegin();
   
   
 }
 
 
 void keyPressed() {
-   
-      if (key == 'i') {
+   if (gameStart && key == 'i') {
+      gameStart = false;
+      spriteMoving = true;
+    }
+     else if (key == 'i') {
   for (int i = 0; i< stuff.length; i++) {
      println("state of " + i+ " is " + stuff[i].state);
     if (stuff[i].highlightObject == true && stuff[i].state == true) {
@@ -267,11 +278,27 @@ void keyReleased() {
 }
 
 
-//When the mouse is clicked, the sprite will move from the room it's in to the other room on the screen;
-void mouseClicked() {
-  if (roomIn == rooms[0]) {
-    roomIn = rooms[1];
-  } else if (roomIn == rooms[1]) {
-    roomIn = rooms[0];
+////When the mouse is clicked, the sprite will move from the room it's in to the other room on the screen;
+//void mouseClicked() {
+//  if (roomIn == rooms[0]) {
+//    roomIn = rooms[1];
+//  } else if (roomIn == rooms[1]) {
+//    roomIn = rooms[0];
+//  }
+//}
+
+////////// gameBegin() function ///////////
+// When the game begins, present the title of the game and the instructions concerning the gameplay
+//of the game. 
+void gameBegin() {
+  if (spriteMoving == false && gameStart == true) {
+    background(0, 0, 0, 5);
+    fill(255);
+    textFont(titleFont);
+    textAlign(CENTER);
+    text("SOLI", width/2, height/2);
+    textFont(instructionFont);
+    textAlign(CENTER);
+    text("Press I to begin", width/2, height/2 + height/3);
   }
 }

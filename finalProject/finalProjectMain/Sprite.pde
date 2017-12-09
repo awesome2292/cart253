@@ -47,7 +47,7 @@ class Sprite {
   void update() {
     // Update position with velocity to move the Sprite
 
-
+  if(spriteMoving){
     //keyPressed() allows the sprite to move around the house
     // Check if the UP key is pressed
     if (keyPressed) {
@@ -113,6 +113,7 @@ class Sprite {
 
     spriteVX = constrain(spriteVX, -speed, speed);
     spriteVY = constrain(spriteVY, -speed, speed);
+  }
   }
 
 
