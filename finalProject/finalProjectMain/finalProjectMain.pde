@@ -32,6 +32,9 @@ boolean textBoxOn = false;
 
 
 //Room 1 Objects
+boolean textAppear = false;
+boolean textDoorAppear = false;
+
 //chest
 float chestX, chestY, chestW, chestH;
 String chestImage, chestHighlight, chestInfo;
@@ -42,8 +45,11 @@ boolean useObject;
 float boxX, boxY, boxW, boxH;
 String boxImage, boxHighlight, boxInfo;
 int boxId;
-boolean textAppear = false;
-boolean textDoorAppear = false;
+
+//jar
+float jarX, jarY, jarW, jarH;
+String jarImage, jarHighlight, jarInfo;
+int jarId;
 
 
 //Door0 Variables
@@ -58,7 +64,7 @@ Sprite puppet;
 
 
 Object[] stuff;
-Object chest, box;
+Object chest, box, jar;
 
 Door door0Right, door1Left, door1Right;
 
@@ -89,7 +95,7 @@ void setup() {
 
   rooms = new Room[2];
 
-  stuff = new Object[2];
+  stuff = new Object[3];
 
 
   ////////// OBJECTS ////////////
@@ -108,14 +114,26 @@ void setup() {
   //chest object
   chestX = width/5;
   chestY = height - height/9;
-  chestW = (width/height)*100;
-  chestH = (width/height)*70;
+  chestW = (width/height)*200;
+  chestH = (width/height)*150;
   chestImage = "images/room1Chest.png";
   chestHighlight = "images/room1ChestHighlight.png";
-  chestInfo = "This chest is locked.";
+  chestInfo = "The chest is unlocked. You find a piece of paper with the words 'I'm lonely' written on it.";
   chestId = 1;
   chest = new Object(chestX, chestY, chestW, chestH, false, chestImage, chestHighlight, chestInfo, chestId);
   stuff[1] = chest;
+
+  //jar object
+  jarX = width/11;
+  jarY = height/2 + height/15;
+  jarW = (width/height)*70;
+  jarH = (width/height)*100;
+  jarImage = "images/room1Jar.png";
+  jarHighlight = "images/room1JarHighlight.png";
+  jarInfo = "This is a jar.";
+  jarId = 2;
+  jar = new Object(jarX, jarY, jarW, jarH, false, jarImage, jarHighlight, jarInfo, jarId);
+  stuff[2] = jar;
 
 
   //room1
