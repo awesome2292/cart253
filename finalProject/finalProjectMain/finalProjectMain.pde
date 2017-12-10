@@ -99,12 +99,12 @@ void setup() {
 
   ////////////// MENU //////////////
   titleFont = loadFont("AmaticSC-Regular-150.vlw");
-  instructionFont = loadFont("BirchStd-72.vlw");
+  instructionFont = loadFont("AmaticSC-Regular-48.vlw");
   
 
   ////////////// ROOMS /////////////
 
-  rooms = new Room[2];
+  rooms = new Room[3];
 
   stuff = new Object[3];
 
@@ -179,7 +179,7 @@ void setup() {
   //r4W = width/4 + width/10;
   //r4H = height/2;
   //r4Image = "images/room1bg.jpg";
-  //room4 = new Room(r4X, r4Y, r4W, r4H, r4Image);
+  //rooms[2] = new Room(r4X, r4Y, r4W, r4H, r4Image, stuff);
 
   ////room3
   //r3X = r4W;
@@ -189,13 +189,15 @@ void setup() {
   //r3Image = "images/room1bg.jpg";
   //room3 = new Room(r3X, r3Y, r3W, r3H, r3Image);
 
-  ////room5
-  //r5X = r2X + r2W;
-  //r5Y =  height/2;
-  //r5W = width/3.25;
-  //r5H = height/2;
-  //r5Image = "images/room1bg.jpg";
-  //room5 = new Room(r5X, r5Y, r5W, r5H, r5Image);
+  //room5
+  r5X = r2X + r2W;
+  r5Y =  height/2;
+  r5W = width/3.25;
+  r5H = height/2;
+  r5Image = "images/room1bg.jpg";
+  rooms[2] = new Room(r5X, r5Y, r5W, r5H, r5Image, stuff);
+  
+  door1Right = new Door(rooms[1], rooms[2], door0Info);
 
   ////room6
   //r6X = r3X + r3W;
@@ -235,6 +237,8 @@ void draw() {
 
   door0Right.display();
   door0Right.update();
+  door1Right.display();
+  door1Right.update();
   door0Right.highlight(puppet);
   for (int i = 0; i < rooms.length; i++) {
     if (roomIn == rooms[i]) {
@@ -247,8 +251,10 @@ void draw() {
     puppet.update();
     puppet.display();
   }
-  
+  //background(30, 30, 30, 0.2);
   gameBegin();
+  gameInstructions();
+  
   
   
 }
@@ -257,6 +263,8 @@ void draw() {
 void keyPressed() {
    if (gameStart && key == 'i') {
       gameStart = false;
+    }
+    else if (!gameStart && !spriteMoving){
       spriteMoving = true;
     }
      else if (key == 'i') {
@@ -299,6 +307,17 @@ void gameBegin() {
     text("SOLI", width/2, height/2);
     textFont(instructionFont);
     textAlign(CENTER);
-    text("Press I to begin", width/2, height/2 + height/3);
+    text("PRESS I TO BEGIN", width/2, height/2 + height/3);
+  }
+}
+
+
+void gameInstructions() {
+  if (spriteMoving == false && gameStart == false) {
+    background(0, 0, 0, 5);
+    fill(255);
+    textFont(instructionFont);
+    textAlign(CENTER);
+    text("You are in an abandoned house, left behind by your owner. You try to find a way out.\n Use the arrow keys to navigate the space, and press I on possible objects to interact with.\n \n Press I to continue", width/2, height/2);
   }
 }

@@ -77,6 +77,7 @@ class Textbox {
         //Added a rectangle to hold the text.
         //It will most likely be replaced with an image later.
         rectMode(CENTER);
+        textAlign(LEFT);
         fill(20);
         //stroke of the textBox holding the text
         strokeWeight(textStroke);
