@@ -50,8 +50,28 @@ class Textbox {
     currentText = "";
     // Store the text to display
     textContent = talk;
+    currentChar = 0;
   }
 
+
+  void drawBox()
+  {
+        rectMode(CENTER);
+        textAlign(LEFT);
+        fill(20);
+        //stroke of the textBox holding the text
+        //strokeWeight(textStroke);
+        //stroke(strokeColor);
+        rect(textBoxX, textBoxY, textBoxW, textBoxH, 7);
+        // Set the size
+        //textSize(textSize);
+        textFont(textFont);
+        fill(255);
+        // Display the current text at the position
+        rectMode(CORNER);
+  
+  }
+  
 
   // This display function should be called every frame. It displays the text at the
   // position given and at the size given, and updates the text
@@ -76,19 +96,7 @@ class Textbox {
         //If so then, display the textBox
         //Added a rectangle to hold the text.
         //It will most likely be replaced with an image later.
-        rectMode(CENTER);
-        textAlign(LEFT);
-        fill(20);
-        //stroke of the textBox holding the text
-        strokeWeight(textStroke);
-        stroke(strokeColor);
-        rect(textBoxX, textBoxY, textBoxW, textBoxH, 7);
-        // Set the size
-        textSize(textSize);
-        textFont(textFont);
-        fill(255);
-        // Display the current text at the position
-        rectMode(CORNER);
+        drawBox();
         text(currentText, textX, textY, textBoxW-textStroke*3, textBoxH-textStroke*3);
       }
     } else if (!textAppear) {

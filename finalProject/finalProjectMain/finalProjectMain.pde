@@ -87,14 +87,21 @@ int currentIndex = 0;
 int currentId = -1;
 
 
+Instruction[] instBoxInfo = {new Instruction (false, "This is a carboard box."),
+                              new Instruction (false, "Interact with another object in the room to exit"),
+                               new Instruction (false, "Try Again")}; 
 
+String[] myBoxInfo = {"This is a carboard box.", "Interact with another object in the room to exit", "Try again."};
+String[] myChestInfo = {"The chest is unlocked. You find a piece of paper with the words 'I'm lonely' written on it.", "Seriously move on", "Why are you still here?!"};
+String[] myJarInfo = {"This is a jar.", "The jar is empty", "The content of this jar will help you with your journey"};
 
 
 //////////////// SETUP /////////////////////
 //the game will be in full screen, with a black background
 void setup() {
+  //fullScreen(P3D);
   fullScreen();
-  //size(1000,1000);
+  //size(1280,1024, P3D);
   background(0);
 
   ////////////// MENU //////////////
@@ -117,9 +124,9 @@ void setup() {
   boxH = (width/height)*80;
   boxImage = "images/room1Box.png";
   boxHighlight = "images/room1BoxHighlight.png";
-  boxInfo = "This is a carboard box.";
+  
   boxId = 0;
-  box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, boxInfo, boxId);
+  box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, myBoxInfo, boxId);
   stuff[0] = box;
 
   //chest object
@@ -129,9 +136,9 @@ void setup() {
   chestH = (width/height)*150;
   chestImage = "images/room1Chest.png";
   chestHighlight = "images/room1ChestHighlight.png";
-  chestInfo = "The chest is unlocked. You find a piece of paper with the words 'I'm lonely' written on it.";
+  
   chestId = 1;
-  chest = new Object(chestX, chestY, chestW, chestH, false, chestImage, chestHighlight, chestInfo, chestId);
+  chest = new Object(chestX, chestY, chestW, chestH, false, chestImage, chestHighlight, myChestInfo, chestId);
   stuff[1] = chest;
 
   //jar object
@@ -141,9 +148,9 @@ void setup() {
   jarH = (width/height)*100;
   jarImage = "images/room1Jar.png";
   jarHighlight = "images/room1JarHighlight.png";
-  jarInfo = "This is a jar.";
+  
   jarId = 2;
-  jar = new Object(jarX, jarY, jarW, jarH, false, jarImage, jarHighlight, jarInfo, jarId);
+  jar = new Object(jarX, jarY, jarW, jarH, false, jarImage, jarHighlight, myJarInfo, jarId);
   stuff[2] = jar;
 
 
@@ -265,8 +272,13 @@ void keyPressed() {
       gameStart = false;
     }
     else if (!gameStart && !spriteMoving){
+      //for(int i = 0; i<255 ; i++){
+      //  background(255-i);
+      //if(i==255){
       spriteMoving = true;
-    }
+      }
+    //}
+    //}
      else if (key == 'i') {
   for (int i = 0; i< stuff.length; i++) {
      println("state of " + i+ " is " + stuff[i].state);
@@ -275,6 +287,7 @@ void keyPressed() {
      textAppear = !textAppear;
       textBoxOn = !textBoxOn;
         box.visited = true;
+        stuff[i].updateText();
         stuff[i].update();
       }
     }
@@ -318,6 +331,6 @@ void gameInstructions() {
     fill(255);
     textFont(instructionFont);
     textAlign(CENTER);
-    text("You are in an abandoned house, left behind by your owner. You try to find a way out.\n Use the arrow keys to navigate the space, and press I on possible objects to interact with.\n \n Press I to continue", width/2, height/2);
+    text("You are in an abandoned house, left behind by your owner. You try to find a way out.\n Use the arrow keys to navigate the space, and press I on possible objects to interact with.\n \n \n \n Press I to continue", width/2, height/2);
   }
 }

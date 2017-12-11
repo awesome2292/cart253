@@ -24,7 +24,7 @@ class Object {
   boolean visited = false;
 
   //information about the object
-  String objectInfo;
+  String[] objectInfo;
   Textbox textbox;
   Object objectBefore;
   
@@ -35,12 +35,12 @@ class Object {
   //boolean objectBeforeVisited = false;
   int idNum;
   boolean state;
-
+  int lastTxtIndex=0;
 
 
   ///////////////////// CONSTRUCTOR //////////////////////
   //Each object will have different locations, dimmensions, interaction types, and images
-  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempState, String tempNoHighlight, String tempHighlight, String tempObjectInfo, int tempIdNum) {
+  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempState, String tempNoHighlight, String tempHighlight, String[] tempObjectInfo, int tempIdNum) {
     objectX = tempObjX;
     objectY = tempObjY;
     objectWidth = tempObjW;
@@ -52,7 +52,12 @@ class Object {
     state = tempState;
     idNum = tempIdNum;
     textbox = new Textbox();
-    textbox.setText(tempObjectInfo);
+   if (objectInfo.length >lastTxtIndex)
+        {
+          String info = objectInfo[lastTxtIndex];
+          println(info);
+          textbox.setText(info);
+        }
   }
 
 
@@ -110,12 +115,29 @@ class Object {
   }
   
 
+  void updateText()
+  {
+    println("comparing lengths " + objectInfo.length + " " + lastTxtIndex);
+    if (visited && objectInfo.length >lastTxtIndex)
+        {
+          String info = objectInfo[lastTxtIndex];
+          println("Setting Text to " + info);
+          textbox.setText(info);
+          lastTxtIndex =  int(random(0,objectInfo.length));
+        }
+  }
+
 
   void displayText() {
+ 
      if (textAppear){
-    visited = true;
+    
+      visited = true;
     }
+    
+    println(textbox);
     textbox.display();
+
   
   }
 
