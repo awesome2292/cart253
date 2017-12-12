@@ -24,11 +24,12 @@ class Object {
   boolean visited = false;
 
   //information about the object
- 
+
   Textbox textbox;
   Object objectBefore;
+  Room room;
   Instruction[] objectInstructions;
-  
+
   //objects needed to interact with before
   boolean firstObject;
   boolean nextObject;
@@ -55,11 +56,11 @@ class Object {
     idNum = tempIdNum;
     textbox = new Textbox();
     associatedRoom = tempAsRoom;
-   if (objectInstructions.length >lastTxtIndex)
-        {
-          Instruction info = objectInstructions[lastTxtIndex];
-          textbox.setText(info.instructionText);
-        }
+    if (objectInstructions.length >lastTxtIndex)
+    {
+      Instruction info = objectInstructions[lastTxtIndex];
+      textbox.setText(info.instructionText);
+    }
   }
 
 
@@ -68,77 +69,51 @@ class Object {
 
   //This function determines when the objects should be interactable, by "highlighting"
   //it when the sprite passes by it
-  void highlight(Sprite puppet) {
+  boolean highlight(Sprite puppet) {
 
     //Calculate possible overlaps with the sprite and the object
     boolean insideX = (puppet.spriteX <= objectX+objectWidth/2 && puppet.spriteX >= objectX-objectWidth/2);
     boolean insideY = (puppet.spriteY <= objectY+objectHeight/2 && puppet.spriteY >= objectY-objectHeight/2);
     // Check if the sprite overlaps with the object
-    if(insideX && insideY) {
+    if (insideX && insideY) {
       //If so, then the image of the object will be replaced with a "highlighted" version
       //Meaning that the object will be highlighted when the sprite passes by it
       highlightObject = true; 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
       //println("This object should be highlighted");
-      
-      
-    }
-    
-    else {
+    } else {
       highlightObject = false;
       talkObject = false;
     }
+    return highlightObject;
   }
-  
-  
-  void update() {
-   currentId = idNum;
-    println("currentid: " + currentId);
-    println("currentindex: " + currentIndex);
-    for(int i = 0; i < objectIds.length ; i++){
-      
-      if(currentId == objectIds[currentIndex]){
-        println("currentid = currentindex");
-        currentIndex +=1;
-        for (int j = 0; j < stuffr1.length; j++){
-         
-          if (stuffr1[j].idNum == objectIds[currentIndex]){
-            stuffr1[j].state = true;
-          }
-          
-        }
-    }
-    
-  }
-  }
-  
+
+
 
   void updateText()
   {
-    println("comparing lengths " + objectInstructions.length + " " + lastTxtIndex);
+
     if (visited && objectInstructions.length >lastTxtIndex)
-        {
-          Instruction info = objectInstructions[lastTxtIndex];
-          println("Setting Text to " + info.instructionText);
-          textbox.setText(info.instructionText);
-          //lastTxtIndex =  int(random(0,objectInstructions.length));
-          lastTxtIndex++;
-        }
+    {
+      Instruction info = objectInstructions[lastTxtIndex];
+      println("Setting Text to " + info.instructionText);
+      textbox.setText(info.instructionText);
+      //lastTxtIndex =  int(random(0,objectInstructions.length));
+      lastTxtIndex++;
+    }
   }
 
 
   void displayText() {
- 
-     if (textAppear){
-    
+
+    if (textAppear) {
+
       visited = true;
     }
-    
-    println(textbox);
-    textbox.display();
 
-  
+
+    textbox.display();
   }
 
   void display() {
@@ -152,11 +127,11 @@ class Object {
     //  image(objectImage, objectX, objectY, objectWidth, objectHeight);
     //  println("this is the first object");
     //}
-  
- 
- 
- 
-      if (!highlightObject) {
+
+
+
+
+    if (!highlightObject) {
       objectImage = loadImage(noHighlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
     } else if (highlightObject) {
@@ -164,8 +139,5 @@ class Object {
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
       //println("this is the next object");
     }
-
-}
-
-
+  }
 }

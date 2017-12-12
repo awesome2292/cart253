@@ -75,7 +75,7 @@ Room[] rooms;
 Sprite puppet;
 
 
-Object[] stuffr1;
+
 
 Object chest, box, jar, clock;
 
@@ -88,10 +88,6 @@ Room roomIn;
 
 boolean nextToDoor = false;
 
-int[] objectIds = {0, 1, 2, 3, 4};
-
-int currentIndex = 0;
-int currentId = -1;
 
 
 Instruction[] instBoxInfo = {new Instruction (false, "This is a carboard box."), 
@@ -138,7 +134,6 @@ void setup() {
   ////////////// ROOM 1 /////////////
 
   // if (roomIn == rooms[0]) {
-  stuffr1 = new Object[3];
 
 
   ////////// ROOM 1 OBJECTS ////////////
@@ -150,9 +145,9 @@ void setup() {
   boxImage = "images/room1Box.png";
   boxHighlight = "images/room1BoxHighlight.png";
 
-  boxId = 0;
+  boxId = 1;
   box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, instBoxInfo, boxId, rooms[0]);
-  stuffr1[0] = box;
+ 
 
   //chest object
   chestX = width/5;
@@ -162,9 +157,9 @@ void setup() {
   chestImage = "images/room1Chest.png";
   chestHighlight = "images/room1ChestHighlight.png";
 
-  chestId = 1;
+  chestId = 2;
   chest = new Object(chestX, chestY, chestW, chestH, false, chestImage, chestHighlight, instChestInfo, chestId, rooms[0]);
-  stuffr1[1] = chest;
+
 
   //jar object
   jarX = width/11;
@@ -174,9 +169,9 @@ void setup() {
   jarImage = "images/room1Jar.png";
   jarHighlight = "images/room1JarHighlight.png";
 
-  jarId = 2;
+  jarId = 3;
   jar = new Object(jarX, jarY, jarW, jarH, false, jarImage, jarHighlight, instJarInfo, jarId, rooms[0]);
-  stuffr1[2] = jar;
+ 
 
 
   //room1
@@ -186,29 +181,29 @@ void setup() {
   r1H = height/2;
   r1Image = "images/room1bg.jpg";
   r1ImageDark = "images/testRoomDark.png";
-  rooms[0] = new Room(r1X, r1Y, r1W, r1H, r1Image, stuffr1);
+  rooms[0] = new Room(r1X, r1Y, r1W, r1H, r1Image, new Object[] {box, chest, jar}, new int[] {1,2,3});
 
   roomIn = rooms[0];
-  
+
 
   ///////////////// ROOM 2 ///////////////////
 
- 
+
   //////////////// ROOM 2 OBJECTS //////////////
 
-  //stuff = new Object[1];
-  
-  //jar object
-  //clockX = width/2 + width/11;
-  //clockY = height/2 + height/3.1;
-  //clockW = (width/height)*70;
-  //clockH = (width/height)*100;
-  //clockImage = "images/room2Clock.png";
-  //clockHighlight = "images/room2ClockHighlight.png";
 
-  //clockId = 3;
-  //clock = new Object(clockX, clockY, clockW, clockH, false, clockImage, clockHighlight, instClockInfo, clockId, rooms[1]);
-  //stuff[0] = clock;
+
+  //clock object
+  clockX = width/2 + width/11;
+  clockY = height/2 + height/3.1;
+  clockW = (width/height)*70;
+  clockH = (width/height)*100;
+  clockImage = "images/room2Clock.png";
+  clockHighlight = "images/room2ClockHighlight.png";
+
+  clockId = 4;
+  clock = new Object(clockX, clockY, clockW, clockH, true, clockImage, clockHighlight, instClockInfo, clockId, rooms[1]);
+ 
 
   //room2
   r2X = r1W;
@@ -216,7 +211,7 @@ void setup() {
   r2W = width/2.25;
   r2H = height/2;
   r2Image = "images/room2bg.jpg";
-  rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, stuffr1);
+  rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, new Object[] {clock}, new int[] {4});
 
 
   door0Info = "This door is locked.";
@@ -277,6 +272,7 @@ void draw() {
   background(0);
 
   for (int i = 0; i < rooms.length; i++) {
+    //println("In Room " + i + " RoomIn " + roomIn);
     if (roomIn == rooms[i]) {
       rooms[i].display();
     } else {
@@ -314,19 +310,24 @@ void keyPressed() {
     //  background(255-i);
     //if(i==255){
     spriteMoving = true;
-  } else if (key == 'i' && roomIn == rooms[0]) {
-    for (int i = 0; i< stuffr1.length; i++) {
-      if (stuffr1[i].highlightObject == true && stuffr1[i].state == true) {
-
-        textAppear = !textAppear;
-        textBoxOn = !textBoxOn;
-        box.visited = true;
-        stuffr1[i].updateText();
-        stuffr1[i].update();
-      }
+  } else if (key == 'i') {
+      roomIn.highlightObject();
     }
-  }
+  //} else if (key == 'i' && roomIn == rooms[1]) {
+  //  for (int i = 0; i < stuff.length; i++) {
+  //    if (stuff[i].highlightObject == true && stuff[i].state == true) {
+  //      textAppear = !textAppear;
+  //      textBoxOn = !textBoxOn;
+  //      box.visited = true;
+  //      stuff[i].updateText();
+  //      stuff[i].update();
+  //    }
+  //  }
+  
 }
+
+
+
 
 
 void keyReleased() {
