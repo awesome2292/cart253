@@ -1,4 +1,4 @@
-//INSTRUCTION CLASS //<>//
+//INSTRUCTION CLASS //<>// //<>//
 //This class is responsible for the text associated with each object in each room
 //Each instruction has a "allowExit" boolean, which determines whether the text
 //allows the sprite to unlock interaction with the next object or not, and

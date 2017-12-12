@@ -8,6 +8,9 @@
 //Any additionnal classes deemed needed will be added along the way
 //Let's get started!
 
+//////////////// LIBRARIES ////////////////////
+import processing.sound.*;
+
 
 //////////////// VARIABLES ///////////////////
 //beginning of game
@@ -62,6 +65,11 @@ float clockX, clockY, clockW, clockH;
 String clockImage, clockHighlight, clockInfo;
 int clockId;
 
+//painting
+float paintingX, paintingY, paintingW, paintingH;
+String paintingImage, paintingHighlight, paintingInfo;
+int paintingId;
+
 
 //Door0 Variables
 String door0Info;
@@ -77,7 +85,7 @@ Sprite puppet;
 
 
 
-Object chest, box, jar, clock;
+Object chest, box, jar, clock, painting;
 
 Door door0Right, door1Left, door1Right;
 
@@ -87,6 +95,8 @@ Door door0Right, door1Left, door1Right;
 Room roomIn;
 
 boolean nextToDoor = false;
+
+SoundFile backgroundMusic;
 
 
 
@@ -111,6 +121,9 @@ Instruction[] instJarInfo = {new Instruction (false, "This is a jar."),
 Instruction[] instClockInfo = {new Instruction (false, "The clock hands remain stuck in place."), 
   new Instruction (false, "It's as if time is frozen.")};
 
+Instruction[] instPaintingInfo = {new Instruction (false, "It's a painting of a girl."), 
+  new Instruction (false, "She looks familiar.")};
+
 
 
 //////////////// SETUP /////////////////////
@@ -120,7 +133,8 @@ void setup() {
   fullScreen();
   //size(1280,1024, P3D);
   background(0);
-
+  backgroundMusic = new SoundFile(this, "sounds/bg.mp3");
+  
   ////////////// MENU //////////////
   titleFont = loadFont("AmaticSC-Regular-150.vlw");
   instructionFont = loadFont("AmaticSC-Regular-48.vlw");
@@ -147,7 +161,7 @@ void setup() {
 
   boxId = 1;
   box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, instBoxInfo, boxId, rooms[0]);
- 
+
 
   //chest object
   chestX = width/5;
@@ -171,7 +185,7 @@ void setup() {
 
   jarId = 3;
   jar = new Object(jarX, jarY, jarW, jarH, false, jarImage, jarHighlight, instJarInfo, jarId, rooms[0]);
- 
+
 
 
   //room1
@@ -181,7 +195,7 @@ void setup() {
   r1H = height/2;
   r1Image = "images/room1bg.jpg";
   r1ImageDark = "images/testRoomDark.png";
-  rooms[0] = new Room(r1X, r1Y, r1W, r1H, r1Image, new Object[] {box, chest, jar}, new int[] {1,2,3});
+  rooms[0] = new Room(r1X, r1Y, r1W, r1H, r1Image, new Object[] {box, chest, jar}, new int[] {1, 2, 3});
 
   roomIn = rooms[0];
 
@@ -203,7 +217,18 @@ void setup() {
 
   clockId = 4;
   clock = new Object(clockX, clockY, clockW, clockH, true, clockImage, clockHighlight, instClockInfo, clockId, rooms[1]);
- 
+  
+  //clock object
+  paintingX = width/2 - width/9;
+  paintingY = height/2 + height/8;
+  paintingW = (width/height)*400;
+  paintingH = (width/height)*400;
+  paintingImage = "images/room2Painting.png";
+  paintingHighlight = "images/room2PaintingHighlight.png";
+
+  paintingId = 5;
+  painting = new Object(paintingX, paintingY, paintingW, paintingH, false, paintingImage, paintingHighlight, instPaintingInfo, paintingId, rooms[1]);
+
 
   //room2
   r2X = r1W;
@@ -211,7 +236,7 @@ void setup() {
   r2W = width/2.25;
   r2H = height/2;
   r2Image = "images/room2bg.jpg";
-  rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, new Object[] {clock}, new int[] {4});
+  rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, new Object[] {clock, painting}, new int[] {4, 5});
 
 
   door0Info = "This door is locked.";
@@ -304,6 +329,7 @@ void draw() {
 
 void keyPressed() {
   if (gameStart && key == 'i') {
+    backgroundMusic.play();
     gameStart = false;
   } else if (!gameStart && !spriteMoving) {
     //for(int i = 0; i<255 ; i++){
@@ -311,8 +337,8 @@ void keyPressed() {
     //if(i==255){
     spriteMoving = true;
   } else if (key == 'i') {
-      roomIn.highlightObject();
-    }
+    roomIn.highlightObject();
+  }
   //} else if (key == 'i' && roomIn == rooms[1]) {
   //  for (int i = 0; i < stuff.length; i++) {
   //    if (stuff[i].highlightObject == true && stuff[i].state == true) {
@@ -323,7 +349,6 @@ void keyPressed() {
   //      stuff[i].update();
   //    }
   //  }
-  
 }
 
 
