@@ -51,7 +51,7 @@ class Room {
     noFill();
     stroke(strokeColor);
     strokeWeight(strokeThickness);
-    image(roomBackground, roomX, roomY, roomWidth, roomHeight);
+    image(roomBackground, roomX, roomY);
     rect(roomX, roomY, roomWidth, roomHeight);
 
     //the objects will also be displayed within their corresponding room
@@ -71,6 +71,11 @@ class Room {
     stroke(strokeColor);
     strokeWeight(strokeThickness);
     rect(roomX, roomY, roomWidth, roomHeight);
+    
+    //for (int i = 0; i < things.length; i++) {
+    //  println("The objects should be gone");
+    //  things[i].darkDisplay();
+    //}
   }
 
   //the text box will be displayed on top of everything else
@@ -79,11 +84,6 @@ class Room {
       if (things[i].highlightObject && textAppear && things[i].state) {
         things[i].displayText();
       }
-     //for(int c = 0; c < doors.length; i++){
-     //   if (doors[c].talkDoor){
-     //    doors[c].displayText(); 
-     //   }
-     // }
     }
   }
 }

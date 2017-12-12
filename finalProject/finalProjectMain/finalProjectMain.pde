@@ -57,6 +57,11 @@ float jarX, jarY, jarW, jarH;
 String jarImage, jarHighlight, jarInfo;
 int jarId;
 
+//clock
+float clockX, clockY, clockW, clockH;
+String clockImage, clockHighlight, clockInfo;
+int clockId;
+
 
 //Door0 Variables
 String door0Info;
@@ -66,11 +71,13 @@ Room room1, room2, room3, room4, room5, room6;
 
 Room[] rooms;
 
+
 Sprite puppet;
 
 
-Object[] stuff;
-Object chest, box, jar;
+Object[] stuffr1;
+
+Object chest, box, jar, clock;
 
 Door door0Right, door1Left, door1Right;
 
@@ -81,19 +88,33 @@ Room roomIn;
 
 boolean nextToDoor = false;
 
-int[] objectIds = {0, 1, 2, 3};
+int[] objectIds = {0, 1, 2, 3, 4};
 
 int currentIndex = 0;
 int currentId = -1;
 
 
-Instruction[] instBoxInfo = {new Instruction (false, "This is a carboard box."),
-                              new Instruction (false, "Interact with another object in the room to exit"),
-                               new Instruction (false, "Try Again")}; 
+Instruction[] instBoxInfo = {new Instruction (false, "This is a carboard box."), 
+  new Instruction (false, "Maybe if you try looking at other objects, you'll find a way out of this room."), 
+  new Instruction (false, "It's just a carboard box. Nothing special.")}; 
 
-String[] myBoxInfo = {"This is a carboard box.", "Interact with another object in the room to exit", "Try again."};
-String[] myChestInfo = {"The chest is unlocked. You find a piece of paper with the words 'I'm lonely' written on it.", "Seriously move on", "Why are you still here?!"};
-String[] myJarInfo = {"This is a jar.", "The jar is empty", "The content of this jar will help you with your journey"};
+Instruction[] instChestInfo = {new Instruction (false, "The chest is unlocked."), 
+  new Instruction (false, "You find a crumpled piece of paper inside the chest. It's blank."), 
+  new Instruction (false, "There isn't anything else inside..."), 
+  new Instruction (false, "You should probably move on."), 
+  new Instruction (false, "Seriously, move on. There's nothing else here."), 
+  new Instruction (false, "Leave already."), 
+  new Instruction (false, "..."), 
+  new Instruction (false, "Oh wait."), 
+  new Instruction (false, "There is a small compartment in the bottom of the chest."), 
+  new Instruction (true, "It contains a small key.")};
+
+Instruction[] instJarInfo = {new Instruction (false, "This is a jar."), 
+  new Instruction (false, "It's empty.")};
+
+Instruction[] instClockInfo = {new Instruction (false, "The clock hands remain stuck in place."), 
+  new Instruction (false, "It's as if time is frozen.")};
+
 
 
 //////////////// SETUP /////////////////////
@@ -107,16 +128,20 @@ void setup() {
   ////////////// MENU //////////////
   titleFont = loadFont("AmaticSC-Regular-150.vlw");
   instructionFont = loadFont("AmaticSC-Regular-48.vlw");
-  
-
-  ////////////// ROOMS /////////////
-
-  rooms = new Room[3];
-
-  stuff = new Object[3];
 
 
-  ////////// OBJECTS ////////////
+
+
+  rooms = new Room[2];
+
+
+  ////////////// ROOM 1 /////////////
+
+  // if (roomIn == rooms[0]) {
+  stuffr1 = new Object[3];
+
+
+  ////////// ROOM 1 OBJECTS ////////////
   //box object
   boxX = width/10;
   boxY = height - height/9;
@@ -124,10 +149,10 @@ void setup() {
   boxH = (width/height)*80;
   boxImage = "images/room1Box.png";
   boxHighlight = "images/room1BoxHighlight.png";
-  
+
   boxId = 0;
-  box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, myBoxInfo, boxId);
-  stuff[0] = box;
+  box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, instBoxInfo, boxId, rooms[0]);
+  stuffr1[0] = box;
 
   //chest object
   chestX = width/5;
@@ -136,10 +161,10 @@ void setup() {
   chestH = (width/height)*150;
   chestImage = "images/room1Chest.png";
   chestHighlight = "images/room1ChestHighlight.png";
-  
+
   chestId = 1;
-  chest = new Object(chestX, chestY, chestW, chestH, false, chestImage, chestHighlight, myChestInfo, chestId);
-  stuff[1] = chest;
+  chest = new Object(chestX, chestY, chestW, chestH, false, chestImage, chestHighlight, instChestInfo, chestId, rooms[0]);
+  stuffr1[1] = chest;
 
   //jar object
   jarX = width/11;
@@ -148,10 +173,10 @@ void setup() {
   jarH = (width/height)*100;
   jarImage = "images/room1Jar.png";
   jarHighlight = "images/room1JarHighlight.png";
-  
+
   jarId = 2;
-  jar = new Object(jarX, jarY, jarW, jarH, false, jarImage, jarHighlight, myJarInfo, jarId);
-  stuff[2] = jar;
+  jar = new Object(jarX, jarY, jarW, jarH, false, jarImage, jarHighlight, instJarInfo, jarId, rooms[0]);
+  stuffr1[2] = jar;
 
 
   //room1
@@ -161,12 +186,29 @@ void setup() {
   r1H = height/2;
   r1Image = "images/room1bg.jpg";
   r1ImageDark = "images/testRoomDark.png";
-  rooms[0] = new Room(r1X, r1Y, r1W, r1H, r1Image, stuff);
+  rooms[0] = new Room(r1X, r1Y, r1W, r1H, r1Image, stuffr1);
 
   roomIn = rooms[0];
+  
 
+  ///////////////// ROOM 2 ///////////////////
 
-  //stuff = new Object[0];
+ 
+  //////////////// ROOM 2 OBJECTS //////////////
+
+  //stuff = new Object[1];
+  
+  //jar object
+  //clockX = width/2 + width/11;
+  //clockY = height/2 + height/3.1;
+  //clockW = (width/height)*70;
+  //clockH = (width/height)*100;
+  //clockImage = "images/room2Clock.png";
+  //clockHighlight = "images/room2ClockHighlight.png";
+
+  //clockId = 3;
+  //clock = new Object(clockX, clockY, clockW, clockH, false, clockImage, clockHighlight, instClockInfo, clockId, rooms[1]);
+  //stuff[0] = clock;
 
   //room2
   r2X = r1W;
@@ -174,7 +216,7 @@ void setup() {
   r2W = width/2.25;
   r2H = height/2;
   r2Image = "images/room2bg.jpg";
-  rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, stuff);
+  rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, stuffr1);
 
 
   door0Info = "This door is locked.";
@@ -196,15 +238,15 @@ void setup() {
   //r3Image = "images/room1bg.jpg";
   //room3 = new Room(r3X, r3Y, r3W, r3H, r3Image);
 
-  //room5
-  r5X = r2X + r2W;
-  r5Y =  height/2;
-  r5W = width/3.25;
-  r5H = height/2;
-  r5Image = "images/room1bg.jpg";
-  rooms[2] = new Room(r5X, r5Y, r5W, r5H, r5Image, stuff);
-  
-  door1Right = new Door(rooms[1], rooms[2], door0Info);
+  ////room5
+  //r5X = r2X + r2W;
+  //r5Y =  height/2;
+  //r5W = width/3.25;
+  //r5H = height/2;
+  //r5Image = "images/room1bg.jpg";
+  //rooms[2] = new Room(r5X, r5Y, r5W, r5H, r5Image, stuff);
+
+  //door1Right = new Door(rooms[1], rooms[2], door0Info);
 
   ////room6
   //r6X = r3X + r3W;
@@ -244,8 +286,8 @@ void draw() {
 
   door0Right.display();
   door0Right.update();
-  door1Right.display();
-  door1Right.update();
+  //door1Right.display();
+  //door1Right.update();
   door0Right.highlight(puppet);
   for (int i = 0; i < rooms.length; i++) {
     if (roomIn == rooms[i]) {
@@ -261,52 +303,45 @@ void draw() {
   //background(30, 30, 30, 0.2);
   gameBegin();
   gameInstructions();
-  
-  
-  
 }
 
 
 void keyPressed() {
-   if (gameStart && key == 'i') {
-      gameStart = false;
-    }
-    else if (!gameStart && !spriteMoving){
-      //for(int i = 0; i<255 ; i++){
-      //  background(255-i);
-      //if(i==255){
-      spriteMoving = true;
-      }
-    //}
-    //}
-     else if (key == 'i') {
-  for (int i = 0; i< stuff.length; i++) {
-     println("state of " + i+ " is " + stuff[i].state);
-    if (stuff[i].highlightObject == true && stuff[i].state == true) {
-     
-     textAppear = !textAppear;
-      textBoxOn = !textBoxOn;
+  if (gameStart && key == 'i') {
+    gameStart = false;
+  } else if (!gameStart && !spriteMoving) {
+    //for(int i = 0; i<255 ; i++){
+    //  background(255-i);
+    //if(i==255){
+    spriteMoving = true;
+  } else if (key == 'i' && roomIn == rooms[0]) {
+    for (int i = 0; i< stuffr1.length; i++) {
+      if (stuffr1[i].highlightObject == true && stuffr1[i].state == true) {
+
+        textAppear = !textAppear;
+        textBoxOn = !textBoxOn;
         box.visited = true;
-        stuff[i].updateText();
-        stuff[i].update();
+        stuffr1[i].updateText();
+        stuffr1[i].update();
       }
     }
   }
 }
+
 
 void keyReleased() {
   puppet.keyReleased();
 }
 
 
-////When the mouse is clicked, the sprite will move from the room it's in to the other room on the screen;
-//void mouseClicked() {
-//  if (roomIn == rooms[0]) {
-//    roomIn = rooms[1];
-//  } else if (roomIn == rooms[1]) {
-//    roomIn = rooms[0];
-//  }
-//}
+//When the mouse is clicked, the sprite will move from the room it's in to the other room on the screen;
+void mouseClicked() {
+  if (roomIn == rooms[0]) {
+    roomIn = rooms[1];
+  } else if (roomIn == rooms[1]) {
+    roomIn = rooms[0];
+  }
+}
 
 ////////// gameBegin() function ///////////
 // When the game begins, present the title of the game and the instructions concerning the gameplay

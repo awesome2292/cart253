@@ -24,9 +24,10 @@ class Object {
   boolean visited = false;
 
   //information about the object
-  String[] objectInfo;
+ 
   Textbox textbox;
   Object objectBefore;
+  Instruction[] objectInstructions;
   
   //objects needed to interact with before
   boolean firstObject;
@@ -36,27 +37,28 @@ class Object {
   int idNum;
   boolean state;
   int lastTxtIndex=0;
+  Room associatedRoom; 
 
 
   ///////////////////// CONSTRUCTOR //////////////////////
   //Each object will have different locations, dimmensions, interaction types, and images
-  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempState, String tempNoHighlight, String tempHighlight, String[] tempObjectInfo, int tempIdNum) {
+  Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempState, String tempNoHighlight, String tempHighlight, Instruction[] tempObjInst, int tempIdNum, Room tempAsRoom) {
     objectX = tempObjX;
     objectY = tempObjY;
     objectWidth = tempObjW;
     objectHeight = tempObjH;
-    objectInfo = tempObjectInfo;
+    objectInstructions = tempObjInst;
     noHighlightImage = tempNoHighlight;
     highlightImage = tempHighlight;
     objectImage = loadImage(noHighlightImage);
     state = tempState;
     idNum = tempIdNum;
     textbox = new Textbox();
-   if (objectInfo.length >lastTxtIndex)
+    associatedRoom = tempAsRoom;
+   if (objectInstructions.length >lastTxtIndex)
         {
-          String info = objectInfo[lastTxtIndex];
-          println(info);
-          textbox.setText(info);
+          Instruction info = objectInstructions[lastTxtIndex];
+          textbox.setText(info.instructionText);
         }
   }
 
@@ -67,6 +69,7 @@ class Object {
   //This function determines when the objects should be interactable, by "highlighting"
   //it when the sprite passes by it
   void highlight(Sprite puppet) {
+
     //Calculate possible overlaps with the sprite and the object
     boolean insideX = (puppet.spriteX <= objectX+objectWidth/2 && puppet.spriteX >= objectX-objectWidth/2);
     boolean insideY = (puppet.spriteY <= objectY+objectHeight/2 && puppet.spriteY >= objectY-objectHeight/2);
@@ -80,14 +83,8 @@ class Object {
       //println("This object should be highlighted");
       
       
-    } 
-    //else if(objectBefore.visited && insideX && insideY) {
-      
-    //  highlightObject = true; 
-    //  //This talkObject boolean determines whether the object can be interacted with or not
-    //  talkObject = true;
-    //  println("This is the next object that should be highlighted");
-    //}
+    }
+    
     else {
       highlightObject = false;
       talkObject = false;
@@ -104,10 +101,12 @@ class Object {
       if(currentId == objectIds[currentIndex]){
         println("currentid = currentindex");
         currentIndex +=1;
-        for (int j = 0; j < stuff.length; j++){
-          if (stuff[j].idNum == objectIds[currentIndex]){
-            stuff[j].state = true;
+        for (int j = 0; j < stuffr1.length; j++){
+         
+          if (stuffr1[j].idNum == objectIds[currentIndex]){
+            stuffr1[j].state = true;
           }
+          
         }
     }
     
@@ -117,13 +116,14 @@ class Object {
 
   void updateText()
   {
-    println("comparing lengths " + objectInfo.length + " " + lastTxtIndex);
-    if (visited && objectInfo.length >lastTxtIndex)
+    println("comparing lengths " + objectInstructions.length + " " + lastTxtIndex);
+    if (visited && objectInstructions.length >lastTxtIndex)
         {
-          String info = objectInfo[lastTxtIndex];
-          println("Setting Text to " + info);
-          textbox.setText(info);
-          lastTxtIndex =  int(random(0,objectInfo.length));
+          Instruction info = objectInstructions[lastTxtIndex];
+          println("Setting Text to " + info.instructionText);
+          textbox.setText(info.instructionText);
+          //lastTxtIndex =  int(random(0,objectInstructions.length));
+          lastTxtIndex++;
         }
   }
 
@@ -166,5 +166,6 @@ class Object {
     }
 
 }
+
 
 }
