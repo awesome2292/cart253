@@ -27,13 +27,14 @@ class Door {
   //door type
   //if written "horizontal" then the door is horizontal, if written "vertical" then the door is vertical
   String doorType;
+  boolean nextToDoor = false;
 
   //information about the object
   String doorInfo;
   Textbox textbox;
   boolean highlightDoor;
   boolean talkDoor;
-  boolean locked = true;
+  boolean locked;
 
 
 
@@ -46,11 +47,13 @@ class Door {
   //and then the sprite will be able to pass through to the next room
 
   //the constructor requires the rooms on either side of the door
-  Door(Room tempRoom1, Room tempRoom2, String tempDoorType) {
+  Door(Room tempRoom1, Room tempRoom2, String tempDoorType, boolean tempLocked) {
     room1 = tempRoom1;
     room2 = tempRoom2;
     doorType = tempDoorType;
     doorThickness = 20;
+    
+    locked = tempLocked;
     //doorInfo= tempDoorInfo;
     textbox = new Textbox();
     //textbox.setText(tempDoorInfo);
@@ -76,33 +79,6 @@ class Door {
   }
 
 
-  //This function determines when the objects should be interactable, by "highlighting"
-  //it when the sprite passes by it
-  void highlight(Sprite puppet) {
-    //Calculate possible overlaps with the sprite and the object
-    boolean insideX = (puppet.spriteX > leftDoorX1 - 100 && puppet.spriteX < leftDoorX1);
-    boolean insideY = (puppet.spriteY > leftDoorY1 && puppet.spriteY < leftDoorY2);
-    // Check if the sprite overlaps with the object
-    if (insideX && insideY) {
-      //If so, then the image of the object will be replaced with a "highlighted" version
-      //Meaning that the object will be highlighted when the sprite passes by it
-      highlightDoor = true; 
-      //This talkObject boolean determines whether the object can be interacted with or not
-      talkDoor = true;
-      // textbox.display();
-    } else {
-      highlightDoor = false;
-      talkDoor = false;
-    }
-  }
-
-  void displayText() {
-    if (talkDoor) {
-      textbox.display();
-    }
-  }
-
-
   //display() function
   //the door's display depends on the type of room it corresponds to
   void display() {
@@ -112,11 +88,17 @@ class Door {
     leftDoorX2 = leftDoorX1;
     leftDoorY2 = room1.roomY + room1.roomHeight - 15;
     
-    //the coordinates of the door from the left room
+    //the coordinates of the door from the top room
     topDoorX1 = room1.roomX + room1.roomWidth/2;
     topDoorY1 = room1.roomY;
     topDoorX2 = room1.roomX + room1.roomWidth;
     topDoorY2 = topDoorY1;
+    
+    //the coordinates of the door from the bottom room
+    bottomDoorX1 = room2.roomX;
+    bottomDoorY1 = room2.roomY + room2.roomHeight;
+    bottomDoorX2 = room2.roomX + room2.roomWidth/2;
+    bottomDoorY2 = bottomDoorY1;
 
     //the coordinates of the door from the right room
     rightDoorX1 = room2.roomX;
@@ -134,6 +116,7 @@ class Door {
     } else if (doorType == "horizontal"){
       fill(0, 0, 0, 0.5);
       //the doors will overlap and create one door
+      line(bottomDoorX1, bottomDoorY1, bottomDoorX2, bottomDoorY2);
       line(topDoorX1, topDoorY1, topDoorX2, topDoorY2);
     }
   }

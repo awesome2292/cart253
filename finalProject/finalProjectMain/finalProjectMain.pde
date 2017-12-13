@@ -73,6 +73,20 @@ float paintingX, paintingY, paintingW, paintingH;
 String paintingImage, paintingHighlight, paintingInfo;
 int paintingId;
 
+//stair
+float stairX, stairY, stairW, stairH;
+String stairImage, stairHighlight, stairInfo;
+int stairId;
+
+//bear
+float bearX, bearY, bearW, bearH;
+String bearImage, bearHighlight, bearInfo;
+int bearId;
+
+//painting2
+float painting2X, painting2Y, painting2W, painting2H;
+String painting2Image, painting2Highlight, painting2Info;
+int painting2Id;
 
 //Door0 Variables
 String door0Info;
@@ -88,7 +102,7 @@ Sprite puppet;
 Animation animationForward;
 
 
-Object chest, box, jar, clock, painting;
+Object chest, box, jar, clock, painting, stair, bear, painting2;
 
 Door door0to1, door1to2;
 
@@ -96,8 +110,6 @@ Door door0to1, door1to2;
 
 ////////////// GLOBAL VARIABLES /////////////
 Room roomIn;
-
-boolean nextToDoor = false;
 
 SoundFile bgMusic;
 
@@ -127,21 +139,29 @@ Instruction[] instClockInfo = {new Instruction (false, "The clock hands remain s
 Instruction[] instPaintingInfo = {new Instruction (false, "It's a painting of a girl."), 
   new Instruction (false, "She looks familiar.")};
 
+Instruction[] instBearInfo = {new Instruction (false, "There rests a teddy bear on the nightstand."), 
+  new Instruction (false, "It's just as lifeless as the rest of the house...")};
+
+Instruction[] instPainting2Info = {new Instruction (false, "It's a painting of a unicorn."), 
+  new Instruction (false, "It frolicks across a rainbow.")};
+
+Instruction[] instStairInfo = {new Instruction (false, "A stair wobbles."), 
+  new Instruction (false, "You remove the stair and find a bloostained handkerchief.")};
 
 
 //////////////// SETUP /////////////////////
 //the game will be in full screen, with a black background
 void setup() {
   //fullScreen(P3D);
-  fullScreen();
-  //size(1280,1024, P3D);
+  //fullScreen();
+  size(2736, 1824, P3D);
   background(0);
-  
+
   //music
   bgMusic = new SoundFile(this, "data/tone01.wav");
 
-  
-  
+
+
   ////////////// MENU //////////////
   titleFont = loadFont("AmaticSC-Regular-150.vlw");
   instructionFont = loadFont("AmaticSC-Regular-48.vlw");
@@ -149,7 +169,7 @@ void setup() {
 
 
 
-  rooms = new Room[4];
+  rooms = new Room[6];
 
 
   ////////////// ROOM 1 /////////////
@@ -224,8 +244,8 @@ void setup() {
 
   clockId = 4;
   clock = new Object(clockX, clockY, clockW, clockH, true, clockImage, clockHighlight, instClockInfo, clockId, rooms[1]);
-  
-  //clock object
+
+  //painting object
   paintingX = width/2 - width/9;
   paintingY = height/2 + height/8;
   paintingW = (width/height)*400;
@@ -237,55 +257,89 @@ void setup() {
   painting = new Object(paintingX, paintingY, paintingW, paintingH, false, paintingImage, paintingHighlight, instPaintingInfo, paintingId, rooms[1]);
 
 
+  //stair object
+  stairX = width/2 + width/11;
+  stairY = height/2 + height/3.1;
+  stairW = (width/height)*70;
+  stairH = (width/height)*100;
+  stairImage = "images/room2stair.png";
+  stairHighlight = "images/room2stairHighlight.png";
+
+  stairId = 4;
+  stair = new Object(stairX, stairY, stairW, stairH, false, stairImage, stairHighlight, instStairInfo, stairId, rooms[1]);
+
   //room2
   r2X = r1W;
   r2Y = height/2;
   r2W = width/2.25;
   r2H = height/2;
   r2Image = "images/room2bg.jpg";
-  rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, new Object[] {clock, painting}, new int[] {4, 5});
+  rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, new Object[] {clock, painting, stair}, new int[] {4, 5});
 
 
   //door0Info = "This door is locked.";
-  door0to1 = new Door(rooms[0], rooms[1], "vertical");
+  door0to1 = new Door(rooms[0], rooms[1], "vertical", true);
 
-  //room4
+  //room3
   r3X = 0;
   r3Y = 0;
   r3W = width/4 + width/10;
   r3H = height/2;
   r3Image = "images/room1bg.jpg";
-  rooms[2] = new Room(r3X, r3Y, r3W, r3H, r3Image, new Object[] {}, new int[] {10, 11, 12});
-  //door0Info = "This door is locked.";
-  door1to2 = new Door(rooms[1], rooms[2], "horizontal");
+  rooms[4] = new Room(r3X, r3Y, r3W, r3H, r3Image, new Object[] {}, new int[] {10, 11, 12});
 
-  //room3
-  r4X = r3W;
+
+  //room4
+  r4X = width/4 + width/10;
   r4Y = 0;
   r4W = width/2.5;
   r4H = height/2;
   r4Image = "images/room1bg.jpg";
-  rooms[3] = new Room(r4X, r4Y, r4W, r4H, r4Image, new Object[] {}, new int[] {7,8,9});
+  rooms[3] = new Room(r4X, r4Y, r4W, r4H, r4Image, new Object[] {}, new int[] {7, 8, 9});
 
-  ////room5
-  //r5X = r2X + r2W;
-  //r5Y =  height/2;
-  //r5W = width/3.25;
-  //r5H = height/2;
-  //r5Image = "images/room1bg.jpg";
-  //rooms[2] = new Room(r5X, r5Y, r5W, r5H, r5Image, stuff);
 
-  //door1Right = new Door(rooms[1], rooms[2], door0Info);
+  //bear object
+  bearX = width - width/13;
+  bearY = height/2 + height/3.5;
+  bearW = (width/height)*70;
+  bearH = (width/height)*100;
+  bearImage = "images/room5Bear.png";
+  bearHighlight = "images/room5BearHighlight.png";
 
-  ////room6
-  //r6X = r3X + r3W;
-  //r6Y = 0;
-  //r6W = width/4;
-  //r6H = height/2;
-  //r6Image = "images/room1bg.jpg";
-  //room6 = new Room(r6X, r6Y, r6W, r6H, r6Image);
+  bearId = 7;
+  bear = new Object(bearX, bearY, bearW, bearH, true, bearImage, bearHighlight, instBearInfo, bearId, rooms[2]);
 
-  //rooms[6] = new Room(r1X, r1Y, r1W, r1H, r1Image, r1Image);
+  //painting object
+  painting2X = width - width/7;
+  painting2Y = height/2 + height/10;
+  painting2W = (width/height)*300;
+  painting2H = (width/height)*300;
+  painting2Image = "images/room5Painting.png";
+  painting2Highlight = "images/room5PaintingHighlight.png";
+
+  painting2Id = 8;
+  painting2 = new Object(painting2X, painting2Y, painting2W, painting2H, false, painting2Image, painting2Highlight, instPainting2Info, painting2Id, rooms[2]);
+
+
+  //room5
+  r5X = r2X + r2W;
+  r5Y =  height/2;
+  r5W = width/3.25;
+  r5H = height/2;
+  r5Image = "images/room5bg.jpg";
+  rooms[2] = new Room(r5X, r5Y, r5W, r5H, r5Image, new Object[] {bear, painting2}, new int[] {7, 8, 9});
+  println("r5W = " +r5W + "r5H = " + r5H);
+
+  door1to2 = new Door(rooms[1], rooms[3], "horizontal", false);
+
+  //room6
+  r6X = r4X + r4W;
+  r6Y = 0;
+  r6W = width/4;
+  r6H = height/2;
+  r6Image = "images/room1bg.jpg";
+  rooms[5] = new Room(r6X, r6Y, r6W, r6H, r6Image, new Object[] {}, new int[] {});
+
 
   //////////// SPRITE /////////////
   //sprite
@@ -293,7 +347,7 @@ void setup() {
   pY = height - 50;
   pW = (width/height)*45;
   pH = (width/height)*65;
-  puppet = new Sprite(pX, pY);
+  puppet = new Sprite(pX, pY, new Door[] {door1to2});
 }
 
 
@@ -316,11 +370,9 @@ void draw() {
 
   door0to1.display();
   door0to1.update();
-  door0to1.highlight(puppet);
-  
+
   door1to2.display();
   door1to2.update();
-  door1to2.highlight(puppet);
   for (int i = 0; i < rooms.length; i++) {
     if (roomIn == rooms[i]) {
       rooms[i].displayText();
@@ -375,6 +427,10 @@ void mouseClicked() {
   if (roomIn == rooms[0]) {
     roomIn = rooms[1];
   } else if (roomIn == rooms[1]) {
+    roomIn = rooms[2];
+  } else if (roomIn == rooms[2]) {
+    roomIn = rooms[3];
+  } else if (roomIn == rooms[3]) {
     roomIn = rooms[0];
   }
 }
