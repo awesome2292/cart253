@@ -22,34 +22,40 @@ class Sprite {
   float acceleration = 7;
 
   //Sprite Size
-  float spriteWidth;
-  float spriteHeight;
+  int spriteWidth;
+  int spriteHeight;
   PImage sprite;
 
   //Animation
   boolean animated = false;
   
   //Classes
+
+  
   Animation animationForward;
   Animation animationForwardStop;
 
   //////////// CONSTRUCTOR //////////////
 
-  Sprite(float spriteTempX, float spriteTempY, float spriteTempWidth, float spriteTempHeight) {
+  Sprite(float spriteTempX, float spriteTempY) {
     spriteX = spriteTempX;
     spriteY = spriteTempY;
-    spriteWidth = spriteTempWidth;
-    spriteHeight = spriteTempHeight;
-
-
     spriteVX = 0;
     spriteVY = 0;
+    
 
     sprite = loadImage("data/spriteAnimationForward01.png");
+    
+
 
     //animations
     animationForward = new Animation("spriteAnimationForward0", 5, 2);
     animationForwardStop = new Animation("spriteAnimationForwardStop0", 5, 2);
+    spriteWidth = animationForward.getWidth();
+    spriteHeight = animationForward.getHeight();
+    println("spriteWidth:" + spriteWidth);
+    println("spriteHeight:" + spriteHeight);
+    
   }
 
   ///////////// FUNCTIONS //////////////
@@ -104,15 +110,15 @@ class Sprite {
 
       //if the sprite is next to the left side of the door it needs to pass through
       // the constrain will be cancelled and it will be able to pass through to the next room from the left side
-      if (door0Right.locked == false) {
-        if (spriteX > door0Right.leftDoorX1 - 100 && spriteX < door0Right.leftDoorX1 + roomIn.strokeThickness/2 && spriteY > door0Right.leftDoorY1 && spriteY < door0Right.leftDoorY2) {
+      if (!door.locked) {
+        if (spriteX > door0to1.leftDoorX1 - 100 && spriteX < door0to1.leftDoorX1 + roomIn.strokeThickness/2 && spriteY > door0to1.leftDoorY1 && spriteY < door0to1.leftDoorY2) {
           nextToDoor = true;
-          roomIn = door0Right.room1;
+          roomIn = door0to1.room1;
           //if the sprite is next to the right side of the door it needs to pass through
           // the constrain will be cancelled and it will be able to pass through to the next room from the right side
-        } else if (spriteX < door0Right.rightDoorX1 + 100 && spriteX > door0Right.rightDoorX1 - roomIn.strokeThickness/2 && spriteY > door0Right.rightDoorY1 && spriteY < door0Right.rightDoorY2) {
+        } else if (spriteX < door0to1.rightDoorX1 + 100 && spriteX > door0to1.rightDoorX1 - roomIn.strokeThickness/2 && spriteY > door0to1.rightDoorY1 && spriteY < door0to1.rightDoorY2) {
           nextToDoor = true;
-          roomIn = door0Right.room2;
+          roomIn = door0to1.room2;
           //otherwise the boolean will remain false and the constrain will remain functional
         } else {
           nextToDoor = false;
@@ -121,9 +127,9 @@ class Sprite {
 
       //The sprite is constrained to the borders of the room it's in
       if (!nextToDoor) {
-        spriteY = constrain(spriteY, roomIn.roomY + roomIn.strokeThickness, roomIn.roomY + roomIn.roomHeight - spriteHeight);
+        spriteY = constrain(spriteY, roomIn.roomY + spriteHeight/2, roomIn.roomY + roomIn.roomHeight - spriteHeight/2);
 
-        spriteX = constrain(spriteX, roomIn.roomX + roomIn.strokeThickness, roomIn.roomX + roomIn.roomWidth - spriteWidth);
+        spriteX = constrain(spriteX, roomIn.roomX + spriteWidth/2, roomIn.roomX + roomIn.roomWidth - spriteWidth/2);
       }
 
 

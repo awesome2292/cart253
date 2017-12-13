@@ -12,7 +12,7 @@ import processing.sound.*;
 //Let's get started!
 
 //////////////// LIBRARIES ////////////////////
-import processing.sound.*;
+
 
 
 //////////////// VARIABLES ///////////////////
@@ -90,7 +90,7 @@ Animation animationForward;
 
 Object chest, box, jar, clock, painting;
 
-Door door0Right, door1Left, door1Right;
+Door door0to1, door1to2;
 
 
 
@@ -139,7 +139,7 @@ void setup() {
   
   //music
   bgMusic = new SoundFile(this, "data/tone01.wav");
-  bgMusic.play();
+
   
   
   ////////////// MENU //////////////
@@ -246,24 +246,26 @@ void setup() {
   rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, new Object[] {clock, painting}, new int[] {4, 5});
 
 
-  door0Info = "This door is locked.";
-  door0Right = new Door(rooms[0], rooms[1], door0Info);
+  //door0Info = "This door is locked.";
+  door0to1 = new Door(rooms[0], rooms[1], "vertical");
 
   //room4
-  r4X = 0;
-  r4Y = 0;
-  r4W = width/4 + width/10;
-  r4H = height/2;
-  r4Image = "images/room1bg.jpg";
-  rooms[2] = new Room(r4X, r4Y, r4W, r4H, r4Image, new Object[] {}, new int[] {10, 11, 12});
-
-  //room3
-  r3X = r4W;
+  r3X = 0;
   r3Y = 0;
-  r3W = width/2.5;
+  r3W = width/4 + width/10;
   r3H = height/2;
   r3Image = "images/room1bg.jpg";
-  rooms[3] = new Room(r3X, r3Y, r3W, r3H, r3Image, new Object[] {}, new int[] {7,8,9});
+  rooms[2] = new Room(r3X, r3Y, r3W, r3H, r3Image, new Object[] {}, new int[] {10, 11, 12});
+  //door0Info = "This door is locked.";
+  door1to2 = new Door(rooms[1], rooms[2], "horizontal");
+
+  //room3
+  r4X = r3W;
+  r4Y = 0;
+  r4W = width/2.5;
+  r4H = height/2;
+  r4Image = "images/room1bg.jpg";
+  rooms[3] = new Room(r4X, r4Y, r4W, r4H, r4Image, new Object[] {}, new int[] {7,8,9});
 
   ////room5
   //r5X = r2X + r2W;
@@ -291,7 +293,7 @@ void setup() {
   pY = height - 50;
   pW = (width/height)*45;
   pH = (width/height)*65;
-  puppet = new Sprite(pX, pY, pW, pH);
+  puppet = new Sprite(pX, pY);
 }
 
 
@@ -312,11 +314,13 @@ void draw() {
     }
   }
 
-  door0Right.display();
-  door0Right.update();
-  //door1Right.display();
-  //door1Right.update();
-  door0Right.highlight(puppet);
+  door0to1.display();
+  door0to1.update();
+  door0to1.highlight(puppet);
+  
+  door1to2.display();
+  door1to2.update();
+  door1to2.highlight(puppet);
   for (int i = 0; i < rooms.length; i++) {
     if (roomIn == rooms[i]) {
       rooms[i].displayText();

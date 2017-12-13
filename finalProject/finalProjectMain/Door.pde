@@ -13,6 +13,8 @@ class Door {
   //location
   float leftDoorX1, leftDoorY1, leftDoorX2, leftDoorY2;
   float rightDoorX1, rightDoorX2, rightDoorY1, rightDoorY2;
+  float topDoorX1, topDoorY1, topDoorX2, topDoorY2;
+  float bottomDoorX1, bottomDoorY1, bottomDoorX2, bottomDoorY2;
 
   //corresponsing rooms
   Room room1;
@@ -22,7 +24,11 @@ class Door {
   int doorThickness;
   color doorColor;
 
-//information about the object
+  //door type
+  //if written "horizontal" then the door is horizontal, if written "vertical" then the door is vertical
+  String doorType;
+
+  //information about the object
   String doorInfo;
   Textbox textbox;
   boolean highlightDoor;
@@ -40,13 +46,14 @@ class Door {
   //and then the sprite will be able to pass through to the next room
 
   //the constructor requires the rooms on either side of the door
-  Door(Room tempRoom1, Room tempRoom2, String tempDoorInfo) {
+  Door(Room tempRoom1, Room tempRoom2, String tempDoorType) {
     room1 = tempRoom1;
     room2 = tempRoom2;
+    doorType = tempDoorType;
     doorThickness = 20;
-    doorInfo= tempDoorInfo;
+    //doorInfo= tempDoorInfo;
     textbox = new Textbox();
-    textbox.setText(tempDoorInfo);
+    //textbox.setText(tempDoorInfo);
   }
 
 
@@ -65,7 +72,7 @@ class Door {
       locked = false;
     }
 
-   // println("nb visited: " + numberVisited);
+    // println("nb visited: " + numberVisited);
   }
 
 
@@ -89,10 +96,10 @@ class Door {
     }
   }
 
-void displayText() {
-  if(talkDoor){
-    textbox.display();
-  }
+  void displayText() {
+    if (talkDoor) {
+      textbox.display();
+    }
   }
 
 
@@ -104,6 +111,12 @@ void displayText() {
     leftDoorY1 = room1.roomY + 150;
     leftDoorX2 = leftDoorX1;
     leftDoorY2 = room1.roomY + room1.roomHeight - 15;
+    
+    //the coordinates of the door from the left room
+    topDoorX1 = room1.roomX + room1.roomWidth/2;
+    topDoorY1 = room1.roomY;
+    topDoorX2 = room1.roomX + room1.roomWidth;
+    topDoorY2 = topDoorY1;
 
     //the coordinates of the door from the right room
     rightDoorX1 = room2.roomX;
@@ -113,15 +126,15 @@ void displayText() {
 
     stroke(doorThickness);
     strokeCap(SQUARE);
-    if (highlightDoor) {
-      fill(255, 255, 255);
+    if (doorType == "vertical") {
+      fill(0, 0, 0, 0.5);
       line(rightDoorX1, rightDoorY1, rightDoorX2, rightDoorY2);
       line(leftDoorX1, leftDoorY1, leftDoorX2, leftDoorY2);
-    } else {
+
+    } else if (doorType == "horizontal"){
       fill(0, 0, 0, 0.5);
       //the doors will overlap and create one door
-      line(rightDoorX1, rightDoorY1, rightDoorX2, rightDoorY2);
-      line(leftDoorX1, leftDoorY1, leftDoorX2, leftDoorY2);
+      line(topDoorX1, topDoorY1, topDoorX2, topDoorY2);
     }
   }
 }
