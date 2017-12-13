@@ -329,7 +329,7 @@ void draw() {
 
 void keyPressed() {
   if (gameStart && key == 'i') {
-    backgroundMusic.play();
+      //backgroundMusic.play();
     gameStart = false;
   } else if (!gameStart && !spriteMoving) {
     //for(int i = 0; i<255 ; i++){
