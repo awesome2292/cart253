@@ -1,3 +1,5 @@
+import processing.sound.*;
+
 //FINAL PROJECT
 //INTERACTIVE PUZZLE GAME: SOLI
 //Use the character to explore the abandoned house and discover the story of the family
@@ -82,7 +84,7 @@ Room[] rooms;
 
 Sprite puppet;
 
-
+Animation animationForward;
 
 
 Object chest, box, jar, clock, painting;
@@ -133,7 +135,10 @@ void setup() {
   fullScreen();
   //size(1280,1024, P3D);
   background(0);
+  
+  //music
   backgroundMusic = new SoundFile(this, "sounds/bg.mp3");
+  
   
   ////////////// MENU //////////////
   titleFont = loadFont("AmaticSC-Regular-150.vlw");

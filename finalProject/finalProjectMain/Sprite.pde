@@ -9,20 +9,29 @@ class Sprite {
   //Sprite location
   float spriteX;
   float spriteY;
+
   //Sprite velocity
   float spriteVX;
   float spriteVY;
   float speed = 5;
   float friction = 0.9;
+
   //Accelaration
   float spriteAX;
   float spriteAY;
   float acceleration = 7;
+
   //Sprite Size
   float spriteWidth;
   float spriteHeight;
   PImage sprite;
 
+  //Animation
+  boolean animated = false;
+  
+  //Classes
+  Animation animationForward;
+  Animation animationForwardStop;
 
   //////////// CONSTRUCTOR //////////////
 
@@ -36,7 +45,11 @@ class Sprite {
     spriteVX = 0;
     spriteVY = 0;
 
-    sprite = loadImage("images/sprite.png");
+    sprite = loadImage("data/spriteAnimationForward01.png");
+
+    //animations
+    animationForward = new Animation("spriteAnimationForward0", 5, 2);
+    animationForwardStop = new Animation("spriteAnimationForwardStop0", 5, 2);
   }
 
   ///////////// FUNCTIONS //////////////
@@ -47,73 +60,74 @@ class Sprite {
   void update() {
     // Update position with velocity to move the Sprite
 
-  if(spriteMoving){
-    //keyPressed() allows the sprite to move around the house
-    // Check if the UP key is pressed
-    if (keyPressed) {
-      if (keyCode == UP) {
-        // If so, the sprite moves upwards with a negative Y velocity
-        spriteAY = -acceleration;
-      } // Otherwise check if the DOWN key is pressed 
-      else if (keyCode == DOWN) {
-        // If so, the sprite moves downwards with a positive Y velocity
+    if (spriteMoving) {
+      //keyPressed() allows the sprite to move around the house
+      // Check if the UP key is pressed
+      if (keyPressed) {
+        if (keyCode == UP) {
+          // If so, the sprite moves upwards with a negative Y velocity
+          spriteAY = -acceleration;
+        } // Otherwise check if the DOWN key is pressed 
+        else if (keyCode == DOWN) {
+          // If so, the sprite moves downwards with a positive Y velocity
 
-        spriteAY = acceleration;
+          spriteAY = acceleration;
+        }
+
+        //Check if the LEFT key is pressed
+        if (keyCode == LEFT) {
+          // If so, the sprite moves to the left with a negative X velocity
+          spriteAX = -acceleration;
+        }
+        //Otherwise check if the RIGHT key is pressed
+        else if (keyCode == RIGHT) {
+          // If so, the sprite moves to the right with a positive X velocity
+          spriteAX = acceleration;
+          animationForward.display(spriteX,spriteY);
+          animated = true;
+        }
       }
 
-      //Check if the LEFT key is pressed
-      if (keyCode == LEFT) {
-        // If so, the sprite moves to the left with a negative X velocity
+      //velocity depends on the increasing and decreasing acceleration
+      spriteVX += spriteAX;
+      spriteVY += spriteAY;
 
-        spriteAX = -acceleration;
+      //friction is applied when the sprite slows down
+      spriteVX *= friction;
+      spriteVY *= friction;
+
+      //the position of the sprite will change according to the varying velocity
+      spriteX += spriteVX;
+      spriteY += spriteVY;
+
+      //if the sprite is next to the left side of the door it needs to pass through
+      // the constrain will be cancelled and it will be able to pass through to the next room from the left side
+      if (door0Right.locked == false) {
+        if (spriteX > door0Right.leftDoorX1 - 100 && spriteX < door0Right.leftDoorX1 + roomIn.strokeThickness/2 && spriteY > door0Right.leftDoorY1 && spriteY < door0Right.leftDoorY2) {
+          nextToDoor = true;
+          roomIn = door0Right.room1;
+          //if the sprite is next to the right side of the door it needs to pass through
+          // the constrain will be cancelled and it will be able to pass through to the next room from the right side
+        } else if (spriteX < door0Right.rightDoorX1 + 100 && spriteX > door0Right.rightDoorX1 - roomIn.strokeThickness/2 && spriteY > door0Right.rightDoorY1 && spriteY < door0Right.rightDoorY2) {
+          nextToDoor = true;
+          roomIn = door0Right.room2;
+          //otherwise the boolean will remain false and the constrain will remain functional
+        } else {
+          nextToDoor = false;
+        }
       }
-      //Otherwise check if the RIGHT key is pressed
-      else if (keyCode == RIGHT) {
-        // If so, the sprite moves to the right with a positive X velocity
-        spriteAX = acceleration;
+
+      //The sprite is constrained to the borders of the room it's in
+      if (!nextToDoor) {
+        spriteY = constrain(spriteY, roomIn.roomY + roomIn.strokeThickness, roomIn.roomY + roomIn.roomHeight - spriteHeight);
+
+        spriteX = constrain(spriteX, roomIn.roomX + roomIn.strokeThickness, roomIn.roomX + roomIn.roomWidth - spriteWidth);
       }
+
+
+      spriteVX = constrain(spriteVX, -speed, speed);
+      spriteVY = constrain(spriteVY, -speed, speed);
     }
-
-    //velocity depends on the increasing and decreasing acceleration
-    spriteVX += spriteAX;
-    spriteVY += spriteAY;
-
-    //friction is applied when the sprite slows down
-    spriteVX *= friction;
-    spriteVY *= friction;
-
-    //the position of the sprite will change according to the varying velocity
-    spriteX += spriteVX;
-    spriteY += spriteVY;
-
-    //if the sprite is next to the left side of the door it needs to pass through
-    // the constrain will be cancelled and it will be able to pass through to the next room from the left side
-    if (door0Right.locked == false) {
-      if (spriteX > door0Right.leftDoorX1 - 100 && spriteX < door0Right.leftDoorX1 + roomIn.strokeThickness/2 && spriteY > door0Right.leftDoorY1 && spriteY < door0Right.leftDoorY2) {
-        nextToDoor = true;
-        roomIn = door0Right.room1;
-        //if the sprite is next to the right side of the door it needs to pass through
-        // the constrain will be cancelled and it will be able to pass through to the next room from the right side
-      } else if (spriteX < door0Right.rightDoorX1 + 100 && spriteX > door0Right.rightDoorX1 - roomIn.strokeThickness/2 && spriteY > door0Right.rightDoorY1 && spriteY < door0Right.rightDoorY2) {
-        nextToDoor = true;
-        roomIn = door0Right.room2;
-        //otherwise the boolean will remain false and the constrain will remain functional
-      } else {
-        nextToDoor = false;
-      }
-    }
-
-    //The sprite is constrained to the borders of the room it's in
-    if (!nextToDoor) {
-      spriteY = constrain(spriteY, roomIn.roomY + roomIn.strokeThickness, roomIn.roomY + roomIn.roomHeight - spriteHeight);
-
-      spriteX = constrain(spriteX, roomIn.roomX + roomIn.strokeThickness, roomIn.roomX + roomIn.roomWidth - spriteWidth);
-    }
-
-
-    spriteVX = constrain(spriteVX, -speed, speed);
-    spriteVY = constrain(spriteVY, -speed, speed);
-  }
   }
 
 
@@ -124,6 +138,8 @@ class Sprite {
     }
     if (keyCode == LEFT || keyCode == RIGHT) {
       spriteAX = 0;
+      animationForwardStop.display(spriteX, spriteY);
+      animated = false;
     }
   }
 
@@ -135,7 +151,9 @@ class Sprite {
   //the sprite will be displayed as an image, and evenually a GIF, or a mini animation?
   void display() {
     imageMode(CENTER);
-    image(sprite, spriteX, spriteY, spriteWidth, spriteHeight);
+    if(!animated){
+    image(sprite, spriteX, spriteY);
+    }
     imageMode(CORNER);
   }
 }
