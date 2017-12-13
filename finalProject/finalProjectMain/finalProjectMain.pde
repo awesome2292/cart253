@@ -153,12 +153,13 @@ Instruction[] instStairInfo = {new Instruction (false, "A stair wobbles."),
 //the game will be in full screen, with a black background
 void setup() {
   //fullScreen(P3D);
-  //fullScreen();
-  size(2736, 1824, P3D);
+  fullScreen();
+  //size(1368, 912, P3D);
   background(0);
 
   //music
   bgMusic = new SoundFile(this, "data/tone01.wav");
+  //bgMusic.play();
 
 
 
@@ -257,16 +258,16 @@ void setup() {
   painting = new Object(paintingX, paintingY, paintingW, paintingH, false, paintingImage, paintingHighlight, instPaintingInfo, paintingId, rooms[1]);
 
 
-  //stair object
-  stairX = width/2 + width/11;
-  stairY = height/2 + height/3.1;
-  stairW = (width/height)*70;
-  stairH = (width/height)*100;
-  stairImage = "images/room2stair.png";
-  stairHighlight = "images/room2stairHighlight.png";
+  ////stair object
+  //stairX = width/2 + width/11;
+  //stairY = height/2 + height/3.1;
+  //stairW = (width/height)*70;
+  //stairH = (width/height)*100;
+  //stairImage = "images/room2stair.png";
+  //stairHighlight = "images/room2stairHighlight.png";
 
-  stairId = 4;
-  stair = new Object(stairX, stairY, stairW, stairH, false, stairImage, stairHighlight, instStairInfo, stairId, rooms[1]);
+  //stairId = 4;
+  //stair = new Object(stairX, stairY, stairW, stairH, false, stairImage, stairHighlight, instStairInfo, stairId, rooms[1]);
 
   //room2
   r2X = r1W;
@@ -274,11 +275,11 @@ void setup() {
   r2W = width/2.25;
   r2H = height/2;
   r2Image = "images/room2bg.jpg";
-  rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, new Object[] {clock, painting, stair}, new int[] {4, 5});
+  rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, new Object[] {clock, painting}, new int[] {4, 5});
 
 
   //door0Info = "This door is locked.";
-  door0to1 = new Door(rooms[0], rooms[1], "vertical", true);
+  door0to1 = new Door(rooms[0], rooms[1], "vertical", false);
 
   //room3
   r3X = 0;
@@ -327,10 +328,10 @@ void setup() {
   r5W = width/3.25;
   r5H = height/2;
   r5Image = "images/room5bg.jpg";
-  rooms[2] = new Room(r5X, r5Y, r5W, r5H, r5Image, new Object[] {bear, painting2}, new int[] {7, 8, 9});
+  rooms[2] = new Room(r5X, r5Y, r5W, r5H, r5Image, new Object[] {bear, painting2}, new int[] {7, 8});
   println("r5W = " +r5W + "r5H = " + r5H);
 
-  door1to2 = new Door(rooms[1], rooms[3], "horizontal", false);
+  door1to2 = new Door(rooms[1], rooms[2], "vertical", false);
 
   //room6
   r6X = r4X + r4W;
@@ -347,7 +348,7 @@ void setup() {
   pY = height - 50;
   pW = (width/height)*45;
   pH = (width/height)*65;
-  puppet = new Sprite(pX, pY, new Door[] {door1to2});
+  puppet = new Sprite(pX, pY, new Door[] {door0to1});
 }
 
 

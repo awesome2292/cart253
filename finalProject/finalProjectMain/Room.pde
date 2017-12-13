@@ -56,7 +56,7 @@ class Room {
     noFill();
     stroke(strokeColor);
     strokeWeight(strokeThickness);
-    image(roomBackground, roomX, roomY);
+    image(roomBackground, roomX, roomY,  roomWidth, roomHeight);
     rect(roomX, roomY, roomWidth, roomHeight);
 
     //the objects will also be displayed within their corresponding room
