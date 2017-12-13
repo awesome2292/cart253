@@ -67,11 +67,13 @@ class Sprite {
         if (keyCode == UP) {
           // If so, the sprite moves upwards with a negative Y velocity
           spriteAY = -acceleration;
+          animated = false;
         } // Otherwise check if the DOWN key is pressed 
         else if (keyCode == DOWN) {
           // If so, the sprite moves downwards with a positive Y velocity
 
           spriteAY = acceleration;
+          animated = false;
         }
 
         //Check if the LEFT key is pressed
@@ -135,6 +137,7 @@ class Sprite {
   void keyReleased() {
     if (keyCode == UP || keyCode == DOWN) {
       spriteAY = 0;
+      animated = false;
     }
     if (keyCode == LEFT || keyCode == RIGHT) {
       spriteAX = 0;

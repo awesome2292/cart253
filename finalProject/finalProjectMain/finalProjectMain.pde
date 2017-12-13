@@ -1,5 +1,6 @@
 import processing.sound.*;
 
+
 //FINAL PROJECT
 //INTERACTIVE PUZZLE GAME: SOLI
 //Use the character to explore the abandoned house and discover the story of the family
@@ -98,7 +99,7 @@ Room roomIn;
 
 boolean nextToDoor = false;
 
-SoundFile backgroundMusic;
+SoundFile bgMusic;
 
 
 
@@ -137,7 +138,8 @@ void setup() {
   background(0);
   
   //music
-  backgroundMusic = new SoundFile(this, "sounds/bg.mp3");
+  bgMusic = new SoundFile(this, "data/tone01.wav");
+  bgMusic.play();
   
   
   ////////////// MENU //////////////
@@ -147,7 +149,7 @@ void setup() {
 
 
 
-  rooms = new Room[2];
+  rooms = new Room[4];
 
 
   ////////////// ROOM 1 /////////////
@@ -247,21 +249,21 @@ void setup() {
   door0Info = "This door is locked.";
   door0Right = new Door(rooms[0], rooms[1], door0Info);
 
-  ////room4
-  //r4X = 0;
-  //r4Y = 0;
-  //r4W = width/4 + width/10;
-  //r4H = height/2;
-  //r4Image = "images/room1bg.jpg";
-  //rooms[2] = new Room(r4X, r4Y, r4W, r4H, r4Image, stuff);
+  //room4
+  r4X = 0;
+  r4Y = 0;
+  r4W = width/4 + width/10;
+  r4H = height/2;
+  r4Image = "images/room1bg.jpg";
+  rooms[2] = new Room(r4X, r4Y, r4W, r4H, r4Image, new Object[] {}, new int[] {10, 11, 12});
 
-  ////room3
-  //r3X = r4W;
-  //r3Y = 0;
-  //r3W = width/2.5;
-  //r3H = height/2;
-  //r3Image = "images/room1bg.jpg";
-  //room3 = new Room(r3X, r3Y, r3W, r3H, r3Image);
+  //room3
+  r3X = r4W;
+  r3Y = 0;
+  r3W = width/2.5;
+  r3H = height/2;
+  r3Image = "images/room1bg.jpg";
+  rooms[3] = new Room(r3X, r3Y, r3W, r3H, r3Image, new Object[] {}, new int[] {7,8,9});
 
   ////room5
   //r5X = r2X + r2W;
@@ -334,7 +336,6 @@ void draw() {
 
 void keyPressed() {
   if (gameStart && key == 'i') {
-      //backgroundMusic.play();
     gameStart = false;
   } else if (!gameStart && !spriteMoving) {
     //for(int i = 0; i<255 ; i++){
