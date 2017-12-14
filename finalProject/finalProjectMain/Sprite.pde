@@ -120,8 +120,8 @@ class Sprite {
             //if the sprite is next to the right side of the door it needs to pass through
             // the constrain will be cancelled and it will be able to pass through to the next room from the right side
           } else if (spriteX < allDoors[i].rightDoorX1 + 100 && spriteX > allDoors[i].rightDoorX1 - roomIn.strokeThickness/2 && spriteY > allDoors[i].rightDoorY1 && spriteY < allDoors[i].rightDoorY2) {
-            allDoors[i].nextToDoor = true;
             roomIn = allDoors[i].room2;
+            allDoors[i].nextToDoor = true;
             //otherwise the boolean will remain false and the constrain will remain functional
           } //else {
           //  allDoors[i].nextToDoor = false;
@@ -157,7 +157,7 @@ class Sprite {
 
       //The sprite is constrained to the borders of the room it's in
       for (int j = 0; j < allDoors.length; j++) {
-        if (allDoors[j].nextToDoor == false) {
+        if (roomIn == allDoors[j].room1 && allDoors[j].nextToDoor == false || roomIn == allDoors[j].room2 && allDoors[j].nextToDoor == false) {
           
           println("nextToDoor status when we reach the constrain function is " + allDoors[j].nextToDoor);
           spriteY = constrain(spriteY, roomIn.roomY + spriteHeight/2, roomIn.roomY + roomIn.roomHeight - spriteHeight/2);
@@ -169,6 +169,7 @@ class Sprite {
       spriteVX = constrain(spriteVX, -speed, speed);
       spriteVY = constrain(spriteVY, -speed, speed);
     }
+    
   }
 
 

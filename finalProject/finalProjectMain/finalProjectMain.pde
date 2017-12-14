@@ -331,7 +331,7 @@ void setup() {
   rooms[2] = new Room(r5X, r5Y, r5W, r5H, r5Image, new Object[] {bear, painting2}, new int[] {7, 8});
   println("r5W = " +r5W + "r5H = " + r5H);
 
-  door1to2 = new Door(rooms[1], rooms[2], "vertical", false);
+  door1to2 = new Door(rooms[1], rooms[2], "vertical", true);
 
   //room6
   r6X = r4X + r4W;
@@ -348,7 +348,7 @@ void setup() {
   pY = height - 50;
   pW = (width/height)*45;
   pH = (width/height)*65;
-  puppet = new Sprite(pX, pY, new Door[] {door0to1});
+  puppet = new Sprite(pX, pY, new Door[] {door0to1, door1to2});
 }
 
 
