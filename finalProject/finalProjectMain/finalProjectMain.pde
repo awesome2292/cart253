@@ -1,4 +1,4 @@
-import processing.sound.*;
+
 
 
 //FINAL PROJECT
@@ -11,11 +11,10 @@ import processing.sound.*;
 //Any additionnal classes deemed needed will be added along the way
 //Let's get started!
 
-//////////////// LIBRARIES ////////////////////
 
 
 
-//////////////// VARIABLES ///////////////////
+//////////////// VARIABLES /////////////////////////////////////////////
 //beginning of game
 boolean gameStart = true;
 PFont titleFont;
@@ -92,6 +91,8 @@ int painting2Id;
 String door0Info;
 
 //////////////// CLASSES ////////////////////
+
+//ROOMS
 Room room1, room2, room3, room4, room5, room6;
 
 Room[] rooms;
@@ -104,21 +105,22 @@ Animation animationForward;
 
 Object chest, box, jar, clock, painting, stair, bear, painting2;
 
-Door door0to1, door1to2;
+Door door0to1, door1to2, door1to3;
 
 
 
 ////////////// GLOBAL VARIABLES /////////////
 Room roomIn;
 
-SoundFile bgMusic;
 
+///////////// OBJECT INFORMATION ////////////////////////
 
-
+//cardboard box
 Instruction[] instBoxInfo = {new Instruction (false, "This is a carboard box."), 
   new Instruction (false, "Maybe if you try looking at other objects, you'll find a way out of this room."), 
   new Instruction (false, "It's just a carboard box. Nothing special.")}; 
 
+//chest
 Instruction[] instChestInfo = {new Instruction (false, "The chest is unlocked."), 
   new Instruction (false, "You find a crumpled piece of paper inside the chest. It's blank."), 
   new Instruction (false, "There isn't anything else inside..."), 
@@ -130,36 +132,41 @@ Instruction[] instChestInfo = {new Instruction (false, "The chest is unlocked.")
   new Instruction (false, "There is a small compartment in the bottom of the chest."), 
   new Instruction (true, "It contains a small key.")};
 
+//jar
 Instruction[] instJarInfo = {new Instruction (false, "This is a jar."), 
   new Instruction (false, "It's empty.")};
 
+//clock
 Instruction[] instClockInfo = {new Instruction (false, "The clock hands remain stuck in place."), 
   new Instruction (false, "It's as if time is frozen.")};
 
+//painting
 Instruction[] instPaintingInfo = {new Instruction (false, "It's a painting of a girl."), 
   new Instruction (false, "She looks familiar.")};
 
+//teddy bear
 Instruction[] instBearInfo = {new Instruction (false, "There rests a teddy bear on the nightstand."), 
-  new Instruction (false, "It's just as lifeless as the rest of the house...")};
+  new Instruction (false, "It's just as lifeless as the rest of the house..."), 
+  new Instruction (true, "What happened to the owner...?")};
 
+//painting2
 Instruction[] instPainting2Info = {new Instruction (false, "It's a painting of a unicorn."), 
   new Instruction (false, "It frolicks across a rainbow.")};
 
-Instruction[] instStairInfo = {new Instruction (false, "A stair wobbles."), 
-  new Instruction (false, "You remove the stair and find a bloostained handkerchief.")};
+//Instruction[] instStairInfo = {new Instruction (false, "A stair wobbles."), 
+//  new Instruction (false, "You remove the stair and find a bloostained handkerchief.")};
 
 
 //////////////// SETUP /////////////////////
 //the game will be in full screen, with a black background
 void setup() {
-  //fullScreen(P3D);
+
   fullScreen();
   //size(1368, 912, P3D);
+
+
   background(0);
 
-  //music
-  bgMusic = new SoundFile(this, "data/tone01.wav");
-  //bgMusic.play();
 
 
 
@@ -169,16 +176,14 @@ void setup() {
 
 
 
-
+  //list of rooms available
   rooms = new Room[6];
 
 
   ////////////// ROOM 1 /////////////
 
-  // if (roomIn == rooms[0]) {
 
-
-  ////////// ROOM 1 OBJECTS ////////////
+  /////// ROOM 1 OBJECTS ///////
   //box object
   boxX = width/10;
   boxY = height - height/9;
@@ -186,7 +191,6 @@ void setup() {
   boxH = (width/height)*80;
   boxImage = "images/room1Box.png";
   boxHighlight = "images/room1BoxHighlight.png";
-
   boxId = 1;
   box = new Object(boxX, boxY, boxW, boxH, true, boxImage, boxHighlight, instBoxInfo, boxId, rooms[0]);
 
@@ -198,7 +202,6 @@ void setup() {
   chestH = (width/height)*150;
   chestImage = "images/room1Chest.png";
   chestHighlight = "images/room1ChestHighlight.png";
-
   chestId = 2;
   chest = new Object(chestX, chestY, chestW, chestH, false, chestImage, chestHighlight, instChestInfo, chestId, rooms[0]);
 
@@ -210,13 +213,12 @@ void setup() {
   jarH = (width/height)*100;
   jarImage = "images/room1Jar.png";
   jarHighlight = "images/room1JarHighlight.png";
-
   jarId = 3;
   jar = new Object(jarX, jarY, jarW, jarH, false, jarImage, jarHighlight, instJarInfo, jarId, rooms[0]);
 
 
 
-  //room1
+  //room1 code
   r1X = 0;
   r1Y =  height/2;
   r1W = width/4;
@@ -224,16 +226,15 @@ void setup() {
   r1Image = "images/room1bg.jpg";
   r1ImageDark = "images/testRoomDark.png";
   rooms[0] = new Room(r1X, r1Y, r1W, r1H, r1Image, new Object[] {box, chest, jar}, new int[] {1, 2, 3});
-
   roomIn = rooms[0];
+
+
 
 
   ///////////////// ROOM 2 ///////////////////
 
 
-  //////////////// ROOM 2 OBJECTS //////////////
-
-
+  /////// ROOM 2 OBJECTS //////////
 
   //clock object
   clockX = width/2 + width/11;
@@ -242,7 +243,6 @@ void setup() {
   clockH = (width/height)*100;
   clockImage = "images/room2Clock.png";
   clockHighlight = "images/room2ClockHighlight.png";
-
   clockId = 4;
   clock = new Object(clockX, clockY, clockW, clockH, true, clockImage, clockHighlight, instClockInfo, clockId, rooms[1]);
 
@@ -253,7 +253,6 @@ void setup() {
   paintingH = (width/height)*400;
   paintingImage = "images/room2Painting.png";
   paintingHighlight = "images/room2PaintingHighlight.png";
-
   paintingId = 5;
   painting = new Object(paintingX, paintingY, paintingW, paintingH, false, paintingImage, paintingHighlight, instPaintingInfo, paintingId, rooms[1]);
 
@@ -265,11 +264,10 @@ void setup() {
   //stairH = (width/height)*100;
   //stairImage = "images/room2stair.png";
   //stairHighlight = "images/room2stairHighlight.png";
-
   //stairId = 4;
   //stair = new Object(stairX, stairY, stairW, stairH, false, stairImage, stairHighlight, instStairInfo, stairId, rooms[1]);
 
-  //room2
+  //room2 code
   r2X = r1W;
   r2Y = height/2;
   r2W = width/2.25;
@@ -277,11 +275,9 @@ void setup() {
   r2Image = "images/room2bg.jpg";
   rooms[1] = new Room(r2X, r2Y, r2W, r2H, r2Image, new Object[] {clock, painting}, new int[] {4, 5});
 
+  ////////////////// ROOM 3 ///////////////////
 
-  //door0Info = "This door is locked.";
-  door0to1 = new Door(rooms[0], rooms[1], "vertical", false);
-
-  //room3
+  //room3 code
   r3X = 0;
   r3Y = 0;
   r3W = width/4 + width/10;
@@ -290,7 +286,8 @@ void setup() {
   rooms[4] = new Room(r3X, r3Y, r3W, r3H, r3Image, new Object[] {}, new int[] {10, 11, 12});
 
 
-  //room4
+  //////////////////// ROOM 4 //////////////////
+  //room4 code
   r4X = width/4 + width/10;
   r4Y = 0;
   r4W = width/2.5;
@@ -298,6 +295,10 @@ void setup() {
   r4Image = "images/room1bg.jpg";
   rooms[3] = new Room(r4X, r4Y, r4W, r4H, r4Image, new Object[] {}, new int[] {7, 8, 9});
 
+
+  /////////////////// ROOM 5 ////////////////////
+
+  /////// ROOM 5 OBJECTS //////////////
 
   //bear object
   bearX = width - width/13;
@@ -307,8 +308,8 @@ void setup() {
   bearImage = "images/room5Bear.png";
   bearHighlight = "images/room5BearHighlight.png";
 
-  bearId = 7;
-  bear = new Object(bearX, bearY, bearW, bearH, true, bearImage, bearHighlight, instBearInfo, bearId, rooms[2]);
+  bearId = 8;
+  bear = new Object(bearX, bearY, bearW, bearH, false, bearImage, bearHighlight, instBearInfo, bearId, rooms[2]);
 
   //painting object
   painting2X = width - width/7;
@@ -318,11 +319,11 @@ void setup() {
   painting2Image = "images/room5Painting.png";
   painting2Highlight = "images/room5PaintingHighlight.png";
 
-  painting2Id = 8;
-  painting2 = new Object(painting2X, painting2Y, painting2W, painting2H, false, painting2Image, painting2Highlight, instPainting2Info, painting2Id, rooms[2]);
+  painting2Id = 7;
+  painting2 = new Object(painting2X, painting2Y, painting2W, painting2H, true, painting2Image, painting2Highlight, instPainting2Info, painting2Id, rooms[2]);
 
 
-  //room5
+  //room5 code
   r5X = r2X + r2W;
   r5Y =  height/2;
   r5W = width/3.25;
@@ -331,7 +332,7 @@ void setup() {
   rooms[2] = new Room(r5X, r5Y, r5W, r5H, r5Image, new Object[] {bear, painting2}, new int[] {7, 8});
   println("r5W = " +r5W + "r5H = " + r5H);
 
-  door1to2 = new Door(rooms[1], rooms[2], "vertical", true);
+  /////////////////// ROOM 6 //////////////////
 
   //room6
   r6X = r4X + r4W;
@@ -340,6 +341,13 @@ void setup() {
   r6H = height/2;
   r6Image = "images/room1bg.jpg";
   rooms[5] = new Room(r6X, r6Y, r6W, r6H, r6Image, new Object[] {}, new int[] {});
+
+
+  ////////////////// DOORS ////////////////////
+
+  door0to1 = new Door(rooms[0], rooms[1], "vertical", true, instChestInfo);
+  door1to2 = new Door(rooms[1], rooms[2], "vertical", true, instPaintingInfo);
+  door1to3 = new Door(rooms[1], rooms[3], "horizontal", true, instPaintingInfo);
 
 
   //////////// SPRITE /////////////
@@ -358,10 +366,11 @@ void setup() {
 
 void draw() {
   rectMode(CORNER);
-  background(0);
+  background(0); // black background
 
+
+  //loop running all the display functions for every room
   for (int i = 0; i < rooms.length; i++) {
-    //println("In Room " + i + " RoomIn " + roomIn);
     if (roomIn == rooms[i]) {
       rooms[i].display();
     } else {
@@ -369,11 +378,18 @@ void draw() {
     }
   }
 
+  //displays for the doors
   door0to1.display();
   door0to1.update();
 
   door1to2.display();
   door1to2.update();
+
+  door1to3.display();
+  door1to3.update();
+
+
+  //loop running the display for the text boxes
   for (int i = 0; i < rooms.length; i++) {
     if (roomIn == rooms[i]) {
       rooms[i].displayText();
@@ -381,16 +397,22 @@ void draw() {
   }
 
 
+  //if the textbox is not displayed, then the sprite is able to move around on the screen
   if (!textBoxOn) {
     puppet.update();
     puppet.display();
   }
-  //background(30, 30, 30, 0.2);
+
+  //gameBegin and gameInstructions display the title and instruction screens before the game begins
   gameBegin();
   gameInstructions();
 }
 
 
+
+//this keyPressed function is for toggling the text boxes when the sprite is on top of an
+//interactable object
+//it also removes the menus when they are displayed
 void keyPressed() {
   if (gameStart && key == 'i') {
     gameStart = false;
@@ -402,39 +424,32 @@ void keyPressed() {
   } else if (key == 'i') {
     roomIn.highlightObject();
   }
-  //} else if (key == 'i' && roomIn == rooms[1]) {
-  //  for (int i = 0; i < stuff.length; i++) {
-  //    if (stuff[i].highlightObject == true && stuff[i].state == true) {
-  //      textAppear = !textAppear;
-  //      textBoxOn = !textBoxOn;
-  //      box.visited = true;
-  //      stuff[i].updateText();
-  //      stuff[i].update();
-  //    }
-  //  }
 }
 
 
 
 
-
+//keyReleassed function for the sprite movement
 void keyReleased() {
   puppet.keyReleased();
 }
 
 
 //When the mouse is clicked, the sprite will move from the room it's in to the other room on the screen;
-void mouseClicked() {
-  if (roomIn == rooms[0]) {
-    roomIn = rooms[1];
-  } else if (roomIn == rooms[1]) {
-    roomIn = rooms[2];
-  } else if (roomIn == rooms[2]) {
-    roomIn = rooms[3];
-  } else if (roomIn == rooms[3]) {
-    roomIn = rooms[0];
-  }
-}
+//only for debugging purposes
+//void mouseClicked() {
+//  if (roomIn == rooms[0]) {
+//    roomIn = rooms[1];
+//  } else if (roomIn == rooms[1]) {
+//    roomIn = rooms[2];
+//  } else if (roomIn == rooms[2]) {
+//    roomIn = rooms[3];
+//  } else if (roomIn == rooms[3]) {
+//    roomIn = rooms[0];
+//  }
+//}
+
+
 
 ////////// gameBegin() function ///////////
 // When the game begins, present the title of the game and the instructions concerning the gameplay
@@ -452,13 +467,14 @@ void gameBegin() {
   }
 }
 
-
+//The screen after the title screen that explains the game play and any updates concerning the game
 void gameInstructions() {
   if (spriteMoving == false && gameStart == false) {
     background(0, 0, 0, 5);
     fill(255);
     textFont(instructionFont);
     textAlign(CENTER);
-    text("You are in an abandoned house, left behind by your owner. You try to find a way out.\n Use the arrow keys to navigate the space, and press I on possible objects to interact with.\n \n \n \n Press I to continue", width/2, height/2);
+    text("This is a beta version: only the first floor is available for gameplay. The player can move around within three rooms.\n The other rooms will be unlocked eventually.", width/2, height/4);
+    text("You are in an abandoned house, left behind by your owner. You try to find a way out.\n Use the arrow keys to navigate the space, and press I on possible objects to interact with.\n\n Don't be afraid to interact with objects multiple times. You may discover new things along the way...\n \n \n \n Press any key to continue", width/2, height/2);
   }
 }

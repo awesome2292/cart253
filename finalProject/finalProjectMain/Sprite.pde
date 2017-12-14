@@ -1,7 +1,8 @@
 //SPRITE CLASS
 //While there is only one sprite in the whole game, it is easier to separate it from the
 //rest of the main code
-//Its parameters are location, size
+//Its parameters are location, size, and the doors it can pass through
+
 class Sprite {
 
   ///////////// VARIABLES ///////////////
@@ -31,31 +32,33 @@ class Sprite {
 
   //Classes
   Door[] allDoors;
+  Textbox textbox;
 
   Animation animationForward;
   Animation animationForwardStop;
+
+  //text (will use in post-beta version)
+  String lockedOut = "The door locked behind you...";
 
   //////////// CONSTRUCTOR //////////////
 
   Sprite(float spriteTempX, float spriteTempY, Door[] tempAllDoors) {
     spriteX = spriteTempX;
     spriteY = spriteTempY;
+
     spriteVX = 0;
     spriteVY = 0;
 
     allDoors = tempAllDoors;
 
     sprite = loadImage("data/spriteAnimationForward01.png");
-
-
+    textbox = new Textbox();
 
     //animations
     animationForward = new Animation("spriteAnimationForward0", 5, 2);
     animationForwardStop = new Animation("spriteAnimationForwardStop0", 5, 2);
     spriteWidth = animationForward.getWidth();
     spriteHeight = animationForward.getHeight();
-    println("spriteWidth:" + spriteWidth);
-    println("spriteHeight:" + spriteHeight);
   }
 
   ///////////// FUNCTIONS //////////////
@@ -127,38 +130,38 @@ class Sprite {
           //  allDoors[i].nextToDoor = false;
           //}
         }
-        if(allDoors[i].locked){
-         println("You cannot go through " + allDoors[i]);
-         //allDoors[i].nextToDoor = false;
+      }
+
+
+      //same code for the horizontal doors
+      //if the sprite is next to the bottom of the door it needs to pass through
+      // the constrain will be cancelled and it will be able to pass through to the next room from the bottom
+      for (int i=0; i< allDoors.length; i++) {
+        for (int i=0; i< allDoors.length; i++) {
+          if (allDoors[i].locked == false && allDoors[i].doorType == "horizontal") {
+            println("You can go through " + allDoors[i]);
+            if (spriteY > allDoors[i].bottomDoorY1 + 150 && spriteY < allDoors[i].bottomDoorY1 - roomIn.strokeThickness/2 && spriteX > allDoors[i].bottomDoorX1 && spriteX < allDoors[i].bottomDoorX2) {
+              allDoors[i].nextToDoor = true;
+              roomIn = allDoors[i].room1;
+              //if the sprite is next to the top of the door it needs to pass through
+              // the constrain will be cancelled and it will be able to pass through to the next room from the top
+            } else if (spriteY < allDoors[i].topDoorY1 - 150 && spriteY > allDoors[i].topDoorY1 + roomIn.strokeThickness/2 && spriteX > allDoors[i].topDoorX1 && spriteX < allDoors[i].topDoorX2) {
+              allDoors[i].nextToDoor = true;
+              roomIn = allDoors[i].room2;
+              //otherwise the boolean will remain false and the constrain will remain functional
+            } else {
+              allDoors[i].nextToDoor = false;
+            }
+          }
         }
       }
-      
-      //for (int i=0; i< allDoors.length; i++) {
-      //  if (allDoors[i].locked == false && allDoors[i].doorType == "horizontal") {
-      //    println("You can go through " + allDoors[i]);
-      //    if (spriteY > allDoors[i].bottomDoorY1 + 150 && spriteY < allDoors[i].bottomDoorY1 - roomIn.strokeThickness/2 && spriteX > allDoors[i].bottomDoorX1 && spriteX < allDoors[i].bottomDoorX2) {
-      //      allDoors[i].nextToDoor = true;
-      //      roomIn = allDoors[i].room1;
-      //      //if the sprite is next to the right side of the door it needs to pass through
-      //      // the constrain will be cancelled and it will be able to pass through to the next room from the right side
-      //    } else if (spriteY < allDoors[i].topDoorY1 - 150 && spriteY > allDoors[i].topDoorY1 + roomIn.strokeThickness/2 && spriteX > allDoors[i].topDoorX1 && spriteX < allDoors[i].topDoorX2) {
-      //      allDoors[i].nextToDoor = true;
-      //      roomIn = allDoors[i].room2;
-      //      //otherwise the boolean will remain false and the constrain will remain functional
-      //    } else {
-      //      allDoors[i].nextToDoor = false;
-      //    }
-      //  }
-      //  if(allDoors[i].locked){
-      //   println("You cannot go through " + allDoors[i]);
-      //  }
-      //}
 
 
       //The sprite is constrained to the borders of the room it's in
       for (int j = 0; j < allDoors.length; j++) {
+        //checks to see if the sprite isn't next to the door
         if (roomIn == allDoors[j].room1 && allDoors[j].nextToDoor == false || roomIn == allDoors[j].room2 && allDoors[j].nextToDoor == false) {
-          
+
           println("nextToDoor status when we reach the constrain function is " + allDoors[j].nextToDoor);
           spriteY = constrain(spriteY, roomIn.roomY + spriteHeight/2, roomIn.roomY + roomIn.roomHeight - spriteHeight/2);
 
@@ -169,7 +172,6 @@ class Sprite {
       spriteVX = constrain(spriteVX, -speed, speed);
       spriteVY = constrain(spriteVY, -speed, speed);
     }
-    
   }
 
 
@@ -191,7 +193,8 @@ class Sprite {
 
 
   //display() function
-  //the sprite will be displayed as an image, and evenually a GIF, or a mini animation?
+  //the sprite will be displayed as an image when it is static, or moving up and down
+  //but will be an animation moving forwards
   void display() {
     imageMode(CENTER);
     if (!animated) {

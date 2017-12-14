@@ -12,17 +12,19 @@ class Room {
   //parameters of the location of the room on the screen (with RECTMODE center)
   float roomX;
   float roomY;
+
   //the size of the room
   float roomWidth;
   float roomHeight;
+
   //the color of the "walls" of the room as well as their thickness
   float strokeColor = 50;
   float strokeThickness = 30;
+
   //the image of the room
   PImage roomBackground;
   String roomImage;
-  String roomImageDark;
-   
+
 
   //Outer variables
   Object[] things;
@@ -33,14 +35,17 @@ class Room {
   int currentId = -1;
 
   //////////////// CONSTRUCTOR //////////////////
-  //Each room will have varying positions and sizes
-  //Will add an image argument after once they have been made
+  //Each room will have varying positions, sizes, background images, the associated list of objects inside of it, and the array of ids
+  //in order showing which object needs to be interacted with first
   Room(float roomTempX, float roomTempY, float roomTempWidth, float roomTempHeight, String tempRoomImage, Object[] tempThings, int[] tempObjectIds) {
     roomX = roomTempX;
     roomY = roomTempY;
+
     roomWidth = roomTempWidth;
     roomHeight = roomTempHeight;
+
     roomImage = tempRoomImage;
+
     objectIds = tempObjectIds;
     things = tempThings;
   }
@@ -56,7 +61,7 @@ class Room {
     noFill();
     stroke(strokeColor);
     strokeWeight(strokeThickness);
-    image(roomBackground, roomX, roomY,  roomWidth, roomHeight);
+    image(roomBackground, roomX, roomY, roomWidth, roomHeight);
     rect(roomX, roomY, roomWidth, roomHeight);
 
     //the objects will also be displayed within their corresponding room
@@ -72,17 +77,13 @@ class Room {
 
   //darkDisplay() function will remove the display of the room when
   //the sprite is no longer inside it
+  //to make the game playable lol
   void darkDisplay() {
     rectMode(CORNER);
     noFill();
     stroke(strokeColor);
     strokeWeight(strokeThickness);
     rect(roomX, roomY, roomWidth, roomHeight);
-
-    //for (int i = 0; i < things.length; i++) {
-    //  println("The objects should be gone");
-    //  things[i].darkDisplay();
-    //}
   }
 
   //the text box will be displayed on top of everything else
@@ -94,10 +95,14 @@ class Room {
     }
   }
 
-  void update() {
 
-    println("currentid: " + currentId);
-    println("currentindex: " + currentIndex);
+  //update function
+  //compares the currentId with the Id of the object associated with
+  //if they match, then a textbox will be displayed when i is pressed
+  //if they don't match, then nothing will happen
+  void update() {
+    //println("currentid: " + currentId);
+    //println("currentindex: " + currentIndex);
 
     if (currentIndex < objectIds.length && currentId == objectIds[currentIndex] ) {
       println("currentid = currentindex");
@@ -109,21 +114,21 @@ class Room {
         }
       }
     }
-
   }
 
+  //setId
+  //sets the Id of the object currently talking to
   void setId(int idNum)
   {
     println("Setting Current ID " + idNum);
     currentId = idNum;
   }
-  
+
+  //allows the text to appear when the object is highlighted
   void highlightObject()
   {
     for (int i = 0; i< things.length; i++) {
-      println("highlighting " + i + " H " + things[i].highlightObject + " S " + things[i].state);
       if (things[i].highlightObject == true && things[i].state == true) {
-        println("highlighted "  );
         textAppear = !textAppear;
         textBoxOn = !textBoxOn;
         things[i].visited = true;
@@ -132,6 +137,5 @@ class Room {
         update();
       }
     }
- 
   }
 }

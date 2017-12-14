@@ -1,10 +1,9 @@
 //TEXTBOX CLASS
 //This class is responsible for the textboxes that appear when the character interacts
 //with objects and doors in the game
-//There are two kinds of textboxes: pure text and yes and no questions
-//The parameters will be the type of textbox and the words that go inside it
+//The parameters are the words that go inside it
 //position, size and color will be fixed, so they do not need to be included in the 
-//arguments
+//constructor
 
 class Textbox {
 
@@ -53,25 +52,24 @@ class Textbox {
     currentChar = 0;
   }
 
-
+  // This function draws the giant textbox surrounding the text
   void drawBox()
   {
-        rectMode(CENTER);
-        textAlign(LEFT);
-        fill(20);
-        //stroke of the textBox holding the text
-        //strokeWeight(textStroke);
-        //stroke(strokeColor);
-        rect(textBoxX, textBoxY, textBoxW, textBoxH, 7);
-        // Set the size
-        //textSize(textSize);
-        textFont(textFont);
-        fill(255);
-        // Display the current text at the position
-        rectMode(CORNER);
-  
+    rectMode(CENTER);
+    textAlign(LEFT);
+    fill(20);
+    //stroke of the textBox holding the text
+    //strokeWeight(textStroke);
+    //stroke(strokeColor);
+    rect(textBoxX, textBoxY, textBoxW, textBoxH, 7);
+    // Set the size
+    //textSize(textSize);
+    textFont(textFont);
+    fill(255);
+    // Display the current text at the position
+    rectMode(CORNER);
   }
-  
+
 
   // This display function should be called every frame. It displays the text at the
   // position given and at the size given, and updates the text
@@ -92,7 +90,7 @@ class Textbox {
       }
       //Check to see if the text should appear, in other words, whether the sprite has interacted with an object or not
       if (textAppear) {
-       // textBoxOn = true;
+        // textBoxOn = true;
         //If so then, display the textBox
         //Added a rectangle to hold the text.
         //It will most likely be replaced with an image later.
@@ -100,7 +98,6 @@ class Textbox {
         text(currentText, textX, textY, textBoxW-textStroke*3, textBoxH-textStroke*3);
       }
     } else if (!textAppear) {
-      //textBoxOn = false;
       currentChar = 0;
       currentText = "";
     }

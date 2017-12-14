@@ -1,9 +1,14 @@
 //OBJECT CLASS
 //This class is much more complex, as it refers to the various interactive objects spread
 //throughout the house, in each room
-//The required parameters will most likely be the images needed to present the objects,
-//the coordinates of the corners of the images, and the position of the objects, as well
-//as whether the object presents only words, or can be carried
+//The required parameters are the images needed to present the objects,
+//the coordinates of the centers of the images, and the position of the objects, as well
+//as the words the objects present
+
+//Each object has an ID, and each room has an array of IDs in a specific order
+//The objects can only be interacted with in order by ID
+//So if one object has an ID placed after another object's ID in the array, then it cannot
+//be interacted with until that other object has been talked to
 
 class Object {
 
@@ -12,50 +17,57 @@ class Object {
   //object parameters
   float objectX;
   float objectY;
+
   //object dimmensions
   float objectWidth;
   float objectHeight;
 
   //image of the object
   PImage objectImage;
+
   String noHighlightImage;
   String highlightImage;
+
   boolean highlightObject;
   boolean visited = false;
 
-  //information about the object
 
+  //information about the object
   Textbox textbox;
-  Object objectBefore;
-  Room room;
   Instruction[] objectInstructions;
+  Room associatedRoom;
 
   //objects needed to interact with before
-  boolean firstObject;
-  boolean nextObject;
-  //boolean objectBefore;
-  //boolean objectBeforeVisited = false;
   int idNum;
+  int lastTxtIndex=0; 
+
   boolean state;
-  int lastTxtIndex=0;
-  Room associatedRoom; 
 
 
   ///////////////////// CONSTRUCTOR //////////////////////
-  //Each object will have different locations, dimmensions, interaction types, and images
+  //Each object will have different locations, dimmensions, images, information, and the room it's associated with
   Object(float tempObjX, float tempObjY, float tempObjW, float tempObjH, boolean tempState, String tempNoHighlight, String tempHighlight, Instruction[] tempObjInst, int tempIdNum, Room tempAsRoom) {
     objectX = tempObjX;
     objectY = tempObjY;
+
     objectWidth = tempObjW;
     objectHeight = tempObjH;
+
     objectInstructions = tempObjInst;
+
     noHighlightImage = tempNoHighlight;
     highlightImage = tempHighlight;
     objectImage = loadImage(noHighlightImage);
+
+    //the state of the object refers to whether or not it can be interacted with without needing to be toggled by objects before it
+    //if it's true, then the object can be interacted with at any time
     state = tempState;
+
     idNum = tempIdNum;
     textbox = new Textbox();
     associatedRoom = tempAsRoom;
+
+
     if (objectInstructions.length >lastTxtIndex)
     {
       Instruction info = objectInstructions[lastTxtIndex];
@@ -90,7 +102,9 @@ class Object {
   }
 
 
-
+  //updateText() allows the previous line of text from the Instruction array to be
+  //replaced with the next one, so that the text won't display the same line over and
+  //over again
   void updateText()
   {
 
@@ -99,42 +113,37 @@ class Object {
       Instruction info = objectInstructions[lastTxtIndex];
       println("Setting Text to " + info.instructionText);
       textbox.setText(info.instructionText);
-      //lastTxtIndex =  int(random(0,objectInstructions.length));
       lastTxtIndex++;
     }
   }
 
 
+  //The text is displayed when the textAppear boolean becomes true,
+  //which is toggled with the object being highlighted in combination with
+  //pressing the i key
   void displayText() {
-
+    //if the text appears, then the object will be considered "visited",
+    //possibly toggling other interactions with objects
     if (textAppear) {
-
       visited = true;
     }
-
 
     textbox.display();
   }
 
+
+  //display() function
+  //the object is displayed with the image it's associated with, which is plugged into the
+  //constructor as a string argument
   void display() {
     imageMode(CENTER);
-    //if (!highlightObject) {
-    //  objectImage = loadImage(noHighlightImage);
-    //  image(objectImage, objectX, objectY, objectWidth, objectHeight);
-    //}
-    //else if (highlightObject && firstObject) {
-    //  objectImage = loadImage(highlightImage);
-    //  image(objectImage, objectX, objectY, objectWidth, objectHeight);
-    //  println("this is the first object");
-    //}
-
-
-
-
+    //if the highlighted boolean is false, then display the regular object image
     if (!highlightObject) {
       objectImage = loadImage(noHighlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
-    } else if (highlightObject) {
+    } 
+    //else, replace the regular image with a highlighted image
+    else if (highlightObject) {
       objectImage = loadImage(highlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
       //println("this is the next object");
