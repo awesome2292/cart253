@@ -101,11 +101,8 @@ class Room {
   //if they match, then a textbox will be displayed when i is pressed
   //if they don't match, then nothing will happen
   void update() {
-    //println("currentid: " + currentId);
-    //println("currentindex: " + currentIndex);
 
     if (currentIndex < objectIds.length && currentId == objectIds[currentIndex] ) {
-      println("currentid = currentindex");
       currentIndex ++;
       for (int j = 0; j < things.length  && currentIndex < objectIds.length; j++) {
 
@@ -120,7 +117,6 @@ class Room {
   //sets the Id of the object currently talking to
   void setId(int idNum)
   {
-    println("Setting Current ID " + idNum);
     currentId = idNum;
   }
 

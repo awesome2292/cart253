@@ -11,6 +11,10 @@
 //Any additionnal classes deemed needed will be added along the way
 //Let's get started!
 
+//Developer's note: if you feel that the game is too slow and/or is just not playable,
+//consider making the screen go from fullscreen to the size I have set
+//be warned, though, not all the objects will adjust properly to the new window dimmensions...
+
 
 
 
@@ -111,6 +115,7 @@ Door door0to1, door1to2, door1to3;
 
 ////////////// GLOBAL VARIABLES /////////////
 Room roomIn;
+int completedInfo = 4;
 
 
 ///////////// OBJECT INFORMATION ////////////////////////
@@ -147,7 +152,9 @@ Instruction[] instPaintingInfo = {new Instruction (false, "It's a painting of a 
 //teddy bear
 Instruction[] instBearInfo = {new Instruction (false, "There rests a teddy bear on the nightstand."), 
   new Instruction (false, "It's just as lifeless as the rest of the house..."), 
-  new Instruction (true, "What happened to the owner...?")};
+  new Instruction (false, "What happened to the owner...?"), 
+  new Instruction (false, "..."), 
+  new Instruction (true, "You hear a sound come from upstairs.")};
 
 //painting2
 Instruction[] instPainting2Info = {new Instruction (false, "It's a painting of a unicorn."), 
@@ -330,7 +337,6 @@ void setup() {
   r5H = height/2;
   r5Image = "images/room5bg.jpg";
   rooms[2] = new Room(r5X, r5Y, r5W, r5H, r5Image, new Object[] {bear, painting2}, new int[] {7, 8});
-  println("r5W = " +r5W + "r5H = " + r5H);
 
   /////////////////// ROOM 6 //////////////////
 
@@ -406,6 +412,7 @@ void draw() {
   //gameBegin and gameInstructions display the title and instruction screens before the game begins
   gameBegin();
   gameInstructions();
+  gameEnd();
 }
 
 
@@ -437,17 +444,17 @@ void keyReleased() {
 
 //When the mouse is clicked, the sprite will move from the room it's in to the other room on the screen;
 //only for debugging purposes
-//void mouseClicked() {
-//  if (roomIn == rooms[0]) {
-//    roomIn = rooms[1];
-//  } else if (roomIn == rooms[1]) {
-//    roomIn = rooms[2];
-//  } else if (roomIn == rooms[2]) {
-//    roomIn = rooms[3];
-//  } else if (roomIn == rooms[3]) {
-//    roomIn = rooms[0];
-//  }
-//}
+void mouseClicked() {
+  if (roomIn == rooms[0]) {
+    roomIn = rooms[1];
+  } else if (roomIn == rooms[1]) {
+    roomIn = rooms[2];
+  } else if (roomIn == rooms[2]) {
+    roomIn = rooms[3];
+  } else if (roomIn == rooms[3]) {
+    roomIn = rooms[0];
+  }
+}
 
 
 
@@ -476,5 +483,16 @@ void gameInstructions() {
     textAlign(CENTER);
     text("This is a beta version: only the first floor is available for gameplay. The player can move around within three rooms.\n The other rooms will be unlocked eventually.", width/2, height/4);
     text("You are in an abandoned house, left behind by your owner. You try to find a way out.\n Use the arrow keys to navigate the space, and press I on possible objects to interact with.\n\n Don't be afraid to interact with objects multiple times. You may discover new things along the way...\n \n \n \n Press any key to continue", width/2, height/2);
+  }
+}
+
+void gameEnd() {
+  if(bear.visited){
+    spriteMoving = false;
+    background(0, 0, 0, 5);
+    fill(255);
+    textFont(instructionFont);
+    textAlign(CENTER);
+    text("Congratulations! You completed the first half of the game. The other half will be available maybe.", width/2, height/2);
   }
 }

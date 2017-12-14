@@ -93,7 +93,6 @@ class Object {
       highlightObject = true; 
       //This talkObject boolean determines whether the object can be interacted with or not
       talkObject = true;
-      //println("This object should be highlighted");
     } else {
       highlightObject = false;
       talkObject = false;
@@ -111,7 +110,6 @@ class Object {
     if (visited && objectInstructions.length >lastTxtIndex)
     {
       Instruction info = objectInstructions[lastTxtIndex];
-      println("Setting Text to " + info.instructionText);
       textbox.setText(info.instructionText);
       lastTxtIndex++;
     }
@@ -146,7 +144,6 @@ class Object {
     else if (highlightObject) {
       objectImage = loadImage(highlightImage);
       image(objectImage, objectX, objectY, objectWidth, objectHeight);
-      //println("this is the next object");
     }
   }
 }
