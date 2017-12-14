@@ -482,7 +482,7 @@ void gameInstructions() {
     textFont(instructionFont);
     textAlign(CENTER);
     text("This is a beta version: only the first floor is available for gameplay. The player can move around within three rooms.\n The other rooms will be unlocked eventually.", width/2, height/4);
-    text("You are in an abandoned house, left behind by your owner. You try to find a way out.\n Use the arrow keys to navigate the space, and press I on possible objects to interact with.\n\n Don't be afraid to interact with objects multiple times. You may discover new things along the way...\n \n \n \n Press any key to continue", width/2, height/2);
+    text("You are in an abandoned house, left behind by your owner. You try to find a way out.\n Use the arrow keys to navigate the space, and press I on possible objects to interact with, and I again to remove the information.\n\n Don't be afraid to interact with objects multiple times. You may discover new things along the way...\n \n \n \n Press any key to continue", width/2, height/2);
   }
 }
 
